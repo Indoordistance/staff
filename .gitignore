@@ -1,0 +1,28 @@
+# Local dev
+.claude/
+.vscode/
+.idea/
+*.local
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*~
+
+# Secrets — ALDRIG committa nycklar
+.env
+.env.local
+.env.production
+secrets.json
+*.key
+*.pem
+
+# Backup-filer
+*.bak
+backup-*.json
+
+# Build artefakter
+node_modules/
+dist/
+build/

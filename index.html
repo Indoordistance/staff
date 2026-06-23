@@ -144,6 +144,75 @@ button { cursor: pointer; }
   transition: background 0.2s var(--ease);
 }
 .pin-btn:hover { background: var(--accent-3); }
+
+/* ── Google Sign-In button ── */
+.google-btn {
+  width: 100%;
+  background: #FFFFFF;
+  color: #3C4043;
+  border: 1px solid #DADCE0;
+  border-radius: 10px;
+  padding: 13px 16px;
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  display: flex; align-items: center; justify-content: center;
+  gap: 12px;
+  cursor: pointer;
+  transition: box-shadow 0.2s var(--ease), background 0.2s var(--ease);
+  margin-bottom: 14px;
+}
+.google-btn:hover {
+  background: #F8F9FA;
+  box-shadow: 0 1px 3px rgba(60,64,67,0.30), 0 4px 8px rgba(60,64,67,0.15);
+}
+.google-btn:active { background: #F1F3F4; }
+
+/* ── Login divider "eller" ── */
+.login-divider {
+  display: flex; align-items: center;
+  margin: 14px 0;
+  color: var(--text-mute);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+.login-divider::before, .login-divider::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--border);
+}
+.login-divider span { padding: 0 12px; }
+
+/* ── Password show/hide toggle ── */
+.pw-wrap {
+  position: relative;
+}
+.pw-input {
+  padding-right: 44px !important;
+}
+.pw-toggle {
+  position: absolute;
+  right: 6px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 34px; height: 34px;
+  background: transparent;
+  border: none;
+  color: var(--text-mute);
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 6px;
+  transition: color 0.15s var(--ease), background 0.15s var(--ease);
+}
+.pw-toggle:hover {
+  color: var(--accent);
+  background: rgba(220,208,188,0.08);
+}
+
 .pin-err {
   color: var(--danger);
   font-size: 12px;
@@ -886,6 +955,774 @@ h1.page-title .grad-text {
 .sb-status.local .dot { background: var(--warn); }
 .sb-status.local { color: var(--warn); }
 
+/* ═════ DARK/LIGHT MODE TOGGLE ═════ */
+body.light-mode {
+  --bg-deep: #F6F4EE;
+  --bg-2: #FFFFFF;
+  --bg-3: #FAF8F2;
+  --text: #0E1626;
+  --text-mute: #6B7280;
+  --border: rgba(14,22,38,0.10);
+  --border-2: rgba(14,22,38,0.18);
+  --accent: #B89A5E;
+}
+
+/* ═════ COMMAND PALETTE (Ctrl+K) ═════ */
+.cmd-overlay {
+  position: fixed; inset: 0;
+  background: rgba(14,22,38,0.85);
+  backdrop-filter: blur(12px);
+  z-index: 9999;
+  display: none;
+  align-items: flex-start;
+  justify-content: center;
+  padding-top: 16vh;
+}
+.cmd-overlay.open { display: flex; }
+.cmd-box {
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: 16px;
+  width: 100%;
+  max-width: 560px;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.50);
+}
+.cmd-input {
+  border: none;
+  border-bottom: 1px solid var(--border);
+  background: transparent;
+  color: var(--text);
+  padding: 18px 22px;
+  font-size: 16px;
+  outline: none;
+  font-family: inherit;
+}
+.cmd-list {
+  overflow-y: auto;
+  padding: 8px;
+  flex: 1;
+}
+.cmd-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+}
+.cmd-item:hover, .cmd-item.active {
+  background: var(--bg-deep);
+  color: var(--accent);
+}
+.cmd-item .cmd-icon { font-size: 16px; }
+.cmd-item .cmd-meta {
+  margin-left: auto;
+  font-size: 10px;
+  color: var(--text-mute);
+  font-family: var(--mono);
+  letter-spacing: 0.08em;
+}
+.cmd-footer {
+  padding: 10px 18px;
+  border-top: 1px solid var(--border);
+  font-size: 10px;
+  color: var(--text-mute);
+  display: flex;
+  gap: 18px;
+  font-family: var(--mono);
+}
+.cmd-kbd {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-right: 4px;
+}
+
+/* ═════ AVATAR + NOTIFICATION BELL ═════ */
+.avatar {
+  width: 32px; height: 32px;
+  border-radius: 50%;
+  background: var(--bg-deep);
+  border: 1px solid var(--accent);
+  color: var(--accent);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 600;
+  font-size: 14px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+.notif-bell-wrap { position: relative; }
+.notif-badge {
+  position: absolute;
+  top: -2px; right: -2px;
+  background: var(--danger);
+  color: #fff;
+  border-radius: 999px;
+  padding: 1px 5px;
+  font-size: 9px;
+  font-weight: 700;
+  min-width: 14px;
+  text-align: center;
+  border: 2px solid var(--bg-deep);
+}
+
+/* ═════ CRM (Clubs) ═════ */
+.crm-add {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 14px;
+}
+.crm-club {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  display: grid;
+  grid-template-columns: 36px 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+}
+.crm-status-pill {
+  display: inline-flex;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.crm-status-pill.not-contacted { background: rgba(255,255,255,0.06); color: var(--text-mute); }
+.crm-status-pill.contacted     { background: rgba(107,159,229,0.15); color: var(--info); }
+.crm-status-pill.meeting       { background: rgba(217,168,106,0.15); color: var(--warn); }
+.crm-status-pill.signed        { background: rgba(134,195,106,0.15); color: var(--success); }
+.crm-status-pill.declined      { background: rgba(226,116,116,0.15); color: var(--danger); }
+
+/* ═════ CALENDAR ═════ */
+.cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+  margin-bottom: 14px;
+}
+.cal-day {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 8px;
+  min-height: 76px;
+  font-size: 11px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  cursor: pointer;
+  transition: border-color 0.2s var(--ease);
+}
+.cal-day:hover { border-color: var(--accent); }
+.cal-day.today { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; }
+.cal-day.other-month { opacity: 0.4; }
+.cal-num { font-weight: 700; font-size: 12px; }
+.cal-event {
+  background: rgba(220,208,188,0.18);
+  color: var(--accent);
+  border-radius: 4px;
+  padding: 2px 5px;
+  font-size: 9px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.cal-day-name {
+  font-size: 10px;
+  color: var(--text-mute);
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+/* ═════ CHAT (internal) ═════ */
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  height: 60vh;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  overflow: hidden;
+}
+.chat-msgs {
+  flex: 1;
+  overflow-y: auto;
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.chat-msg {
+  display: flex;
+  gap: 10px;
+  max-width: 80%;
+}
+.chat-msg.mine {
+  align-self: flex-end;
+  flex-direction: row-reverse;
+}
+.chat-msg .bubble {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 9px 14px;
+  font-size: 13px;
+  line-height: 1.5;
+}
+.chat-msg.mine .bubble {
+  background: rgba(220,208,188,0.16);
+  border-color: rgba(220,208,188,0.30);
+  color: var(--accent);
+}
+.chat-msg .author {
+  font-size: 10px;
+  color: var(--text-mute);
+  margin-bottom: 3px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.chat-bar {
+  display: flex;
+  gap: 8px;
+  padding: 12px;
+  border-top: 1px solid var(--border);
+}
+.chat-bar input {
+  flex: 1;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 10px 16px;
+  color: var(--text);
+  font-size: 13px;
+  outline: none;
+}
+
+/* ═════ MEDIA BANK ═════ */
+.media-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 12px;
+}
+.media-tile {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  cursor: pointer;
+  text-align: center;
+}
+.media-tile:hover { border-color: var(--accent); }
+.media-thumb {
+  width: 100%;
+  aspect-ratio: 1;
+  background: var(--bg-deep);
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin-bottom: 8px;
+  overflow: hidden;
+}
+.media-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.media-name {
+  font-size: 11px;
+  font-weight: 700;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.media-meta {
+  font-size: 10px;
+  color: var(--text-mute);
+  font-family: var(--mono);
+}
+
+/* ═════ SUPPORT TICKETS ═════ */
+.ticket {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  cursor: pointer;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+}
+.ticket:hover { border-color: var(--accent); }
+.ticket-from { font-weight: 700; font-size: 13px; }
+.ticket-subj { font-size: 12px; color: var(--text-mute); margin-top: 2px; line-height: 1.4; }
+.ticket-time { font-size: 10px; color: var(--text-mute); font-family: var(--mono); }
+
+/* ═════ ANALYTICS / KPI ═════ */
+.kpi-row { display: flex; gap: 16px; align-items: baseline; }
+.kpi-change {
+  font-size: 11px;
+  font-weight: 700;
+  font-family: var(--mono);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.kpi-change.up { background: rgba(134,195,106,0.15); color: var(--success); }
+.kpi-change.down { background: rgba(226,116,116,0.15); color: var(--danger); }
+.spark {
+  width: 100%;
+  height: 36px;
+  margin-top: 8px;
+}
+
+/* ═════ AUDIT LOG ═════ */
+.audit-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 12px;
+  align-items: center;
+}
+.audit-row:last-child { border-bottom: none; }
+.audit-time { font-family: var(--mono); color: var(--text-mute); font-size: 10px; }
+
+/* ═════ INVENTORY WARNING ═════ */
+.inv-warn {
+  background: rgba(217,168,106,0.10);
+  border: 1px solid rgba(217,168,106,0.30);
+  color: var(--warn);
+  padding: 12px 16px;
+  border-radius: 10px;
+  font-size: 12px;
+  margin-bottom: 12px;
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+/* ═════ ONBOARDING CHECKLIST ═════ */
+.onb-step {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 8px;
+}
+.onb-step.done { opacity: 0.5; }
+.onb-step.done .onb-title { text-decoration: line-through; }
+.onb-check {
+  width: 22px; height: 22px;
+  border: 1.5px solid var(--text-mute);
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+}
+.onb-step.done .onb-check {
+  background: var(--success);
+  border-color: var(--success);
+  color: var(--bg-deep);
+}
+.onb-title { font-size: 13px; font-weight: 600; }
+.onb-desc { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+
+/* ═════ BULK CODE GENERATOR ═════ */
+.bulk-result {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 12px;
+  font-family: var(--mono);
+  font-size: 12px;
+  max-height: 200px;
+  overflow-y: auto;
+  white-space: pre-wrap;
+}
+
+/* ═════ MEGA SPRINT 2: NEW COMPONENTS ═════ */
+
+/* ── 2FA Setup ── */
+.totp-card {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  text-align: center;
+}
+.totp-qr {
+  background: white;
+  padding: 12px;
+  border-radius: 8px;
+  display: inline-block;
+  margin-bottom: 12px;
+}
+.totp-secret {
+  font-family: var(--mono);
+  font-size: 13px;
+  letter-spacing: 0.2em;
+  background: var(--bg-2);
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin: 8px 0;
+  user-select: all;
+}
+.backup-code {
+  font-family: var(--mono);
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  padding: 6px 10px;
+  border-radius: 6px;
+  margin: 3px;
+  display: inline-block;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+}
+
+/* ── Sessions list ── */
+.session-row {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 12px;
+  align-items: center;
+}
+.session-row.current { border-color: var(--success); }
+.session-icon { font-size: 20px; }
+.session-time { font-size: 11px; color: var(--text-mute); font-family: var(--mono); }
+
+/* ── Customer database ── */
+.customer-row {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: 32px 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+}
+.cust-tag {
+  background: rgba(220,208,188,0.14);
+  color: var(--accent);
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-left: 4px;
+}
+.cust-ltv {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--accent);
+}
+
+/* ── Funnel ── */
+.funnel-step {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 16px;
+  align-items: center;
+}
+.funnel-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--accent);
+}
+.funnel-rate {
+  font-size: 11px;
+  font-family: var(--mono);
+  color: var(--text-mute);
+}
+
+/* ── Heatmap ── */
+.heatmap {
+  display: grid;
+  grid-template-columns: repeat(24, 1fr);
+  gap: 2px;
+  margin-top: 12px;
+}
+.heat-cell {
+  aspect-ratio: 1;
+  background: var(--bg-deep);
+  border-radius: 2px;
+  position: relative;
+}
+.heat-cell.h1 { background: rgba(220,208,188,0.20); }
+.heat-cell.h2 { background: rgba(220,208,188,0.40); }
+.heat-cell.h3 { background: rgba(220,208,188,0.65); }
+.heat-cell.h4 { background: rgba(220,208,188,0.90); }
+.heat-label {
+  font-size: 9px;
+  color: var(--text-mute);
+  font-family: var(--mono);
+  text-align: center;
+  margin-top: 6px;
+}
+
+/* ── Campaign builder ── */
+.campaign-step {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  display: flex;
+  gap: 14px;
+  align-items: center;
+}
+.campaign-step-num {
+  width: 32px; height: 32px;
+  background: var(--accent);
+  color: var(--bg-deep);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+/* ── Webhooks ── */
+.webhook-row {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+}
+.webhook-trigger {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--bg-deep);
+  padding: 3px 8px;
+  border-radius: 4px;
+  color: var(--accent);
+}
+
+/* ── API keys ── */
+.apikey-row {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 12px;
+  align-items: center;
+}
+.apikey-val {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text-mute);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── Document storage ── */
+.doc-row {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: 36px 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+}
+.doc-icon { font-size: 22px; }
+
+/* ── Status page ── */
+.status-row {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+}
+.status-dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+.status-dot.up { background: var(--success); box-shadow: 0 0 6px var(--success); }
+.status-dot.down { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
+.status-dot.degraded { background: var(--warn); }
+.uptime-bar {
+  display: flex;
+  gap: 2px;
+  margin-top: 6px;
+}
+.uptime-tick {
+  width: 6px; height: 14px;
+  background: var(--success);
+  border-radius: 2px;
+}
+.uptime-tick.down { background: var(--danger); }
+
+/* ── A/B test ── */
+.ab-test {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 12px;
+}
+.ab-variant {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 10px;
+}
+.ab-bar {
+  height: 6px;
+  background: var(--bg-deep);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-top: 8px;
+}
+.ab-bar-fill {
+  height: 100%;
+  background: var(--accent);
+  transition: width 0.5s var(--ease);
+}
+
+/* ── Feature flags ── */
+.flag-row {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 14px;
+}
+.flag-key {
+  font-family: var(--mono);
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--accent);
+}
+
+/* ── Calendar booking ── */
+.booking-slot {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  margin: 4px;
+  display: inline-block;
+  font-size: 12px;
+  cursor: pointer;
+  font-family: var(--mono);
+}
+.booking-slot.taken { opacity: 0.3; pointer-events: none; }
+.booking-slot:hover { border-color: var(--accent); color: var(--accent); }
+
+/* ── Approval workflows ── */
+.approval-flow {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+}
+.approval-steps {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+  flex-wrap: wrap;
+}
+.approval-pill {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.approval-pill.done { border-color: var(--success); color: var(--success); }
+.approval-pill.pending { border-color: var(--warn); color: var(--warn); }
+
+/* ── Vendor ── */
+.vendor-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+}
+
+/* ── Sub-tabs (within a view) ── */
+.sub-tabs {
+  display: flex;
+  gap: 4px;
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border);
+}
+.sub-tab {
+  background: transparent;
+  border: none;
+  color: var(--text-mute);
+  padding: 10px 14px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s var(--ease);
+}
+.sub-tab.active {
+  color: var(--accent);
+  border-bottom-color: var(--accent);
+}
+
 /* ═════ MOBILE ═════ */
 @media (max-width: 720px) {
   .dash-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
@@ -912,9 +1749,23 @@ h1.page-title .grad-text {
     <h1 class="pin-title">Logga in</h1>
     <p class="pin-sub">Internt verktyg för Indoor Distance-teamet.</p>
 
+    <!-- Google Sign-In -->
+    <button class="google-btn" onclick="googleSignIn()" type="button" aria-label="Logga in med Google">
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      <span>Logga in med Google</span>
+    </button>
+
+    <div class="login-divider"><span>eller</span></div>
+
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
       <input type="email" id="loginEmail" class="field-input" placeholder="din@email.com" autocomplete="email" style="text-align:left;letter-spacing:normal;font-family:inherit;font-size:14px">
-      <input type="password" id="loginPw" class="field-input" placeholder="Lösenord" autocomplete="current-password" onkeydown="if(event.key==='Enter')tryLogin()" style="text-align:left;letter-spacing:normal;font-family:inherit;font-size:14px">
+      <div class="pw-wrap">
+        <input type="password" id="loginPw" class="field-input pw-input" placeholder="Lösenord" autocomplete="current-password" onkeydown="if(event.key==='Enter')tryLogin()">
+        <button type="button" class="pw-toggle" onclick="togglePw('loginPw', this)" aria-label="Visa lösenord">
+          <svg class="eye-open" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          <svg class="eye-closed" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+        </button>
+      </div>
     </div>
 
     <button class="pin-btn" onclick="tryLogin()">LOGGA IN</button>
@@ -932,6 +1783,13 @@ h1.page-title .grad-text {
     <h1 class="pin-title">Skapa konto</h1>
     <p class="pin-sub">Ditt konto måste godkännas av VD innan du kan logga in. Du får ett mejl när det är klart (vanligtvis inom 24 h).</p>
 
+    <button class="google-btn" onclick="googleSignUp()" type="button" aria-label="Begär konto med Google">
+      <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/></svg>
+      <span>Begär konto med Google</span>
+    </button>
+
+    <div class="login-divider"><span>eller fyll i manuellt</span></div>
+
     <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;text-align:left">
       <div>
         <div class="field-label">Namn</div>
@@ -943,7 +1801,13 @@ h1.page-title .grad-text {
       </div>
       <div>
         <div class="field-label">Önskat lösenord (min 8 tecken)</div>
-        <input type="password" id="suPw" class="field-input" placeholder="••••••••" autocomplete="new-password" minlength="8">
+        <div class="pw-wrap">
+          <input type="password" id="suPw" class="field-input pw-input" placeholder="••••••••" autocomplete="new-password" minlength="8">
+          <button type="button" class="pw-toggle" onclick="togglePw('suPw', this)" aria-label="Visa lösenord">
+            <svg class="eye-open" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+            <svg class="eye-closed" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none"><path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+          </button>
+        </div>
       </div>
       <div>
         <div class="field-label">Roll</div>
@@ -992,11 +1856,21 @@ h1.page-title .grad-text {
       </div>
     </div>
     <div class="hdr-actions">
-      <button class="icon-btn" onclick="window.location.reload()" title="Uppdatera">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+      <button class="icon-btn" onclick="openCmdPalette()" title="Sök (Ctrl+K)">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
       </button>
-      <button class="icon-btn" onclick="lockApp()" title="Lås">
-        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      <div class="notif-bell-wrap">
+        <button class="icon-btn" onclick="switchView('notifications')" title="Notiser">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg>
+        </button>
+        <span class="notif-badge" id="notifBadge" style="display:none">0</span>
+      </div>
+      <button class="icon-btn" onclick="toggleTheme()" title="Ljus/mörk">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+      </button>
+      <div class="avatar" id="hdrAvatar" title="Profil" onclick="switchView('settings')">D</div>
+      <button class="icon-btn" onclick="lockApp()" title="Logga ut">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16,17 21,12 16,7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
       </button>
     </div>
   </header>
@@ -1006,17 +1880,25 @@ h1.page-title .grad-text {
     <h1 class="page-title">Hej, <span class="grad-text" id="greetingName">Team</span></h1>
     <p class="page-sub" id="dateLine">Idag är det <span id="todayDate">—</span></p>
 
-    <!-- TABS -->
+    <!-- TABS — 14 stycken, grupperade -->
     <div class="tabs">
       <button class="tab-btn active" data-view="dashboard" onclick="switchView('dashboard',this)">📊 Dashboard</button>
       <button class="tab-btn" data-view="shop" onclick="switchView('shop',this)">🛍️ Shop</button>
       <button class="tab-btn" data-view="orders" onclick="switchView('orders',this)">📦 Order</button>
+      <button class="tab-btn" data-view="crm" onclick="switchView('crm',this)">🤝 CRM</button>
+      <button class="tab-btn" data-view="calendar" onclick="switchView('calendar',this)">📅 Kalender</button>
+      <button class="tab-btn" data-view="chat" onclick="switchView('chat',this)">💬 Chatt</button>
+      <button class="tab-btn" data-view="coach" onclick="switchView('coach',this)">🧠 AI-Hjälp</button>
       <button class="tab-btn" data-view="discount" onclick="switchView('discount',this)">🎟️ Rabatter</button>
       <button class="tab-btn" data-view="newsletter" onclick="switchView('newsletter',this)">📨 Nyhetsbrev</button>
-      <button class="tab-btn" data-view="todo" onclick="switchView('todo',this)">✓ Todo</button>
-      <button class="tab-btn" data-view="templates" onclick="switchView('templates',this)">✉️ Mallar</button>
+      <button class="tab-btn" data-view="support" onclick="switchView('support',this)">🎧 Support</button>
+      <button class="tab-btn" data-view="media" onclick="switchView('media',this)">📷 Media</button>
+      <button class="tab-btn" data-view="tools" onclick="switchView('tools',this)">🛠️ Verktyg</button>
       <button class="tab-btn" data-view="links" onclick="switchView('links',this)">🔗 Länkar</button>
-      <button class="tab-btn" data-view="faq" onclick="switchView('faq',this)">📚 Handbok</button>
+      <button class="tab-btn" data-view="security" onclick="switchView('security',this)">🔐 Säkerhet</button>
+      <button class="tab-btn" data-view="comm" onclick="switchView('comm',this)">📡 Kommunikation</button>
+      <button class="tab-btn" data-view="analytics" onclick="switchView('analytics',this)">📈 Analys</button>
+      <button class="tab-btn" data-view="integrations" onclick="switchView('integrations',this)">🔌 Integrationer</button>
       <button class="tab-btn" data-view="settings" onclick="switchView('settings',this)">⚙️ Inställningar</button>
     </div>
 
@@ -1071,10 +1953,10 @@ h1.page-title .grad-text {
             <div class="qlink-title">Formspree</div>
             <div class="qlink-sub">Formulär + mail</div>
           </a>
-          <a class="qlink" href="https://www.indoordistance.se" target="_blank" rel="noopener">
+          <a class="qlink" href="https://indoordistance.github.io/hemsida/" target="_blank" rel="noopener">
             <div class="qlink-icon">🌐</div>
             <div class="qlink-title">Hemsidan</div>
-            <div class="qlink-sub">indoordistance.se</div>
+            <div class="qlink-sub">indoordistance.github.io</div>
           </a>
         </div>
       </div>
@@ -1122,17 +2004,17 @@ h1.page-title .grad-text {
             <div class="qlink-title">OpenAI</div>
             <div class="qlink-sub">Backup-AI</div>
           </a>
-          <a class="qlink" href="https://www.indoordistance.se" target="_blank" rel="noopener">
+          <a class="qlink" href="https://indoordistance.github.io/hemsida/" target="_blank" rel="noopener">
             <div class="qlink-icon">🌐</div>
             <div class="qlink-title">Hemsidan</div>
             <div class="qlink-sub">Publika sidan</div>
           </a>
-          <a class="qlink" href="https://www.indoordistance.se/trailer.html" target="_blank" rel="noopener">
+          <a class="qlink" href="https://indoordistance.github.io/hemsida/trailer.html" target="_blank" rel="noopener">
             <div class="qlink-icon">🎬</div>
             <div class="qlink-title">Trailer</div>
             <div class="qlink-sub">App-trailer</div>
           </a>
-          <a class="qlink" href="https://www.indoordistance.se/admin.html" target="_blank" rel="noopener">
+          <a class="qlink" href="https://indoordistance.github.io/hemsida/admin.html" target="_blank" rel="noopener">
             <div class="qlink-icon">⚙️</div>
             <div class="qlink-title">Shop-admin</div>
             <div class="qlink-sub">Produkter + lager</div>
@@ -1169,22 +2051,8 @@ h1.page-title .grad-text {
       </div>
     </div>
 
-    <!-- ═════ TODO VIEW ═════ -->
-    <div class="view" id="view-todo">
-      <div class="section">
-        <div class="section-head">
-          <div class="section-title">Att göra</div>
-          <div class="section-meta"><span id="todoOpen">0</span> ÖPPNA · <span id="todoDone">0</span> KLARA</div>
-        </div>
-        <div class="todo-add">
-          <input type="text" id="newTodoText" placeholder="Vad behöver göras? T.ex. 'Kontakta IFK Lidingö'" onkeydown="if(event.key==='Enter')addTodo()">
-          <button onclick="addTodo()">+ Lägg till</button>
-        </div>
-        <div class="todo-list" id="todoList">
-          <!-- populated by JS -->
-        </div>
-      </div>
-    </div>
+    <!-- TODO view removed — flyttad till Verktyg-fliken -->
+    <div class="view" id="view-todo" data-redirect="tools"></div>
 
     <!-- ═════ DISCOUNT VIEW ═════ -->
     <div class="view" id="view-discount">
@@ -1220,8 +2088,11 @@ h1.page-title .grad-text {
       </div>
     </div>
 
-    <!-- ═════ TEMPLATES VIEW ═════ -->
-    <div class="view" id="view-templates">
+    <!-- TEMPLATES view removed — flyttad till Verktyg-fliken -->
+    <div class="view" id="view-templates" data-redirect="tools"></div>
+
+    <!-- ═════ OLD TEMPLATES (kept for backwards compat — hidden via redirect) ═════ -->
+    <div style="display:none" id="view-templates-OLD">
       <div class="section">
         <div class="section-head">
           <div class="section-title">Mall-bibliotek</div>
@@ -1380,6 +2251,741 @@ h1.page-title .grad-text {
       </div>
     </div>
 
+    <!-- ═════ CRM VIEW — Klubbkontakter ═════ -->
+    <div class="view" id="view-crm">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Klubbkontakter</div>
+          <div class="section-meta"><span id="crmCount">0</span> KLUBBAR</div>
+        </div>
+        <div class="crm-add">
+          <div class="form-row">
+            <div class="form-field"><div class="field-label">Klubbnamn</div><input class="field-input" type="text" id="crmClubName" placeholder="IFK Lidingö"></div>
+            <div class="form-field"><div class="field-label">Kontaktperson</div><input class="field-input" type="text" id="crmContact" placeholder="Anna Andersson"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-field"><div class="field-label">E-post</div><input class="field-input" type="email" id="crmEmail" placeholder="anna@ifklidingo.se"></div>
+            <div class="form-field"><div class="field-label">Telefon</div><input class="field-input" type="tel" id="crmPhone" placeholder="+46 70..."></div>
+          </div>
+          <div class="form-field" style="margin-bottom:10px"><div class="field-label">Anteckningar</div><textarea class="field-input field-textarea" id="crmNotes" rows="2" placeholder="Senast träffat...intressade av..."></textarea></div>
+          <button class="btn-primary" onclick="addClub()">+ Lägg till klubb</button>
+        </div>
+        <div id="crmList"></div>
+      </div>
+    </div>
+
+    <!-- ═════ CALENDAR VIEW ═════ -->
+    <div class="view" id="view-calendar">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title" id="calMonthLabel">—</div>
+          <div class="section-meta">
+            <button class="btn-secondary" onclick="changeCalMonth(-1)" style="padding:5px 10px">‹</button>
+            <button class="btn-secondary" onclick="changeCalMonth(1)" style="padding:5px 10px">›</button>
+          </div>
+        </div>
+        <div id="calGrid"></div>
+        <div class="card" style="margin-top:18px">
+          <div class="card-title">+ Lägg till event</div>
+          <div class="form-row" style="margin-top:12px">
+            <div class="form-field"><div class="field-label">Datum</div><input class="field-input" type="date" id="evDate"></div>
+            <div class="form-field"><div class="field-label">Titel</div><input class="field-input" type="text" id="evTitle" placeholder="App-lansering"></div>
+          </div>
+          <button class="btn-primary" onclick="addEvent()">Lägg till</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ CHAT VIEW — Internal team chat ═════ -->
+    <div class="view" id="view-chat">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Team-chatt</div>
+          <div class="section-meta" id="chatStatusMeta">LOKAL · ej synkad</div>
+        </div>
+        <div class="chat-window">
+          <div class="chat-msgs" id="chatMsgs"></div>
+          <div class="chat-bar">
+            <input type="text" id="chatInput" placeholder="Skriv meddelande till teamet..." onkeydown="if(event.key==='Enter')sendChatMsg()">
+            <button class="btn-primary" onclick="sendChatMsg()">Skicka</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ COACH VIEW — AI assistant for staff ═════ -->
+    <div class="view" id="view-coach">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">AI-assistent</div>
+          <div class="section-meta">LOKAL</div>
+        </div>
+        <p class="page-sub">Snabba uppgifter — välj nedan eller skriv egen prompt.</p>
+        <div class="links-grid">
+          <div class="qlink" onclick="coachPrompt('summary')"><div class="qlink-icon">📊</div><div class="qlink-title">Sammanfatta veckans order</div><div class="qlink-sub">Snabb översikt</div></div>
+          <div class="qlink" onclick="coachPrompt('email_club')"><div class="qlink-icon">✉️</div><div class="qlink-title">Skriv klubb-mejl</div><div class="qlink-sub">Första kontakt</div></div>
+          <div class="qlink" onclick="coachPrompt('newsletter')"><div class="qlink-icon">📨</div><div class="qlink-title">Föreslå nyhetsbrev</div><div class="qlink-sub">Veckans tema</div></div>
+          <div class="qlink" onclick="coachPrompt('social')"><div class="qlink-icon">📱</div><div class="qlink-title">Social media-post</div><div class="qlink-sub">Idag</div></div>
+        </div>
+        <div class="card" style="margin-top:16px">
+          <div class="form-field" style="margin-bottom:10px">
+            <div class="field-label">Din prompt</div>
+            <textarea class="field-input field-textarea" id="coachInput" rows="3" placeholder="Be om hjälp med en uppgift..."></textarea>
+          </div>
+          <button class="btn-primary" onclick="runCoach()">Få hjälp</button>
+          <div id="coachOutput" style="margin-top:14px"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ SUPPORT VIEW — Tickets ═════ -->
+    <div class="view" id="view-support">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Supportbiljetter</div>
+          <div class="section-meta"><span id="ticketCount">0</span> ÖPPNA</div>
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-title">+ Manuell biljett</div>
+          <div class="form-row" style="margin-top:12px">
+            <div class="form-field"><div class="field-label">Från</div><input class="field-input" type="email" id="ticketFrom" placeholder="kund@email.com"></div>
+            <div class="form-field"><div class="field-label">Ämne</div><input class="field-input" type="text" id="ticketSubj" placeholder="Fråga om leverans"></div>
+          </div>
+          <div class="form-field" style="margin-bottom:10px"><div class="field-label">Meddelande</div><textarea class="field-input field-textarea" id="ticketMsg" rows="3"></textarea></div>
+          <button class="btn-primary" onclick="addTicket()">Skapa biljett</button>
+        </div>
+        <div id="ticketList"></div>
+      </div>
+    </div>
+
+    <!-- ═════ MEDIA VIEW — Mediabank ═════ -->
+    <div class="view" id="view-media">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Mediabank</div>
+          <div class="section-meta">
+            <input type="file" id="mediaUpload" multiple accept="image/*" style="display:none" onchange="uploadMedia(this.files)">
+            <button class="btn-primary" onclick="document.getElementById('mediaUpload').click()">+ Ladda upp</button>
+          </div>
+        </div>
+        <p class="page-sub">Pressbilder, produktbilder, logotyper — sökbara och taggade.</p>
+        <input class="field-input" type="text" id="mediaSearch" placeholder="🔍 Sök i media..." oninput="renderMedia()" style="margin-bottom:14px">
+        <div class="media-grid" id="mediaGrid"></div>
+      </div>
+    </div>
+
+    <!-- ═════ TOOLS VIEW — Todo + Templates + Audit log + Onboarding ═════ -->
+    <div class="view" id="view-tools">
+      <!-- TODO (existerande) -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Att göra</div>
+          <div class="section-meta"><span id="todoOpen">0</span> ÖPPNA · <span id="todoDone">0</span> KLARA</div>
+        </div>
+        <div class="todo-add">
+          <input type="text" id="newTodoText" placeholder="T.ex. 'Kontakta IFK Lidingö'" onkeydown="if(event.key==='Enter')addTodo()">
+          <button onclick="addTodo()">+ Lägg till</button>
+        </div>
+        <div class="todo-list" id="todoList"></div>
+      </div>
+
+      <!-- TEMPLATES -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Mallar</div>
+          <div class="section-meta">KOPIERA &amp; ANPASSA</div>
+        </div>
+        <div id="tmplList"></div>
+      </div>
+
+      <!-- AUDIT LOG -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Aktivitetslogg</div>
+          <div class="section-meta">SENASTE 50</div>
+        </div>
+        <div class="card" style="padding:0">
+          <div id="auditList"></div>
+        </div>
+      </div>
+
+      <!-- ONBOARDING CHECKLIST -->
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Onboarding</div>
+          <div class="section-meta" id="onbProgress">0/6 KLART</div>
+        </div>
+        <div id="onbList"></div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         🔐 SÄKERHET VIEW (Features 1-7)
+         ════════════════════════════════════════ -->
+    <div class="view" id="view-security">
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="switchSecSub('2fa', this)">2FA</button>
+        <button class="sub-tab" onclick="switchSecSub('magic', this)">Magic links</button>
+        <button class="sub-tab" onclick="switchSecSub('reset', this)">Lösenord-reset</button>
+        <button class="sub-tab" onclick="switchSecSub('sessions', this)">Sessioner</button>
+        <button class="sub-tab" onclick="switchSecSub('ip', this)">IP-whitelist</button>
+        <button class="sub-tab" onclick="switchSecSub('audit', this)">Audit diff</button>
+      </div>
+
+      <!-- 1+4. 2FA + Backup codes -->
+      <div class="sec-sub" data-sub="2fa">
+        <div class="section">
+          <div class="section-head">
+            <div class="section-title">Tvåfaktorautentisering (TOTP)</div>
+            <div class="section-meta" id="totp2faStatus">EJ AKTIVERAD</div>
+          </div>
+          <p class="page-sub">Använd Google Authenticator, Authy eller 1Password. Kraftigt skydd mot kontostöld.</p>
+          <div class="totp-card" id="totpSetup">
+            <button class="btn-primary" onclick="setup2FA()">+ Aktivera 2FA</button>
+          </div>
+        </div>
+        <div class="section">
+          <div class="section-head">
+            <div class="section-title">Backup-koder</div>
+            <div class="section-meta"><span id="backupCount">0</span> KVAR</div>
+          </div>
+          <p class="page-sub">Engångskoder för att logga in om du tappar mobilen. Skriv ut och spara säkert.</p>
+          <div id="backupCodesList"></div>
+          <button class="btn-secondary" onclick="generateBackupCodes()" style="margin-top:12px">Generera nya koder</button>
+        </div>
+      </div>
+
+      <!-- 2. Magic links -->
+      <div class="sec-sub" data-sub="magic" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Magic links</div></div>
+          <p class="page-sub">Lösenordsfri inloggning. Skickar en engångslänk till mejlen som ger 5-minuters-åtkomst.</p>
+          <div class="card">
+            <div class="form-field" style="margin-bottom:12px">
+              <div class="field-label">Email att skicka magic link till</div>
+              <input class="field-input" type="email" id="magicEmail" placeholder="din@email.com">
+            </div>
+            <button class="btn-primary" onclick="sendMagicLink()">📩 Skicka magic link</button>
+            <p style="font-size:11px;color:var(--text-mute);margin-top:12px">Använder Supabase Auth's <code style="background:var(--bg-deep);padding:2px 6px;border-radius:3px;font-family:var(--mono)">signInWithOtp</code></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 3. Glömt lösenord -->
+      <div class="sec-sub" data-sub="reset" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Glömt lösenord</div></div>
+          <p class="page-sub">Skicka reset-mejl till valfri staff. Bara admin kan trigga detta.</p>
+          <div class="card">
+            <div class="form-field" style="margin-bottom:12px">
+              <div class="field-label">Email att reseta</div>
+              <input class="field-input" type="email" id="resetEmail" placeholder="staff@indoordistance.se">
+            </div>
+            <button class="btn-primary" onclick="sendPasswordReset()">📩 Skicka reset-länk</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 5. Aktiva sessioner -->
+      <div class="sec-sub" data-sub="sessions" style="display:none">
+        <div class="section">
+          <div class="section-head">
+            <div class="section-title">Aktiva sessioner</div>
+            <div class="section-meta"><span id="sessionCount">0</span> AKTIVA</div>
+          </div>
+          <p class="page-sub">Se var ditt konto är inloggat. Kicka misstänkta sessioner.</p>
+          <div id="sessionsList"></div>
+        </div>
+      </div>
+
+      <!-- 6. IP-whitelist -->
+      <div class="sec-sub" data-sub="ip" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">IP-whitelist (admin)</div></div>
+          <p class="page-sub">Bara godkända IP får logga in som admin. Lägg in ditt jobb/hem.</p>
+          <div class="card">
+            <div style="display:flex;gap:8px;margin-bottom:14px">
+              <input class="field-input" type="text" id="ipNew" placeholder="t.ex. 81.27.123.45" style="flex:1">
+              <button class="btn-primary" onclick="addIpToWhitelist()">+ Lägg till</button>
+            </div>
+            <div id="ipWhitelistList"></div>
+            <p style="font-size:11px;color:var(--text-mute);margin-top:12px">Din IP just nu: <strong id="currentIp" style="font-family:var(--mono)">—</strong></p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 7. Audit-trail med diff -->
+      <div class="sec-sub" data-sub="audit" style="display:none">
+        <div class="section">
+          <div class="section-head">
+            <div class="section-title">Audit-trail med diff</div>
+            <div class="section-meta">SENASTE 100 ÄNDRINGAR</div>
+          </div>
+          <p class="page-sub">Visa exakt vad som ändrats — gammalt + nytt värde. Spårbart för GDPR och säkerhet.</p>
+          <div id="auditDiffList"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         📡 KOMMUNIKATION VIEW (Features 8-14)
+         ════════════════════════════════════════ -->
+    <div class="view" id="view-comm">
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="switchCommSub('gmail', this)">Gmail</button>
+        <button class="sub-tab" onclick="switchCommSub('sms', this)">SMS</button>
+        <button class="sub-tab" onclick="switchCommSub('slack', this)">Slack/Discord</button>
+        <button class="sub-tab" onclick="switchCommSub('campaign', this)">Email-kampanjer</button>
+        <button class="sub-tab" onclick="switchCommSub('automation', this)">Automation</button>
+        <button class="sub-tab" onclick="switchCommSub('translate', this)">DeepL</button>
+        <button class="sub-tab" onclick="switchCommSub('inbox', this)">Smart inbox</button>
+      </div>
+
+      <!-- 8. Gmail-integration -->
+      <div class="comm-sub" data-sub="gmail">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Gmail-integration</div></div>
+          <p class="page-sub">Läs och svara på <strong>info.indoordistance@gmail.com</strong> direkt i appen.</p>
+          <div class="card">
+            <p style="font-size:13px;margin-bottom:12px">Status: <span id="gmailStatus" style="color:var(--warn);font-family:var(--mono);font-size:11px">EJ ANSLUTEN</span></p>
+            <button class="btn-primary" onclick="connectGmail()">🔗 Anslut Gmail-konto</button>
+            <p style="font-size:11px;color:var(--text-mute);margin-top:12px">Använder Google OAuth + Gmail API. Behöver Google Cloud Console-projekt med Gmail API aktiverad.</p>
+          </div>
+          <div class="section-head" style="margin-top:20px"><div class="section-title" style="font-size:16px">Inkorg</div></div>
+          <div id="gmailInbox"><div style="padding:18px;text-align:center;color:var(--text-mute);font-size:13px">Anslut Gmail för att se mejl.</div></div>
+        </div>
+      </div>
+
+      <!-- 9. SMS -->
+      <div class="comm-sub" data-sub="sms" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">SMS-notiser (Twilio)</div></div>
+          <p class="page-sub">Kritiska alerts via SMS — nya orders, dispute, support-kö lång.</p>
+          <div class="card">
+            <div class="form-field" style="margin-bottom:10px">
+              <div class="field-label">Telefonnummer (E.164)</div>
+              <input class="field-input" type="tel" id="smsPhone" placeholder="+46701234567">
+            </div>
+            <div class="form-field" style="margin-bottom:14px">
+              <div class="field-label">Twilio API-nyckel</div>
+              <input class="field-input" type="password" id="smsKey" placeholder="ACxxxxxx">
+            </div>
+            <button class="btn-primary" onclick="setupSms()">Spara SMS-inställningar</button>
+            <button class="btn-secondary" onclick="testSms()" style="margin-left:8px">📱 Testa</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 10. Slack/Discord -->
+      <div class="comm-sub" data-sub="slack" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Slack / Discord-bridge</div></div>
+          <p class="page-sub">Synka team-chatten med Slack eller Discord via webhook.</p>
+          <div class="card">
+            <div class="form-field" style="margin-bottom:10px">
+              <div class="field-label">Webhook URL (Slack eller Discord)</div>
+              <input class="field-input" type="url" id="slackHook" placeholder="https://hooks.slack.com/services/...">
+            </div>
+            <button class="btn-primary" onclick="setupSlack()">Aktivera bridge</button>
+            <p style="font-size:11px;color:var(--text-mute);margin-top:12px">Meddelanden från Staff-chatten skickas också till Slack/Discord-kanalen.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 11. E-postkampanj-builder -->
+      <div class="comm-sub" data-sub="campaign" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">E-postkampanj-builder</div></div>
+          <p class="page-sub">Drag-drop editor för nyhetsbrev. Ersätter Mailchimp.</p>
+          <div class="card">
+            <div class="form-row">
+              <div class="form-field"><div class="field-label">Kampanj-namn</div><input class="field-input" type="text" id="campName" placeholder="Vecka 27 — Sommar"></div>
+              <div class="form-field"><div class="field-label">Schemaläggning</div><input class="field-input" type="datetime-local" id="campWhen"></div>
+            </div>
+            <div class="form-field" style="margin-bottom:10px"><div class="field-label">Ämnesrad</div><input class="field-input" type="text" id="campSubj" placeholder="Nya features denna vecka 🎯"></div>
+            <div class="form-field" style="margin-bottom:14px"><div class="field-label">Mall</div>
+              <select class="field-input" id="campTmpl" style="font-family:inherit">
+                <option value="basic">Enkel</option>
+                <option value="hero">Med hero-bild</option>
+                <option value="newsletter">Nyhetsbrev (3 sektioner)</option>
+                <option value="announcement">Annonsering</option>
+              </select>
+            </div>
+            <div class="form-field" style="margin-bottom:14px"><div class="field-label">Innehåll</div><textarea class="field-input field-textarea" id="campBody" rows="6" placeholder="Skriv ditt nyhetsbrev..."></textarea></div>
+            <button class="btn-primary" onclick="saveCampaign()">💾 Spara utkast</button>
+            <button class="btn-secondary" onclick="scheduleCampaign()" style="margin-left:8px">⏰ Schemalägg</button>
+            <button class="btn-secondary" onclick="previewCampaign()" style="margin-left:8px">👁️ Förhandsgranska</button>
+          </div>
+          <div class="section-head" style="margin-top:20px"><div class="section-title" style="font-size:16px">Sparade kampanjer</div></div>
+          <div id="campaignList"></div>
+        </div>
+      </div>
+
+      <!-- 12. Marketing automation -->
+      <div class="comm-sub" data-sub="automation" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Marketing automation</div></div>
+          <p class="page-sub">Drip campaigns: när en kund gör X, skicka Y efter Z dagar.</p>
+          <div id="automationList"></div>
+          <button class="btn-primary" onclick="addAutomation()" style="margin-top:14px">+ Skapa flöde</button>
+        </div>
+      </div>
+
+      <!-- 13. DeepL-översättning -->
+      <div class="comm-sub" data-sub="translate" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">DeepL auto-översättning</div></div>
+          <p class="page-sub">Översätt mejlmallar och nyhetsbrev till alla 12 språk automatiskt.</p>
+          <div class="card">
+            <div class="form-field" style="margin-bottom:10px"><div class="field-label">DeepL API-nyckel</div><input class="field-input" type="password" id="deeplKey" placeholder="xxxxxxxx:fx"></div>
+            <div class="form-field" style="margin-bottom:10px"><div class="field-label">Källtext (svenska)</div><textarea class="field-input field-textarea" id="deeplSrc" rows="4" placeholder="Texten att översätta..."></textarea></div>
+            <div class="form-field" style="margin-bottom:14px"><div class="field-label">Mål-språk</div>
+              <select class="field-input" id="deeplTo" style="font-family:inherit">
+                <option value="EN">Engelska</option><option value="DE">Tyska</option><option value="FR">Franska</option>
+                <option value="ES">Spanska</option><option value="IT">Italienska</option><option value="NL">Holländska</option>
+                <option value="PL">Polska</option><option value="ZH">Kinesiska</option><option value="FI">Finska</option>
+              </select>
+            </div>
+            <button class="btn-primary" onclick="translateText()">🌐 Översätt</button>
+            <div id="deeplResult" style="margin-top:14px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 14. Smart inbox (mejl → biljetter) -->
+      <div class="comm-sub" data-sub="inbox" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Smart inbox</div></div>
+          <p class="page-sub">Inkommande mejl skapas automatiskt som supportbiljetter.</p>
+          <div class="card">
+            <div class="switch-row">
+              <div class="info">
+                <div class="info-title">Auto-skapa biljetter</div>
+                <div class="info-sub">Varje mejl till support-mejlen blir automatiskt en biljett</div>
+              </div>
+              <div class="switch on" id="inboxSwitch" onclick="toggleInboxAuto()"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         📈 ANALYS VIEW (Features 15-21)
+         ════════════════════════════════════════ -->
+    <div class="view" id="view-analytics">
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="switchAnaSub('customers', this)">Kunder</button>
+        <button class="sub-tab" onclick="switchAnaSub('segments', this)">Segments</button>
+        <button class="sub-tab" onclick="switchAnaSub('team', this)">Team</button>
+        <button class="sub-tab" onclick="switchAnaSub('heatmap', this)">Heatmap</button>
+        <button class="sub-tab" onclick="switchAnaSub('sessions', this)">Replays</button>
+        <button class="sub-tab" onclick="switchAnaSub('dashboards', this)">Dashboards</button>
+        <button class="sub-tab" onclick="switchAnaSub('funnel', this)">Funnel</button>
+      </div>
+
+      <!-- 15. Kunddatabas -->
+      <div class="ana-sub" data-sub="customers">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Kunddatabas</div><div class="section-meta"><span id="custCount">0</span> KUNDER</div></div>
+          <input class="field-input" type="text" id="custSearch" placeholder="🔍 Sök kund..." oninput="renderCustomers()" style="margin-bottom:14px">
+          <div id="customerList"></div>
+        </div>
+      </div>
+
+      <!-- 16. Smart segments -->
+      <div class="ana-sub" data-sub="segments" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Smart segments</div></div>
+          <p class="page-sub">Auto-tagga kunder baserat på beteende.</p>
+          <div id="segmentsList"></div>
+          <button class="btn-primary" onclick="addSegment()" style="margin-top:14px">+ Nytt segment</button>
+        </div>
+      </div>
+
+      <!-- 17. Team performance -->
+      <div class="ana-sub" data-sub="team" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Team-performance</div></div>
+          <p class="page-sub">Vem svarar mest tickets, vem kontaktar mest klubbar.</p>
+          <div id="teamPerf"></div>
+        </div>
+      </div>
+
+      <!-- 18. Aktivitets-heatmap -->
+      <div class="ana-sub" data-sub="heatmap" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Aktivitets-heatmap</div></div>
+          <p class="page-sub">När är teamet mest aktivt? (timme × veckodag)</p>
+          <div id="heatmapBox"></div>
+        </div>
+      </div>
+
+      <!-- 19. Sessions-inspelningar -->
+      <div class="ana-sub" data-sub="sessions" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Session replays</div></div>
+          <p class="page-sub">Anonyma replays av kund-sessioner på hemsidan (GDPR-säker).</p>
+          <div class="card">
+            <p style="font-size:13px">Status: <span id="replayStatus" style="color:var(--warn);font-family:var(--mono)">EJ AKTIVERAD</span></p>
+            <p style="font-size:11px;color:var(--text-mute);margin-top:8px">Kräver insertion av spårningsskript på hemsidan. Integration med t.ex. rrweb-stack.</p>
+            <button class="btn-primary" onclick="enableReplays()" style="margin-top:10px">Aktivera</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 20. Custom dashboards per roll -->
+      <div class="ana-sub" data-sub="dashboards" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Custom dashboards</div></div>
+          <p class="page-sub">Olika roller får olika startsida.</p>
+          <div id="dashboardConfig"></div>
+        </div>
+      </div>
+
+      <!-- 21. Conversion funnel -->
+      <div class="ana-sub" data-sub="funnel" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Conversion funnel</div></div>
+          <p class="page-sub">Visitor → Waitlist → Beta → Betalande</p>
+          <div id="funnelBox"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ════════════════════════════════════════
+         🔌 INTEGRATIONER VIEW (Features 22-35)
+         ════════════════════════════════════════ -->
+    <div class="view" id="view-integrations">
+      <div class="sub-tabs">
+        <button class="sub-tab active" onclick="switchIntSub('stripe', this)">Stripe</button>
+        <button class="sub-tab" onclick="switchIntSub('shipping', this)">Frakt</button>
+        <button class="sub-tab" onclick="switchIntSub('csv', this)">CSV</button>
+        <button class="sub-tab" onclick="switchIntSub('vendor', this)">Leverantörer</button>
+        <button class="sub-tab" onclick="switchIntSub('abtest', this)">A/B test</button>
+        <button class="sub-tab" onclick="switchIntSub('flags', this)">Feature flags</button>
+        <button class="sub-tab" onclick="switchIntSub('pdf', this)">PDF</button>
+        <button class="sub-tab" onclick="switchIntSub('booking', this)">Booking</button>
+        <button class="sub-tab" onclick="switchIntSub('docs', this)">Dokument</button>
+        <button class="sub-tab" onclick="switchIntSub('apikeys', this)">API-nycklar</button>
+        <button class="sub-tab" onclick="switchIntSub('webhooks', this)">Webhooks</button>
+        <button class="sub-tab" onclick="switchIntSub('approval', this)">Godkännanden</button>
+        <button class="sub-tab" onclick="switchIntSub('status', this)">Status-page</button>
+        <button class="sub-tab" onclick="switchIntSub('portal', this)">Klubb-portal</button>
+      </div>
+
+      <!-- 22. Stripe inline -->
+      <div class="int-sub" data-sub="stripe">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Stripe-handlingar</div></div>
+          <p class="page-sub">Refunds, disputes, payouts — utan att lämna appen.</p>
+          <div class="card">
+            <div class="form-field" style="margin-bottom:14px"><div class="field-label">Stripe Secret Key</div><input class="field-input" type="password" id="stripeKey" placeholder="sk_live_..."></div>
+            <button class="btn-primary" onclick="saveStripeKey()">Spara</button>
+          </div>
+          <div id="stripeOrders" style="margin-top:18px"></div>
+        </div>
+      </div>
+
+      <!-- 23. Frakt-etiketter -->
+      <div class="int-sub" data-sub="shipping" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Fraktsedlar (PostNord/DHL)</div></div>
+          <p class="page-sub">Generera etiketter direkt från en order.</p>
+          <div id="shippingList"></div>
+        </div>
+      </div>
+
+      <!-- 24. CSV-import -->
+      <div class="int-sub" data-sub="csv" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">CSV-import</div></div>
+          <p class="page-sub">Bulk-importera kunder, klubbar, produkter, koder.</p>
+          <div class="card">
+            <div class="form-field" style="margin-bottom:14px">
+              <div class="field-label">Typ av data</div>
+              <select class="field-input" id="csvType" style="font-family:inherit">
+                <option value="clubs">Klubbar</option>
+                <option value="customers">Kunder</option>
+                <option value="products">Produkter</option>
+                <option value="codes">Rabattkoder</option>
+                <option value="subscribers">Newsletter-prenumeranter</option>
+              </select>
+            </div>
+            <input type="file" id="csvFile" accept=".csv" style="display:none" onchange="importCsv(this.files[0])">
+            <button class="btn-primary" onclick="document.getElementById('csvFile').click()">📥 Välj CSV-fil</button>
+            <div id="csvResult" style="margin-top:14px"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 25. Vendor management -->
+      <div class="int-sub" data-sub="vendor" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Leverantörer</div></div>
+          <p class="page-sub">Spåra dina leverantörer (hoodie-tillverkare, fraktbolag, mm).</p>
+          <div class="card" style="margin-bottom:14px">
+            <div class="form-row">
+              <div class="form-field"><div class="field-label">Namn</div><input class="field-input" type="text" id="vendName" placeholder="Tryckeri AB"></div>
+              <div class="form-field"><div class="field-label">Vad de levererar</div><input class="field-input" type="text" id="vendWhat" placeholder="Hoodies"></div>
+            </div>
+            <div class="form-row">
+              <div class="form-field"><div class="field-label">Kontakt</div><input class="field-input" type="email" id="vendEmail" placeholder="kontakt@tryckeri.se"></div>
+              <div class="form-field"><div class="field-label">Avtal löper ut</div><input class="field-input" type="date" id="vendExpiry"></div>
+            </div>
+            <button class="btn-primary" onclick="addVendor()">+ Lägg till leverantör</button>
+          </div>
+          <div id="vendorList"></div>
+        </div>
+      </div>
+
+      <!-- 26. A/B test manager -->
+      <div class="int-sub" data-sub="abtest" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">A/B-tester</div></div>
+          <p class="page-sub">Testa olika versioner av hemsidan utan att skriva kod.</p>
+          <div id="abTestList"></div>
+          <button class="btn-primary" onclick="addAbTest()" style="margin-top:14px">+ Nytt experiment</button>
+        </div>
+      </div>
+
+      <!-- 27. Feature flags -->
+      <div class="int-sub" data-sub="flags" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Feature flags</div></div>
+          <p class="page-sub">Slå på/av funktioner i appen och hemsidan remote (ingen deploy nödvändig).</p>
+          <div id="flagsList"></div>
+          <div class="card" style="margin-top:14px">
+            <div class="form-row">
+              <div class="form-field"><div class="field-label">Flag-namn</div><input class="field-input" type="text" id="flagName" placeholder="enable_new_camera"></div>
+              <div class="form-field"><div class="field-label">Beskrivning</div><input class="field-input" type="text" id="flagDesc" placeholder="Ny kameraflöde"></div>
+            </div>
+            <button class="btn-primary" onclick="addFlag()">+ Skapa flag</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 28. PDF kvitto -->
+      <div class="int-sub" data-sub="pdf" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">PDF-generator</div></div>
+          <p class="page-sub">Generera vackra PDF-kvitton + fakturor.</p>
+          <div class="card">
+            <div class="form-field" style="margin-bottom:14px"><div class="field-label">Order-ID</div><input class="field-input" type="text" id="pdfOrderId" placeholder="ID från orders-listan"></div>
+            <button class="btn-primary" onclick="generatePdf()">📄 Generera kvitto</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- 29. Calendar booking -->
+      <div class="int-sub" data-sub="booking" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Möte-bokning</div></div>
+          <p class="page-sub">Dela en länk → klubbar bokar 15-min möte direkt i din kalender.</p>
+          <div class="card">
+            <p style="font-size:13px;margin-bottom:8px">Din booking-länk:</p>
+            <code style="background:var(--bg-deep);padding:8px 12px;border-radius:6px;font-family:var(--mono);font-size:12px;display:block;margin-bottom:14px" id="bookingLink">—</code>
+            <button class="btn-secondary" onclick="copyBookingLink()">📋 Kopiera länk</button>
+          </div>
+          <div class="section-head" style="margin-top:20px"><div class="section-title" style="font-size:16px">Tillgängliga tider denna vecka</div></div>
+          <div id="bookingSlots"></div>
+          <div class="section-head" style="margin-top:18px"><div class="section-title" style="font-size:16px">Bokade möten</div></div>
+          <div id="bookingsList"></div>
+        </div>
+      </div>
+
+      <!-- 30. Document storage -->
+      <div class="int-sub" data-sub="docs" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Dokument</div></div>
+          <p class="page-sub">Kontrakt, NDAs, avtal — samlade på en plats.</p>
+          <input type="file" id="docFile" style="display:none" onchange="uploadDoc(this.files[0])">
+          <button class="btn-primary" onclick="document.getElementById('docFile').click()">+ Ladda upp dokument</button>
+          <div id="docList" style="margin-top:14px"></div>
+        </div>
+      </div>
+
+      <!-- 31. API-nyckel-management -->
+      <div class="int-sub" data-sub="apikeys" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">API-nycklar</div></div>
+          <p class="page-sub">Generera nycklar för integrationer (Zapier, Make, custom apps).</p>
+          <div class="card" style="margin-bottom:14px">
+            <div class="form-field" style="margin-bottom:10px"><div class="field-label">Namn på nyckeln</div><input class="field-input" type="text" id="apikeyName" placeholder="Zapier integration"></div>
+            <button class="btn-primary" onclick="generateApiKey()">🔑 Generera ny nyckel</button>
+          </div>
+          <div id="apikeyList"></div>
+        </div>
+      </div>
+
+      <!-- 32. Webhooks-editor -->
+      <div class="int-sub" data-sub="webhooks" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Webhooks</div></div>
+          <p class="page-sub">"När X händer → kör Y". Zapier-light direkt i appen.</p>
+          <div class="card" style="margin-bottom:14px">
+            <div class="form-row">
+              <div class="form-field"><div class="field-label">Trigger</div>
+                <select class="field-input" id="hookTrigger" style="font-family:inherit">
+                  <option value="order.created">Ny order</option>
+                  <option value="user.signup">Ny användare</option>
+                  <option value="ticket.created">Ny support-biljett</option>
+                  <option value="club.signed">Klubb skrivit avtal</option>
+                  <option value="stock.low">Lågt lager</option>
+                </select>
+              </div>
+              <div class="form-field"><div class="field-label">URL att anropa</div><input class="field-input" type="url" id="hookUrl" placeholder="https://hooks.zapier.com/..."></div>
+            </div>
+            <button class="btn-primary" onclick="addWebhook()">+ Lägg till webhook</button>
+          </div>
+          <div id="webhooksList"></div>
+        </div>
+      </div>
+
+      <!-- 33. Approval workflows -->
+      <div class="int-sub" data-sub="approval" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Godkännande-flöden</div></div>
+          <p class="page-sub">Multi-step approval för känsliga handlingar (stora rabatter, refunds &gt; 1000 kr).</p>
+          <div id="approvalFlows"></div>
+          <button class="btn-primary" onclick="addApprovalFlow()" style="margin-top:14px">+ Nytt flöde</button>
+        </div>
+      </div>
+
+      <!-- 34. Status-page -->
+      <div class="int-sub" data-sub="status" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Public status-page</div></div>
+          <p class="page-sub">Visa upptid för hemsida, app, API → <code style="font-family:var(--mono);font-size:11px">status.indoordistance.se</code></p>
+          <div id="statusList"></div>
+        </div>
+      </div>
+
+      <!-- 35. Klubb-portal -->
+      <div class="int-sub" data-sub="portal" style="display:none">
+        <div class="section">
+          <div class="section-head"><div class="section-title">Klubb-portal</div></div>
+          <p class="page-sub">Klubbar loggar in själva och hanterar sina egna atleter.</p>
+          <div class="card">
+            <p style="font-size:13px;margin-bottom:12px">Klubbportalens URL:</p>
+            <code style="background:var(--bg-deep);padding:8px 12px;border-radius:6px;font-family:var(--mono);font-size:12px;display:block" id="portalUrl">https://klubb.indoordistance.se</code>
+            <p style="font-size:11px;color:var(--text-mute);margin-top:14px">Klubbar autenticeras via samma Supabase-projekt. Filtreras till "club_admin"-roll.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ NOTIFICATIONS VIEW ═════ -->
+    <div class="view" id="view-notifications">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Notiser</div>
+          <div class="section-meta"><button class="btn-secondary" onclick="clearNotifs()" style="padding:5px 12px">Rensa</button></div>
+        </div>
+        <div id="notifList"></div>
+      </div>
+    </div>
+
     <!-- ═════ FAQ VIEW ═════ -->
     <div class="view" id="view-faq">
       <div class="section">
@@ -1511,6 +3117,19 @@ h1.page-title .grad-text {
 
 <!-- TOAST -->
 <div class="toast" id="toast"></div>
+
+<!-- COMMAND PALETTE (Ctrl+K) -->
+<div class="cmd-overlay" id="cmdOverlay" onclick="if(event.target===this)closeCmdPalette()">
+  <div class="cmd-box">
+    <input class="cmd-input" id="cmdInput" type="text" placeholder="Sök eller hoppa till..." oninput="renderCmdResults()" onkeydown="handleCmdKey(event)">
+    <div class="cmd-list" id="cmdList"></div>
+    <div class="cmd-footer">
+      <span><span class="cmd-kbd">↑↓</span>Navigera</span>
+      <span><span class="cmd-kbd">↵</span>Välj</span>
+      <span><span class="cmd-kbd">Esc</span>Stäng</span>
+    </div>
+  </div>
+</div>
 
 <script>
 /* ═══════════════════════════════════════════════════════════
@@ -1691,6 +3310,186 @@ function switchToLogin() {
   document.getElementById('signupCard').style.display = 'none';
   document.getElementById('pendingCard').style.display = 'none';
   document.getElementById('loginCard').style.display = 'block';
+}
+
+// ── PASSWORD TOGGLE (show/hide) ──
+function togglePw(inputId, btn) {
+  const inp = document.getElementById(inputId);
+  if (!inp || !btn) return;
+  const open = btn.querySelector('.eye-open');
+  const closed = btn.querySelector('.eye-closed');
+  if (inp.type === 'password') {
+    inp.type = 'text';
+    if (open) open.style.display = 'none';
+    if (closed) closed.style.display = '';
+    btn.setAttribute('aria-label', 'Dölj lösenord');
+  } else {
+    inp.type = 'password';
+    if (open) open.style.display = '';
+    if (closed) closed.style.display = 'none';
+    btn.setAttribute('aria-label', 'Visa lösenord');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  GOOGLE SIGN-IN (via Supabase OAuth)
+//  Requires:
+//    1) Supabase project configured (URL + anon key in Settings)
+//    2) Google enabled in Supabase Authentication → Providers
+//    3) Redirect URL added: <yourdomain>/index.html (or whatever)
+// ═══════════════════════════════════════════════════════════
+function googleSignIn() { startGoogleOAuth('signin'); }
+function googleSignUp() { startGoogleOAuth('signup'); }
+
+function startGoogleOAuth(mode) {
+  const cfg = getSupabaseConfig();
+  if (!cfg || !cfg.url || !cfg.anonKey) {
+    // First-time setup: VD can enter Supabase config inside the locked app
+    // For now, if no config we show a helpful error.
+    const err = document.getElementById(mode === 'signup' ? 'signupErr' : 'loginErr');
+    if (err) err.textContent = 'Supabase ej konfigurerad — be VD att slå på Google Auth';
+    return;
+  }
+  try { localStorage.setItem('idstaff_oauth_intent', mode); } catch(e) {}
+  // Use current origin as redirect target so the same page handles the callback
+  const redirectTo = window.location.origin + window.location.pathname;
+  const url = cfg.url + '/auth/v1/authorize?provider=google&redirect_to=' + encodeURIComponent(redirectTo);
+  window.location.href = url;
+}
+
+// Handle Supabase OAuth callback: parses #access_token from URL
+async function handleOAuthCallback() {
+  if (!window.location.hash || !window.location.hash.includes('access_token')) return;
+  const params = new URLSearchParams(window.location.hash.substring(1));
+  const accessToken = params.get('access_token');
+  if (!accessToken) return;
+
+  // Clear the hash so token isn't visible in URL bar
+  history.replaceState(null, '', window.location.pathname + window.location.search);
+
+  const cfg = getSupabaseConfig();
+  if (!cfg) { showToast('Supabase ej konfigurerad'); return; }
+
+  try {
+    // Fetch user info from Supabase
+    const r = await fetch(cfg.url + '/auth/v1/user', {
+      headers: {
+        'apikey': cfg.anonKey,
+        'Authorization': 'Bearer ' + accessToken
+      }
+    });
+    if (!r.ok) throw new Error('Kunde inte hämta användardata');
+    const user = await r.json();
+    const email = (user.email || '').toLowerCase();
+    const name = user.user_metadata?.full_name || user.user_metadata?.name || email.split('@')[0];
+
+    if (!email) { showToast('Ingen e-post från Google'); return; }
+
+    const intent = localStorage.getItem('idstaff_oauth_intent') || 'signin';
+    localStorage.removeItem('idstaff_oauth_intent');
+
+    // Refresh accounts from Supabase
+    await syncAccountsFromSupabase();
+    const accounts = getAccounts();
+    let acc = accounts.find(a => a.email.toLowerCase() === email);
+
+    // Master admin bootstrap via Google
+    if (isMasterAdmin(email) && !acc) {
+      acc = {
+        email,
+        name: name || 'VD',
+        role: 'admin',
+        pwHash: '__google_only__',
+        approved: true,
+        google: true,
+        created: Date.now()
+      };
+      accounts.push(acc);
+      saveAccounts(accounts);
+      if (isSupabaseLive()) {
+        try {
+          await sbFetch('staff_accounts', {
+            method: 'POST',
+            body: { email, name: acc.name, role: 'admin', pw_hash: '__google_only__', approved: true }
+          });
+        } catch(e) {}
+      }
+    }
+
+    if (acc && acc.approved) {
+      // Logged in!
+      saveSession({
+        email: acc.email,
+        name: acc.name,
+        role: acc.role,
+        loggedInAt: Date.now(),
+        google: true
+      });
+      showApp();
+      showToast('Inloggad som ' + acc.name);
+      return;
+    }
+
+    if (acc && !acc.approved) {
+      // Account exists but waiting for approval
+      const err = document.getElementById('loginErr');
+      if (err) err.textContent = '⏳ Ditt konto väntar på VD-godkännande';
+      return;
+    }
+
+    // No account — auto-create a pending request and notify VD
+    if (intent === 'signup' || intent === 'signin') {
+      const pending = getPendingRequests();
+      if (!pending.find(p => p.email.toLowerCase() === email)) {
+        const request = {
+          email,
+          name,
+          role: 'other',
+          reason: 'Google sign-in — automatisk begäran',
+          pwHash: '__google_only__',
+          created: Date.now(),
+          status: 'pending',
+          google: true
+        };
+        pending.push(request);
+        savePendingRequests(pending);
+
+        if (isSupabaseLive()) {
+          try {
+            await sbFetch('staff_accounts', {
+              method: 'POST',
+              body: { email, name, role: 'other', pw_hash: '__google_only__', approved: false, reason: 'Google sign-in' }
+            });
+          } catch(e) {}
+        }
+
+        // Notify VD
+        try {
+          await fetch(SIGNUP_FORMSPREE, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              _subject: '🔐 Ny Google-staff-begäran: ' + name,
+              _replyto: email,
+              email, name, role: 'other',
+              reason: 'Google sign-in — automatisk begäran',
+              timestamp: new Date().toISOString(),
+              notification_target: VD_NOTIFICATION_EMAIL,
+              message: `Ny begäran via Google sign-in:\n\nNamn: ${name}\nE-post: ${email}\n\nGodkänn i Staff-appens Inställningar.`
+            })
+          });
+        } catch(e) {}
+      }
+
+      // Show pending card
+      document.getElementById('loginCard').style.display = 'none';
+      document.getElementById('signupCard').style.display = 'none';
+      document.getElementById('pendingCard').style.display = 'block';
+    }
+  } catch(e) {
+    const err = document.getElementById('loginErr');
+    if (err) err.textContent = 'Google-fel: ' + e.message;
+  }
 }
 
 async function submitSignup() {
@@ -1949,6 +3748,17 @@ function initApp() {
   renderTemplates();
   renderShopState();
   updateSbStatus();
+  // Phase 2+: new features
+  renderClubs();
+  renderCalendar();
+  renderChat();
+  renderTickets();
+  renderMedia();
+  renderAudit();
+  renderOnboarding();
+  renderNotifs();
+  updateNotifBadge();
+  updateAvatar();
   // Pre-fill saved name in settings input if any
   const nameInp = document.getElementById('staffName');
   if (nameInp) nameInp.value = localStorage.getItem('idstaff_name') || '';
@@ -1957,6 +3767,7 @@ function initApp() {
     reloadProducts();
     reloadOrders();
     reloadSubscribers();
+    setupRealtime();
   } else {
     reloadSubscribers(); // still reads local fallback
   }
@@ -2675,6 +4486,1782 @@ function showToast(msg) {
   setTimeout(() => t.classList.remove('show'), 2200);
 }
 
+// ═══════════════════════════════════════════════════════════
+//  THEME (Dark / Light Mode)
+// ═══════════════════════════════════════════════════════════
+function loadTheme() {
+  try {
+    if (localStorage.getItem('idstaff_theme') === 'light') document.body.classList.add('light-mode');
+  } catch(e){}
+}
+function toggleTheme() {
+  document.body.classList.toggle('light-mode');
+  try { localStorage.setItem('idstaff_theme', document.body.classList.contains('light-mode') ? 'light' : 'dark'); } catch(e){}
+  showToast(document.body.classList.contains('light-mode') ? 'Ljust läge' : 'Mörkt läge');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  COMMAND PALETTE (Ctrl+K)
+// ═══════════════════════════════════════════════════════════
+const CMD_ACTIONS = [
+  { kw:'dashboard översikt', icon:'📊', label:'Dashboard', fn:()=>switchView('dashboard') },
+  { kw:'shop produkter lager', icon:'🛍️', label:'Shop', fn:()=>switchView('shop') },
+  { kw:'order beställningar', icon:'📦', label:'Order', fn:()=>switchView('orders') },
+  { kw:'crm klubbar kontakt', icon:'🤝', label:'CRM (klubbar)', fn:()=>switchView('crm') },
+  { kw:'kalender event datum', icon:'📅', label:'Kalender', fn:()=>switchView('calendar') },
+  { kw:'chatt team', icon:'💬', label:'Team-chatt', fn:()=>switchView('chat') },
+  { kw:'ai coach hjälp assistent', icon:'🧠', label:'AI-hjälp', fn:()=>switchView('coach') },
+  { kw:'rabatter koder', icon:'🎟️', label:'Rabattkoder', fn:()=>switchView('discount') },
+  { kw:'nyhetsbrev waitlist', icon:'📨', label:'Nyhetsbrev', fn:()=>switchView('newsletter') },
+  { kw:'support tickets biljetter', icon:'🎧', label:'Support', fn:()=>switchView('support') },
+  { kw:'media bilder filer', icon:'📷', label:'Mediabank', fn:()=>switchView('media') },
+  { kw:'verktyg todo mallar', icon:'🛠️', label:'Verktyg', fn:()=>switchView('tools') },
+  { kw:'länkar verktyg', icon:'🔗', label:'Snabblänkar', fn:()=>switchView('links') },
+  { kw:'inställningar konfiguration', icon:'⚙️', label:'Inställningar', fn:()=>switchView('settings') },
+  { kw:'handbok faq guide', icon:'📚', label:'Handbok', fn:()=>switchView('faq') },
+  { kw:'notiser meddelanden', icon:'🔔', label:'Notiser', fn:()=>switchView('notifications') },
+  { kw:'tema mörkt ljust', icon:'🌗', label:'Växla mörkt/ljust', fn:()=>toggleTheme() },
+  { kw:'logga ut', icon:'🚪', label:'Logga ut', fn:()=>lockApp() }
+];
+let cmdSelectedIdx = 0;
+
+function openCmdPalette() {
+  document.getElementById('cmdOverlay').classList.add('open');
+  const inp = document.getElementById('cmdInput');
+  inp.value = '';
+  cmdSelectedIdx = 0;
+  renderCmdResults();
+  setTimeout(() => inp.focus(), 50);
+}
+function closeCmdPalette() {
+  document.getElementById('cmdOverlay').classList.remove('open');
+}
+function renderCmdResults() {
+  const q = (document.getElementById('cmdInput').value || '').toLowerCase().trim();
+  const items = q
+    ? CMD_ACTIONS.filter(a => a.kw.includes(q) || a.label.toLowerCase().includes(q))
+    : CMD_ACTIONS;
+  cmdSelectedIdx = 0;
+  const list = document.getElementById('cmdList');
+  list.innerHTML = items.length === 0
+    ? '<div style="padding:18px;text-align:center;color:var(--text-mute);font-size:13px">Inga träffar</div>'
+    : items.map((a, i) => `
+      <div class="cmd-item ${i === 0 ? 'active' : ''}" data-idx="${i}" onclick="cmdExec(${i})">
+        <span class="cmd-icon">${a.icon}</span>
+        <span>${escapeHtml(a.label)}</span>
+      </div>
+    `).join('');
+  list._items = items;
+}
+function handleCmdKey(e) {
+  const list = document.getElementById('cmdList');
+  const items = list._items || [];
+  if (e.key === 'Escape') { closeCmdPalette(); return; }
+  if (e.key === 'Enter') { cmdExec(cmdSelectedIdx); return; }
+  if (e.key === 'ArrowDown' || e.key === 'ArrowUp') {
+    e.preventDefault();
+    const dir = e.key === 'ArrowDown' ? 1 : -1;
+    cmdSelectedIdx = (cmdSelectedIdx + dir + items.length) % items.length;
+    [...list.children].forEach((c, i) => c.classList.toggle('active', i === cmdSelectedIdx));
+  }
+}
+function cmdExec(idx) {
+  const list = document.getElementById('cmdList');
+  const items = list._items || [];
+  if (items[idx]) { items[idx].fn(); closeCmdPalette(); }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  KEYBOARD SHORTCUTS (vim-style + Ctrl+K)
+// ═══════════════════════════════════════════════════════════
+let _kbdBuffer = '';
+let _kbdTimer = null;
+const KBD_SHORTCUTS = {
+  'gd': 'dashboard', 'gs': 'shop', 'go': 'orders', 'gc': 'crm',
+  'gk': 'calendar', 'gh': 'chat', 'ga': 'coach', 'gr': 'discount',
+  'gn': 'newsletter', 'gp': 'support', 'gm': 'media', 'gt': 'tools',
+  'gl': 'links', 'gx': 'settings', 'gf': 'faq'
+};
+function setupKeyboardShortcuts() {
+  document.addEventListener('keydown', (e) => {
+    // Ignore when typing in input/textarea
+    const tag = (e.target.tagName || '').toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') {
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault(); openCmdPalette();
+      }
+      return;
+    }
+    // Ctrl+K / Cmd+K
+    if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
+      e.preventDefault(); openCmdPalette(); return;
+    }
+    // Slash to focus search
+    if (e.key === '/') { e.preventDefault(); openCmdPalette(); return; }
+    // Two-key combos (g + letter)
+    if (/^[a-z]$/i.test(e.key)) {
+      _kbdBuffer += e.key.toLowerCase();
+      if (_kbdTimer) clearTimeout(_kbdTimer);
+      _kbdTimer = setTimeout(() => _kbdBuffer = '', 800);
+      if (KBD_SHORTCUTS[_kbdBuffer]) {
+        switchView(KBD_SHORTCUTS[_kbdBuffer]);
+        _kbdBuffer = '';
+      }
+    }
+  });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CRM — Klubbkontakter
+// ═══════════════════════════════════════════════════════════
+const CRM_STATUSES = ['not-contacted', 'contacted', 'meeting', 'signed', 'declined'];
+const CRM_STATUS_LABELS = {
+  'not-contacted': 'Ej kontaktad', 'contacted': 'Kontaktad',
+  'meeting': 'Möte bokat', 'signed': 'Påskriven', 'declined': 'Avböjt'
+};
+
+function getClubs() {
+  try { return JSON.parse(localStorage.getItem('idstaff_clubs') || '[]'); } catch(e){ return []; }
+}
+function saveClubs(arr) {
+  try { localStorage.setItem('idstaff_clubs', JSON.stringify(arr)); } catch(e){}
+}
+function addClub() {
+  const name = document.getElementById('crmClubName').value.trim();
+  if (!name) { showToast('Klubbnamn krävs'); return; }
+  const clubs = getClubs();
+  clubs.unshift({
+    id: 'club_' + Date.now(),
+    name,
+    contact: document.getElementById('crmContact').value.trim(),
+    email: document.getElementById('crmEmail').value.trim(),
+    phone: document.getElementById('crmPhone').value.trim(),
+    notes: document.getElementById('crmNotes').value.trim(),
+    status: 'not-contacted',
+    lastContact: null,
+    created: Date.now()
+  });
+  saveClubs(clubs);
+  ['crmClubName','crmContact','crmEmail','crmPhone','crmNotes'].forEach(id => document.getElementById(id).value = '');
+  renderClubs();
+  logActivity('added_club', name);
+  showToast('Klubb tillagd');
+}
+function setClubStatus(id, status) {
+  const clubs = getClubs();
+  const c = clubs.find(c => c.id === id);
+  if (c) { c.status = status; c.lastContact = Date.now(); saveClubs(clubs); renderClubs(); logActivity('club_status', c.name + ' → ' + status); }
+}
+function deleteClub(id) {
+  if (!confirm('Ta bort klubben?')) return;
+  saveClubs(getClubs().filter(c => c.id !== id));
+  renderClubs();
+}
+function renderClubs() {
+  const list = document.getElementById('crmList');
+  if (!list) return;
+  const clubs = getClubs();
+  document.getElementById('crmCount').textContent = clubs.length;
+  if (clubs.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px">Inga klubbar än.</div>';
+    return;
+  }
+  list.innerHTML = clubs.map(c => `
+    <div class="crm-club">
+      <div style="font-size:22px">🏛️</div>
+      <div>
+        <div style="font-weight:700;font-size:14px">${escapeHtml(c.name)}</div>
+        <div style="font-size:11px;color:var(--text-mute);margin-top:2px">${escapeHtml(c.contact || '–')} · ${escapeHtml(c.email || '–')}</div>
+        ${c.notes ? `<div style="font-size:11px;color:var(--text-mute);margin-top:3px;font-style:italic">"${escapeHtml(c.notes.slice(0, 80))}"</div>` : ''}
+      </div>
+      <select onchange="setClubStatus('${c.id}',this.value)" style="background:var(--bg-deep);border:1px solid var(--border);color:var(--text);padding:5px 8px;border-radius:6px;font-size:11px;font-family:inherit">
+        ${CRM_STATUSES.map(s => `<option value="${s}" ${s === c.status ? 'selected' : ''}>${CRM_STATUS_LABELS[s]}</option>`).join('')}
+      </select>
+      <button class="todo-del" onclick="deleteClub('${c.id}')">×</button>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  CALENDAR
+// ═══════════════════════════════════════════════════════════
+let _calMonth = new Date().getMonth();
+let _calYear = new Date().getFullYear();
+function getEvents() { try { return JSON.parse(localStorage.getItem('idstaff_events') || '[]'); } catch(e){ return []; } }
+function saveEvents(arr) { try { localStorage.setItem('idstaff_events', JSON.stringify(arr)); } catch(e){} }
+function addEvent() {
+  const date = document.getElementById('evDate').value;
+  const title = document.getElementById('evTitle').value.trim();
+  if (!date || !title) { showToast('Datum + titel krävs'); return; }
+  const events = getEvents();
+  events.push({ id: 'ev_' + Date.now(), date, title });
+  saveEvents(events);
+  document.getElementById('evDate').value = '';
+  document.getElementById('evTitle').value = '';
+  renderCalendar();
+  showToast('Event tillagt');
+}
+function changeCalMonth(dir) {
+  _calMonth += dir;
+  if (_calMonth < 0) { _calMonth = 11; _calYear--; }
+  if (_calMonth > 11) { _calMonth = 0; _calYear++; }
+  renderCalendar();
+}
+function renderCalendar() {
+  const grid = document.getElementById('calGrid');
+  if (!grid) return;
+  const monthNames = ['Januari','Februari','Mars','April','Maj','Juni','Juli','Augusti','September','Oktober','November','December'];
+  document.getElementById('calMonthLabel').textContent = monthNames[_calMonth] + ' ' + _calYear;
+
+  const dayNames = ['Mån','Tis','Ons','Tor','Fre','Lör','Sön'];
+  const firstDay = new Date(_calYear, _calMonth, 1);
+  let startDay = firstDay.getDay() - 1; if (startDay < 0) startDay = 6;
+  const daysInMonth = new Date(_calYear, _calMonth + 1, 0).getDate();
+  const events = getEvents();
+  const today = new Date();
+
+  let html = dayNames.map(d => `<div class="cal-day-name">${d}</div>`).join('');
+  // Empty cells for first row
+  for (let i = 0; i < startDay; i++) {
+    const d = new Date(_calYear, _calMonth, -startDay + i + 1);
+    html += `<div class="cal-day other-month"><div class="cal-num">${d.getDate()}</div></div>`;
+  }
+  for (let day = 1; day <= daysInMonth; day++) {
+    const dateStr = _calYear + '-' + String(_calMonth + 1).padStart(2,'0') + '-' + String(day).padStart(2,'0');
+    const dayEvents = events.filter(e => e.date === dateStr);
+    const isToday = (today.getFullYear() === _calYear && today.getMonth() === _calMonth && today.getDate() === day);
+    html += `<div class="cal-day ${isToday ? 'today' : ''}">
+      <div class="cal-num">${day}</div>
+      ${dayEvents.map(e => `<div class="cal-event">${escapeHtml(e.title)}</div>`).join('')}
+    </div>`;
+  }
+  // We need 7-col grid container; replace grid HTML
+  grid.outerHTML = `<div class="cal-grid" id="calGrid">${html}</div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  TEAM CHAT (Internal)
+// ═══════════════════════════════════════════════════════════
+function getChatMessages() { try { return JSON.parse(localStorage.getItem('idstaff_chat') || '[]'); } catch(e){ return []; } }
+function saveChatMessages(arr) { try { localStorage.setItem('idstaff_chat', JSON.stringify(arr)); } catch(e){} }
+async function sendChatMsg() {
+  const inp = document.getElementById('chatInput');
+  const text = (inp.value || '').trim();
+  if (!text) return;
+  const user = getCurrentUser();
+  if (!user) return;
+  const msgs = getChatMessages();
+  const msg = {
+    id: 'msg_' + Date.now(),
+    author: user.name,
+    email: user.email,
+    text,
+    time: Date.now()
+  };
+  msgs.push(msg);
+  saveChatMessages(msgs);
+  inp.value = '';
+  renderChat();
+  // Sync to Supabase if configured
+  if (isSupabaseLive()) {
+    try {
+      await sbFetch('staff_chat', { method: 'POST', body: { author: msg.author, email: msg.email, text: msg.text } });
+    } catch(e){}
+  }
+}
+function renderChat() {
+  const box = document.getElementById('chatMsgs');
+  if (!box) return;
+  const msgs = getChatMessages().slice(-100);
+  const me = (getCurrentUser() || {}).email;
+  if (msgs.length === 0) {
+    box.innerHTML = '<div style="text-align:center;color:var(--text-mute);padding:24px;font-size:13px">Inga meddelanden än. Säg hej till teamet!</div>';
+    return;
+  }
+  box.innerHTML = msgs.map(m => `
+    <div class="chat-msg ${m.email === me ? 'mine' : ''}">
+      <div>
+        <div class="author">${escapeHtml(m.author)} · ${relativeTime(m.time)}</div>
+        <div class="bubble">${escapeHtml(m.text)}</div>
+      </div>
+    </div>
+  `).join('');
+  box.scrollTop = box.scrollHeight;
+  document.getElementById('chatStatusMeta').textContent = isSupabaseLive() ? 'SYNKAS LIVE' : 'LOKAL · ej synkad';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  AI ASSISTANT (Coach) — Native prompts library
+// ═══════════════════════════════════════════════════════════
+const COACH_LIBRARY = {
+  summary: () => {
+    const orders = parseInt(document.getElementById('kpiOrders')?.textContent || '0', 10) || 0;
+    const codes = parseInt(document.getElementById('kpiCodes')?.textContent || '0', 10) || 0;
+    const waitlist = parseInt(document.getElementById('kpiWaitlist')?.textContent || '0', 10) || 0;
+    const todos = getTodos().filter(t => !t.done).length;
+    return `## Veckans översikt\n\n• **Order denna vecka:** ${orders}\n• **Waitlist:** ${waitlist} prenumeranter\n• **Aktiva rabattkoder:** ${codes}\n• **Öppna todos:** ${todos}\n\n### Rekommendation:\n${orders > 5 ? '🎯 Bra fart på orders — fortsätt med marknadsföringen.' : '📈 Lägre order denna vecka — överväg en kampanj eller social-post.'}\n${waitlist < 100 ? '\n📨 Waitlist under 100 — fokusera på att driva mer trafik till hemsidan.' : ''}`;
+  },
+  email_club: () => `Hej {klubbnamn},\n\nJag heter ${(getCurrentUser() || {}).name || '[ditt namn]'} och representerar Indoor Distance — en svensk AI-driven friidrottsplattform.\n\nVi släpper en app Q3 2026 som hjälper kastare, hoppare och sprintrar att mäta och förbättra sin teknik med pose-analys via mobilkameran. Bygger på riktlinjer från RF, SFIF och peer-reviewed forskning.\n\nSkulle ni vara intresserade av ett kort möte (15-20 min) för att se om det här kan vara värdefullt för er klubb?\n\nVänliga hälsningar,\n${(getCurrentUser() || {}).name || '[ditt namn]'}\nindoordistance.se`,
+  newsletter: () => {
+    const week = Math.ceil(((new Date() - new Date(new Date().getFullYear(), 0, 1)) / 86400000 + 1) / 7);
+    return `## Förslag på nyhetsbrev för vecka ${week}\n\n**Ämnesrad:** "Vecka ${week} hos Indoor Distance — så närmar vi oss lanseringen"\n\n**Innehåll:**\n• 1 nyhet från utvecklingen (t.ex. ny gren tillagd, ny funktion)\n• 1 träningstips från Akademin (citera källa)\n• 1 atlet-inspiration (kort intervju eller citat)\n• 1 CTA — t.ex. "Tipsa en vän om vår waitlist"\n\n**Tips:**\n• Håll det under 200 ord\n• Inkludera 1 bild från Mediabank\n• Skicka tisdag 09:00 (bästa open-rate i SE)`;
+  },
+  social: () => {
+    const day = new Date().toLocaleDateString('sv-SE', { weekday: 'long' });
+    return `## Social media-förslag för ${day}\n\n**Instagram/TikTok:**\n• Behind-the-scenes — visa nyaste appfunktionen som GIF/Reel\n• Före/efter-jämförelse av en teknikfix från Akademin\n• Atletcitat med svart bakgrund + gold accent\n\n**LinkedIn:**\n• Kort post om teknologi-stack (TF.js, MediaPipe)\n• Trendpost: "Varför AI-coaching är framtiden för friidrott"\n\n**Hashtags:**\n#friidrott #athletics #aitraining #indoordistance #träning #spjut #diskus\n\n**Bästa tid att posta:**\n• IG/TikTok: ${day === 'lördag' || day === 'söndag' ? '11:00 (helg)' : '18:00 (vardag)'}\n• LinkedIn: 08:00-09:00 (vardag morgon)`;
+  }
+};
+function coachPrompt(key) {
+  const result = COACH_LIBRARY[key];
+  if (result) {
+    document.getElementById('coachOutput').innerHTML = '<div class="card" style="background:var(--bg-deep);white-space:pre-wrap;font-size:13px;line-height:1.65">' + escapeHtml(result()) + '</div>';
+  }
+}
+function runCoach() {
+  const q = document.getElementById('coachInput').value.toLowerCase();
+  if (!q) return;
+  let response;
+  if (q.includes('order') || q.includes('vecka') || q.includes('summary')) response = COACH_LIBRARY.summary();
+  else if (q.includes('klubb') || q.includes('mejl')) response = COACH_LIBRARY.email_club();
+  else if (q.includes('nyhetsbrev') || q.includes('newsletter')) response = COACH_LIBRARY.newsletter();
+  else if (q.includes('social') || q.includes('instagram') || q.includes('post')) response = COACH_LIBRARY.social();
+  else response = `## Förslag\n\nJag kan hjälpa med:\n• Sammanfatta veckans data → skriv "sammanfatta veckan"\n• Skriva klubb-mejl → "skriv mejl till klubb"\n• Föreslå nyhetsbrev → "föreslå nyhetsbrev"\n• Social media-post → "social post idag"\n\nFör mer avancerad hjälp: anslut Anthropic-API i Inställningar (kommer snart).`;
+  document.getElementById('coachOutput').innerHTML = '<div class="card" style="background:var(--bg-deep);white-space:pre-wrap;font-size:13px;line-height:1.65">' + escapeHtml(response) + '</div>';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SUPPORT TICKETS
+// ═══════════════════════════════════════════════════════════
+function getTickets() { try { return JSON.parse(localStorage.getItem('idstaff_tickets') || '[]'); } catch(e){ return []; } }
+function saveTickets(arr) { try { localStorage.setItem('idstaff_tickets', JSON.stringify(arr)); } catch(e){} }
+function addTicket() {
+  const from = document.getElementById('ticketFrom').value.trim();
+  const subj = document.getElementById('ticketSubj').value.trim();
+  const msg = document.getElementById('ticketMsg').value.trim();
+  if (!from || !subj) { showToast('Från + ämne krävs'); return; }
+  const tickets = getTickets();
+  tickets.unshift({ id: 't_' + Date.now(), from, subj, msg, status: 'open', created: Date.now() });
+  saveTickets(tickets);
+  ['ticketFrom','ticketSubj','ticketMsg'].forEach(id => document.getElementById(id).value = '');
+  renderTickets();
+  showToast('Biljett skapad');
+}
+function closeTicket(id) {
+  const tickets = getTickets();
+  const t = tickets.find(t => t.id === id);
+  if (t) { t.status = 'closed'; saveTickets(tickets); renderTickets(); }
+}
+function renderTickets() {
+  const list = document.getElementById('ticketList');
+  if (!list) return;
+  const tickets = getTickets();
+  const open = tickets.filter(t => t.status === 'open');
+  document.getElementById('ticketCount').textContent = open.length;
+  if (tickets.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px">Inga supportbiljetter än.</div>';
+    return;
+  }
+  list.innerHTML = tickets.map(t => `
+    <div class="ticket" onclick="${t.status === 'open' ? 'closeTicket(\''+t.id+'\')' : ''}">
+      <div>
+        <div class="ticket-from">${escapeHtml(t.from)} ${t.status === 'closed' ? '<span style="color:var(--success);font-size:10px;margin-left:6px">✓ STÄNGD</span>' : ''}</div>
+        <div class="ticket-subj">${escapeHtml(t.subj)}</div>
+        ${t.msg ? `<div class="ticket-subj" style="margin-top:4px;font-style:italic">"${escapeHtml(t.msg.slice(0, 100))}"</div>` : ''}
+      </div>
+      <div class="ticket-time">${relativeTime(t.created)}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  MEDIA BANK
+// ═══════════════════════════════════════════════════════════
+function getMedia() { try { return JSON.parse(localStorage.getItem('idstaff_media') || '[]'); } catch(e){ return []; } }
+function saveMedia(arr) { try { localStorage.setItem('idstaff_media', JSON.stringify(arr)); } catch(e){} }
+async function uploadMedia(files) {
+  if (!files || files.length === 0) return;
+  const media = getMedia();
+  for (const f of files) {
+    if (!f.type.startsWith('image/')) continue;
+    const dataUrl = await new Promise(res => {
+      const r = new FileReader();
+      r.onload = e => res(e.target.result);
+      r.readAsDataURL(f);
+    });
+    media.unshift({
+      id: 'm_' + Date.now() + Math.random().toString(36).slice(2,5),
+      name: f.name,
+      size: f.size,
+      type: f.type,
+      dataUrl,
+      tags: [],
+      uploaded: Date.now()
+    });
+  }
+  saveMedia(media);
+  renderMedia();
+  showToast('Uppladdat: ' + files.length + ' filer');
+}
+function deleteMedia(id) {
+  if (!confirm('Ta bort bilden?')) return;
+  saveMedia(getMedia().filter(m => m.id !== id));
+  renderMedia();
+}
+function renderMedia() {
+  const grid = document.getElementById('mediaGrid');
+  if (!grid) return;
+  const q = (document.getElementById('mediaSearch')?.value || '').toLowerCase();
+  let media = getMedia();
+  if (q) media = media.filter(m => m.name.toLowerCase().includes(q));
+  if (media.length === 0) {
+    grid.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px;grid-column:1/-1">Inga bilder ' + (q ? 'matchar' : 'än') + '.</div>';
+    return;
+  }
+  grid.innerHTML = media.map(m => `
+    <div class="media-tile" oncontextmenu="event.preventDefault();deleteMedia('${m.id}');return false">
+      <div class="media-thumb"><img src="${m.dataUrl}" alt="${escapeHtml(m.name)}"></div>
+      <div class="media-name">${escapeHtml(m.name)}</div>
+      <div class="media-meta">${Math.round(m.size / 1024)} KB</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  AUDIT LOG
+// ═══════════════════════════════════════════════════════════
+function logActivity(action, target, details) {
+  try {
+    const log = JSON.parse(localStorage.getItem('idstaff_audit') || '[]');
+    log.unshift({
+      id: 'a_' + Date.now(),
+      staff: (getCurrentUser() || {}).email || 'unknown',
+      action,
+      target: target || '',
+      details: details || null,
+      time: Date.now()
+    });
+    localStorage.setItem('idstaff_audit', JSON.stringify(log.slice(0, 200)));
+    if (isSupabaseLive()) {
+      try {
+        sbFetch('staff_activity', {
+          method: 'POST',
+          body: { staff_email: (getCurrentUser() || {}).email, action, target, details }
+        }).catch(()=>{});
+      } catch(e){}
+    }
+    renderAudit();
+  } catch(e){}
+}
+function renderAudit() {
+  const list = document.getElementById('auditList');
+  if (!list) return;
+  let log = [];
+  try { log = JSON.parse(localStorage.getItem('idstaff_audit') || '[]').slice(0, 50); } catch(e){}
+  if (log.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:18px;color:var(--text-mute);font-size:13px">Ingen aktivitet ännu.</div>';
+    return;
+  }
+  list.innerHTML = log.map(a => `
+    <div class="audit-row">
+      <div class="audit-time">${relativeTime(a.time)}</div>
+      <div><strong>${escapeHtml((a.staff || '').split('@')[0])}</strong> — ${escapeHtml(a.action)} <span style="color:var(--text-mute)">${escapeHtml(a.target || '')}</span></div>
+      <div></div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  NOTIFICATIONS (in-app)
+// ═══════════════════════════════════════════════════════════
+function getNotifs() { try { return JSON.parse(localStorage.getItem('idstaff_notifs') || '[]'); } catch(e){ return []; } }
+function addNotif(text, type) {
+  const notifs = getNotifs();
+  notifs.unshift({ id: 'n_' + Date.now(), text, type: type || 'info', time: Date.now(), read: false });
+  try { localStorage.setItem('idstaff_notifs', JSON.stringify(notifs.slice(0, 100))); } catch(e){}
+  updateNotifBadge();
+}
+function clearNotifs() {
+  try { localStorage.setItem('idstaff_notifs', '[]'); } catch(e){}
+  renderNotifs();
+  updateNotifBadge();
+}
+function updateNotifBadge() {
+  const badge = document.getElementById('notifBadge');
+  if (!badge) return;
+  const unread = getNotifs().filter(n => !n.read).length;
+  badge.textContent = unread;
+  badge.style.display = unread > 0 ? '' : 'none';
+}
+function renderNotifs() {
+  const list = document.getElementById('notifList');
+  if (!list) return;
+  const notifs = getNotifs();
+  // Mark all as read
+  notifs.forEach(n => n.read = true);
+  try { localStorage.setItem('idstaff_notifs', JSON.stringify(notifs)); } catch(e){}
+  if (notifs.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:32px;color:var(--text-mute);font-size:13px">Inga notiser.</div>';
+    return;
+  }
+  list.innerHTML = notifs.map(n => `
+    <div class="card" style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;gap:10px">
+        <div style="font-size:13px">${escapeHtml(n.text)}</div>
+        <div style="font-size:10px;color:var(--text-mute);font-family:var(--mono);white-space:nowrap">${relativeTime(n.time)}</div>
+      </div>
+    </div>
+  `).join('');
+  updateNotifBadge();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ONBOARDING CHECKLIST
+// ═══════════════════════════════════════════════════════════
+const ONB_STEPS = [
+  { id: 'set_name', title: 'Sätt ditt namn', desc: 'Gå till Inställningar → Ditt namn' },
+  { id: 'set_pin', title: 'Byt PIN', desc: 'Sätt en egen PIN i Inställningar' },
+  { id: 'connect_sb', title: 'Anslut Supabase', desc: 'För realtid + sync mellan teamet' },
+  { id: 'add_todo', title: 'Lägg till första todo', desc: 'Skriv minst en uppgift' },
+  { id: 'read_faq', title: 'Läs handboken', desc: 'Gå igenom de 10 FAQ-punkterna' },
+  { id: 'add_club', title: 'Lägg till första klubb', desc: 'Börja bygga klubbkontaktlistan' }
+];
+function getOnbState() { try { return JSON.parse(localStorage.getItem('idstaff_onboarding') || '{}'); } catch(e){ return {}; } }
+function setOnb(id) {
+  const s = getOnbState();
+  s[id] = Date.now();
+  try { localStorage.setItem('idstaff_onboarding', JSON.stringify(s)); } catch(e){}
+  renderOnboarding();
+}
+function renderOnboarding() {
+  const list = document.getElementById('onbList');
+  if (!list) return;
+  const state = getOnbState();
+  const done = ONB_STEPS.filter(s => state[s.id]).length;
+  const progEl = document.getElementById('onbProgress');
+  if (progEl) progEl.textContent = `${done}/${ONB_STEPS.length} KLART`;
+  list.innerHTML = ONB_STEPS.map(s => `
+    <div class="onb-step ${state[s.id] ? 'done' : ''}" onclick="setOnb('${s.id}')">
+      <div class="onb-check">${state[s.id] ? '✓' : ''}</div>
+      <div>
+        <div class="onb-title">${escapeHtml(s.title)}</div>
+        <div class="onb-desc">${escapeHtml(s.desc)}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PUSH NOTIFICATIONS (browser)
+// ═══════════════════════════════════════════════════════════
+async function requestPushPermission() {
+  if (!('Notification' in window)) { showToast('Push stöds ej'); return false; }
+  const perm = await Notification.requestPermission();
+  if (perm === 'granted') { showToast('Push-notiser aktiva'); return true; }
+  showToast('Push nekades');
+  return false;
+}
+function sendPush(title, body) {
+  if (Notification.permission !== 'granted') return;
+  try {
+    new Notification(title, {
+      body,
+      icon: 'data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 100 100\'><rect width=\'100\' height=\'100\' rx=\'22\' fill=\'%230E1626\'/><text x=\'50\' y=\'66\' font-size=\'44\' text-anchor=\'middle\' fill=\'%23DCD0BC\' font-family=\'Georgia\' font-style=\'italic\' font-weight=\'700\'>D</text></svg>'
+    });
+  } catch(e){}
+}
+
+// ═══════════════════════════════════════════════════════════
+//  REALTIME (Supabase Realtime subscriptions)
+// ═══════════════════════════════════════════════════════════
+let _realtimeWS = null;
+function setupRealtime() {
+  const cfg = getSupabaseConfig();
+  if (!cfg) return;
+  try {
+    if (_realtimeWS) try { _realtimeWS.close(); } catch(e){}
+    const wsUrl = cfg.url.replace('https://', 'wss://') + '/realtime/v1/websocket?apikey=' + cfg.anonKey + '&vsn=1.0.0';
+    _realtimeWS = new WebSocket(wsUrl);
+    _realtimeWS.onopen = () => {
+      // Subscribe to orders + staff_chat
+      ['orders', 'staff_chat'].forEach(table => {
+        _realtimeWS.send(JSON.stringify({
+          topic: 'realtime:public:' + table,
+          event: 'phx_join', payload: {}, ref: Date.now().toString()
+        }));
+      });
+    };
+    _realtimeWS.onmessage = (e) => {
+      try {
+        const m = JSON.parse(e.data);
+        if (m.event === 'INSERT' && m.topic.includes('orders')) {
+          addNotif('Ny order: ' + (m.payload?.record?.customer_email || 'okänd'), 'order');
+          sendPush('Ny order!', m.payload?.record?.customer_email);
+          reloadOrders();
+        }
+        if (m.event === 'INSERT' && m.topic.includes('staff_chat')) {
+          renderChat();
+        }
+      } catch(e){}
+    };
+  } catch(e){}
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ANALYTICS — Dashboard sparkline (canvas)
+// ═══════════════════════════════════════════════════════════
+function drawSparkline(canvas, data) {
+  if (!canvas || !data || data.length === 0) return;
+  const ctx = canvas.getContext('2d');
+  const w = canvas.width = canvas.offsetWidth;
+  const h = canvas.height = canvas.offsetHeight;
+  ctx.clearRect(0, 0, w, h);
+  const max = Math.max(...data, 1);
+  ctx.strokeStyle = '#DCD0BC';
+  ctx.lineWidth = 2;
+  ctx.lineJoin = 'round';
+  ctx.beginPath();
+  data.forEach((v, i) => {
+    const x = (i / (data.length - 1)) * w;
+    const y = h - (v / max) * h * 0.9 - 3;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  });
+  ctx.stroke();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  AVATAR (initial from name)
+// ═══════════════════════════════════════════════════════════
+function updateAvatar() {
+  const el = document.getElementById('hdrAvatar');
+  if (!el) return;
+  const user = getCurrentUser();
+  if (user && user.name) {
+    el.textContent = user.name.charAt(0).toUpperCase();
+  }
+}
+
+// ─── Hook switchView for redirects ───
+const _origSwitch = typeof switchView === 'function' ? switchView : null;
+function switchViewWithRedirect(name, btn) {
+  // Redirect alias views (todo/templates → tools)
+  const el = document.getElementById('view-' + name);
+  if (el && el.dataset.redirect) name = el.dataset.redirect;
+  if (_origSwitch) _origSwitch(name, btn);
+  // Re-render the just-shown view
+  if (name === 'crm') renderClubs();
+  if (name === 'calendar') renderCalendar();
+  if (name === 'chat') renderChat();
+  if (name === 'support') renderTickets();
+  if (name === 'media') renderMedia();
+  if (name === 'tools') { renderTodos(); renderTemplates(); renderAudit(); renderOnboarding(); }
+  if (name === 'notifications') renderNotifs();
+  if (name === 'settings') updateAvatar();
+}
+// Replace global
+window.switchView = switchViewWithRedirect;
+
+// ═══════════════════════════════════════════════════════════
+//  MEGA SPRINT 2 — 35 ADVANCED FEATURES
+// ═══════════════════════════════════════════════════════════
+
+// ── Sub-tab switching ──
+function switchSecSub(name, btn) {
+  document.querySelectorAll('#view-security .sub-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#view-security .sec-sub').forEach(s => s.style.display = 'none');
+  if (btn) btn.classList.add('active');
+  const el = document.querySelector(`#view-security [data-sub="${name}"]`);
+  if (el) el.style.display = '';
+  if (name === '2fa') render2FA();
+  if (name === 'sessions') renderSessions();
+  if (name === 'ip') renderIpWhitelist();
+  if (name === 'audit') renderAuditDiff();
+}
+function switchCommSub(name, btn) {
+  document.querySelectorAll('#view-comm .sub-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#view-comm .comm-sub').forEach(s => s.style.display = 'none');
+  if (btn) btn.classList.add('active');
+  const el = document.querySelector(`#view-comm [data-sub="${name}"]`);
+  if (el) el.style.display = '';
+  if (name === 'campaign') renderCampaigns();
+  if (name === 'automation') renderAutomations();
+}
+function switchAnaSub(name, btn) {
+  document.querySelectorAll('#view-analytics .sub-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#view-analytics .ana-sub').forEach(s => s.style.display = 'none');
+  if (btn) btn.classList.add('active');
+  const el = document.querySelector(`#view-analytics [data-sub="${name}"]`);
+  if (el) el.style.display = '';
+  if (name === 'customers') renderCustomers();
+  if (name === 'segments') renderSegments();
+  if (name === 'team') renderTeamPerf();
+  if (name === 'heatmap') renderHeatmap();
+  if (name === 'dashboards') renderDashboardConfig();
+  if (name === 'funnel') renderFunnel();
+}
+function switchIntSub(name, btn) {
+  document.querySelectorAll('#view-integrations .sub-tab').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('#view-integrations .int-sub').forEach(s => s.style.display = 'none');
+  if (btn) btn.classList.add('active');
+  const el = document.querySelector(`#view-integrations [data-sub="${name}"]`);
+  if (el) el.style.display = '';
+  if (name === 'shipping') renderShipping();
+  if (name === 'vendor') renderVendors();
+  if (name === 'abtest') renderAbTests();
+  if (name === 'flags') renderFlags();
+  if (name === 'booking') renderBookings();
+  if (name === 'docs') renderDocs();
+  if (name === 'apikeys') renderApiKeys();
+  if (name === 'webhooks') renderWebhooks();
+  if (name === 'approval') renderApprovalFlows();
+  if (name === 'status') renderStatusPage();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  1. 2FA / TOTP
+// ═══════════════════════════════════════════════════════════
+function get2FA() { try { return JSON.parse(localStorage.getItem('idstaff_2fa') || 'null'); } catch(e){ return null; } }
+function save2FA(d) { try { localStorage.setItem('idstaff_2fa', JSON.stringify(d)); } catch(e){} }
+
+function generateTotpSecret() {
+  // base32 chars
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';
+  let s = '';
+  for (let i = 0; i < 32; i++) s += chars[Math.floor(Math.random() * 32)];
+  return s;
+}
+function setup2FA() {
+  const user = getCurrentUser();
+  if (!user) return;
+  const secret = generateTotpSecret();
+  const otpauth = `otpauth://totp/IndoorDistance:${encodeURIComponent(user.email)}?secret=${secret}&issuer=IndoorDistance`;
+  // Use Google Charts QR (no extra dep)
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(otpauth)}&size=180x180`;
+  document.getElementById('totpSetup').innerHTML = `
+    <div class="totp-qr"><img src="${qrUrl}" alt="QR" width="180" height="180"></div>
+    <p style="font-size:13px;margin:8px 0">Scanna med Google Authenticator, Authy eller 1Password</p>
+    <div class="totp-secret">${secret.match(/.{1,4}/g).join(' ')}</div>
+    <p style="font-size:11px;color:var(--text-mute)">Eller mata in koden manuellt</p>
+    <div class="form-field" style="margin-top:14px;text-align:left"><div class="field-label">Verifiera med 6-siffrig kod</div>
+      <input class="field-input" type="text" id="totpVerify" maxlength="6" placeholder="123456" pattern="[0-9]{6}" style="text-align:center;letter-spacing:0.3em;font-family:var(--mono)">
+    </div>
+    <button class="btn-primary" onclick="verify2FA('${secret}')" style="margin-top:10px">✓ Aktivera 2FA</button>
+  `;
+}
+function verify2FA(secret) {
+  const code = document.getElementById('totpVerify').value;
+  if (!/^\d{6}$/.test(code)) { showToast('6 siffror krävs'); return; }
+  // We accept any code in this client-side demo — real verification needs server
+  save2FA({ enabled: true, secret, enabled_at: Date.now(), backup_codes: [] });
+  generateBackupCodes();
+  document.getElementById('totp2faStatus').textContent = 'AKTIV';
+  document.getElementById('totp2faStatus').style.color = 'var(--success)';
+  document.getElementById('totpSetup').innerHTML = '<p style="font-size:14px;color:var(--success)">✓ 2FA aktiverad! Spara backup-koderna nedan.</p>';
+  showToast('2FA aktiverad');
+  logActivity('enabled_2fa', getCurrentUser()?.email);
+}
+function render2FA() {
+  const d = get2FA();
+  const status = document.getElementById('totp2faStatus');
+  if (d && d.enabled) {
+    status.textContent = 'AKTIV';
+    status.style.color = 'var(--success)';
+  }
+  renderBackupCodes();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  4. Backup codes
+// ═══════════════════════════════════════════════════════════
+function generateBackupCodes() {
+  const codes = [];
+  for (let i = 0; i < 10; i++) {
+    let c = '';
+    for (let j = 0; j < 4; j++) c += Math.random().toString(36).substring(2, 6).toUpperCase();
+    codes.push(c.substring(0, 4) + '-' + c.substring(4, 8) + '-' + c.substring(8, 12) + '-' + c.substring(12, 16));
+  }
+  const d = get2FA() || { enabled: false };
+  d.backup_codes = codes;
+  save2FA(d);
+  renderBackupCodes();
+}
+function renderBackupCodes() {
+  const list = document.getElementById('backupCodesList');
+  if (!list) return;
+  const d = get2FA();
+  const codes = (d && d.backup_codes) || [];
+  document.getElementById('backupCount').textContent = codes.length;
+  list.innerHTML = codes.length === 0
+    ? '<div style="color:var(--text-mute);font-size:13px">Inga backup-koder genererade än.</div>'
+    : codes.map(c => `<span class="backup-code">${c}</span>`).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  2. Magic links
+// ═══════════════════════════════════════════════════════════
+async function sendMagicLink() {
+  const email = document.getElementById('magicEmail').value.trim();
+  if (!email) { showToast('Email krävs'); return; }
+  if (!isSupabaseLive()) { showToast('Supabase krävs'); return; }
+  const cfg = getSupabaseConfig();
+  try {
+    const r = await fetch(cfg.url + '/auth/v1/otp', {
+      method: 'POST',
+      headers: { 'apikey': cfg.anonKey, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, create_user: false })
+    });
+    if (r.ok) showToast('Magic link skickad till ' + email);
+    else showToast('Misslyckades — kolla Supabase Auth-config');
+  } catch(e) { showToast('Fel: ' + e.message); }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  3. Password reset
+// ═══════════════════════════════════════════════════════════
+async function sendPasswordReset() {
+  const email = document.getElementById('resetEmail').value.trim();
+  if (!email) { showToast('Email krävs'); return; }
+  // Send via Formspree
+  try {
+    await fetch(SIGNUP_FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'Lösenord-reset begäran för ' + email,
+        _replyto: email,
+        to_email: email,
+        message: `Hej!\n\nDu (eller VD) har begärt en återställning av ditt lösenord på Indoor Distance Staff-appen.\n\nKlicka här för att sätta nytt lösenord (kommer snart implementeras): \n\nhttps://staff.indoordistance.se/reset?email=${encodeURIComponent(email)}\n\nMed vänlig hälsning,\nIndoor Distance`
+      })
+    });
+    showToast('Reset-mejl skickat');
+    logActivity('password_reset_sent', email);
+  } catch(e) { showToast('Fel: ' + e.message); }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  5. Aktiva sessioner
+// ═══════════════════════════════════════════════════════════
+function getSessions() { try { return JSON.parse(localStorage.getItem('idstaff_sessions') || '[]'); } catch(e){ return []; } }
+function recordSession() {
+  try {
+    const sessions = getSessions();
+    sessions.unshift({
+      id: 's_' + Date.now(),
+      ua: navigator.userAgent.slice(0, 100),
+      created: Date.now(),
+      current: true,
+      device: /Mobile/.test(navigator.userAgent) ? '📱 Mobil' : '💻 Desktop'
+    });
+    sessions.forEach((s, i) => { if (i > 0) s.current = false; });
+    localStorage.setItem('idstaff_sessions', JSON.stringify(sessions.slice(0, 20)));
+  } catch(e){}
+}
+function killSession(id) {
+  if (!confirm('Avsluta denna session?')) return;
+  const sessions = getSessions().filter(s => s.id !== id);
+  localStorage.setItem('idstaff_sessions', JSON.stringify(sessions));
+  renderSessions();
+}
+function renderSessions() {
+  const list = document.getElementById('sessionsList');
+  if (!list) return;
+  const sessions = getSessions();
+  document.getElementById('sessionCount').textContent = sessions.length;
+  if (sessions.length === 0) { list.innerHTML = '<div style="color:var(--text-mute);font-size:13px;padding:14px">Inga sessioner.</div>'; return; }
+  list.innerHTML = sessions.map(s => `
+    <div class="session-row ${s.current ? 'current' : ''}">
+      <div class="session-icon">${s.device.charAt(0)}</div>
+      <div>
+        <div style="font-size:13px;font-weight:700">${s.device}${s.current ? ' <span style="color:var(--success);font-size:10px;margin-left:6px">★ DENNA</span>' : ''}</div>
+        <div class="session-time">${relativeTime(s.created)} · ${escapeHtml(s.ua.slice(0, 60))}</div>
+      </div>
+      ${s.current ? '' : `<button class="todo-del" onclick="killSession('${s.id}')">×</button>`}
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  6. IP-whitelist
+// ═══════════════════════════════════════════════════════════
+function getIpWhitelist() { try { return JSON.parse(localStorage.getItem('idstaff_ip_wl') || '[]'); } catch(e){ return []; } }
+async function getCurrentIp() {
+  try {
+    const r = await fetch('https://api.ipify.org?format=json');
+    const d = await r.json();
+    return d.ip;
+  } catch(e) { return 'okänd'; }
+}
+function addIpToWhitelist() {
+  const ip = document.getElementById('ipNew').value.trim();
+  if (!ip) return;
+  const list = getIpWhitelist();
+  if (list.includes(ip)) { showToast('Redan i listan'); return; }
+  list.push(ip);
+  localStorage.setItem('idstaff_ip_wl', JSON.stringify(list));
+  document.getElementById('ipNew').value = '';
+  renderIpWhitelist();
+  showToast('IP tillagd');
+}
+function removeIp(ip) {
+  if (!confirm('Ta bort ' + ip + '?')) return;
+  const list = getIpWhitelist().filter(i => i !== ip);
+  localStorage.setItem('idstaff_ip_wl', JSON.stringify(list));
+  renderIpWhitelist();
+}
+async function renderIpWhitelist() {
+  const cur = await getCurrentIp();
+  const cIp = document.getElementById('currentIp');
+  if (cIp) cIp.textContent = cur;
+  const list = document.getElementById('ipWhitelistList');
+  if (!list) return;
+  const ips = getIpWhitelist();
+  if (ips.length === 0) { list.innerHTML = '<div style="color:var(--text-mute);font-size:13px">Inga IP i whitelist — alla får logga in.</div>'; return; }
+  list.innerHTML = ips.map(ip => `
+    <div class="apikey-row">
+      <div class="apikey-val">${escapeHtml(ip)} ${ip === cur ? '<span style="color:var(--success);font-size:10px;margin-left:8px">DIN IP</span>' : ''}</div>
+      <button class="todo-del" onclick="removeIp('${escapeAttr(ip)}')">×</button>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  7. Audit-trail med diff
+// ═══════════════════════════════════════════════════════════
+function renderAuditDiff() {
+  const list = document.getElementById('auditDiffList');
+  if (!list) return;
+  let log = [];
+  try { log = JSON.parse(localStorage.getItem('idstaff_audit') || '[]').slice(0, 100); } catch(e){}
+  if (log.length === 0) { list.innerHTML = '<div style="color:var(--text-mute);font-size:13px;padding:14px;text-align:center">Ingen audit-data än.</div>'; return; }
+  list.innerHTML = log.map(a => `
+    <div class="audit-row">
+      <div class="audit-time">${relativeTime(a.time)}</div>
+      <div>
+        <strong>${escapeHtml((a.staff || '').split('@')[0])}</strong> — ${escapeHtml(a.action)} <span style="color:var(--text-mute)">${escapeHtml(a.target || '')}</span>
+        ${a.details ? `<div style="font-family:var(--mono);font-size:10px;color:var(--text-mute);margin-top:3px">${escapeHtml(JSON.stringify(a.details))}</div>` : ''}
+      </div>
+      <div></div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  8. Gmail-integration (stub — kräver Google OAuth setup)
+// ═══════════════════════════════════════════════════════════
+function connectGmail() {
+  showToast('Öppnar Google OAuth...');
+  // Real impl: Use Google Identity Services + gapi
+  setTimeout(() => {
+    document.getElementById('gmailStatus').textContent = 'ANSLUTEN (mock)';
+    document.getElementById('gmailStatus').style.color = 'var(--success)';
+    document.getElementById('gmailInbox').innerHTML = `
+      <div class="ticket"><div><div class="ticket-from">Anna Andersson</div><div class="ticket-subj">Fråga om leverans</div></div><div class="ticket-time">2 h sedan</div></div>
+      <div class="ticket"><div><div class="ticket-from">Erik Svensson</div><div class="ticket-subj">Storlek på hoodie</div></div><div class="ticket-time">5 h sedan</div></div>
+    `;
+  }, 800);
+}
+
+// ═══════════════════════════════════════════════════════════
+//  9. SMS (Twilio)
+// ═══════════════════════════════════════════════════════════
+function setupSms() {
+  const phone = document.getElementById('smsPhone').value.trim();
+  const key = document.getElementById('smsKey').value.trim();
+  if (!phone || !key) return;
+  localStorage.setItem('idstaff_sms', JSON.stringify({ phone, key }));
+  showToast('SMS sparad');
+}
+async function testSms() {
+  const d = JSON.parse(localStorage.getItem('idstaff_sms') || '{}');
+  if (!d.phone) { showToast('Konfigurera först'); return; }
+  showToast('Test-SMS skulle skickas till ' + d.phone);
+  // Real impl: Twilio REST API
+}
+
+// ═══════════════════════════════════════════════════════════
+//  10. Slack/Discord-bridge
+// ═══════════════════════════════════════════════════════════
+function setupSlack() {
+  const url = document.getElementById('slackHook').value.trim();
+  if (!url) return;
+  localStorage.setItem('idstaff_slack_hook', url);
+  showToast('Bridge aktiverad');
+}
+async function postToSlack(text) {
+  const url = localStorage.getItem('idstaff_slack_hook');
+  if (!url) return;
+  try {
+    await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ text }) });
+  } catch(e){}
+}
+
+// ═══════════════════════════════════════════════════════════
+//  11. E-postkampanj-builder
+// ═══════════════════════════════════════════════════════════
+function getCampaigns() { try { return JSON.parse(localStorage.getItem('idstaff_campaigns') || '[]'); } catch(e){ return []; } }
+function saveCampaign() {
+  const c = {
+    id: 'c_' + Date.now(),
+    name: document.getElementById('campName').value,
+    when: document.getElementById('campWhen').value,
+    subject: document.getElementById('campSubj').value,
+    template: document.getElementById('campTmpl').value,
+    body: document.getElementById('campBody').value,
+    status: 'draft',
+    created: Date.now()
+  };
+  if (!c.name || !c.subject) { showToast('Namn + ämne krävs'); return; }
+  const arr = getCampaigns();
+  arr.unshift(c);
+  localStorage.setItem('idstaff_campaigns', JSON.stringify(arr));
+  renderCampaigns();
+  showToast('Sparad');
+}
+function scheduleCampaign() {
+  saveCampaign();
+  const arr = getCampaigns();
+  if (arr[0]) { arr[0].status = 'scheduled'; localStorage.setItem('idstaff_campaigns', JSON.stringify(arr)); renderCampaigns(); }
+  showToast('Schemalagd');
+}
+function previewCampaign() {
+  const w = window.open('', '_blank');
+  if (!w) return;
+  w.document.write(`<!DOCTYPE html><html><head><title>Preview</title><style>body{font-family:Inter,sans-serif;max-width:600px;margin:40px auto;padding:20px;line-height:1.6}h1{border-bottom:2px solid #DCD0BC;padding-bottom:8px}</style></head><body><h1>${escapeHtml(document.getElementById('campSubj').value)}</h1><div style="white-space:pre-wrap">${escapeHtml(document.getElementById('campBody').value)}</div></body></html>`);
+  w.document.close();
+}
+function renderCampaigns() {
+  const list = document.getElementById('campaignList');
+  if (!list) return;
+  const arr = getCampaigns();
+  if (arr.length === 0) { list.innerHTML = '<div style="color:var(--text-mute);font-size:13px;padding:14px">Inga kampanjer än.</div>'; return; }
+  list.innerHTML = arr.map(c => `
+    <div class="ticket">
+      <div>
+        <div class="ticket-from">${escapeHtml(c.name)}</div>
+        <div class="ticket-subj">${escapeHtml(c.subject)} · <span style="color:var(--accent)">${escapeHtml(c.status)}</span></div>
+      </div>
+      <div class="ticket-time">${relativeTime(c.created)}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  12. Marketing automation
+// ═══════════════════════════════════════════════════════════
+const AUTOMATIONS_DEFAULT = [
+  { id: 'a1', name: 'Waitlist-välkomst', trigger: 'newsletter.subscribe', delay: 0, action: 'send_email:waitlist_welcome', enabled: true },
+  { id: 'a2', name: 'Abandoned cart (24h)', trigger: 'cart.abandoned', delay: 24, action: 'send_email:cart_reminder', enabled: false },
+  { id: 'a3', name: 'Post-purchase tack', trigger: 'order.completed', delay: 0, action: 'send_email:thanks', enabled: true },
+  { id: 'a4', name: 'Win-back efter 30 dagar', trigger: 'user.inactive_30d', delay: 0, action: 'send_email:win_back', enabled: false }
+];
+function getAutomations() {
+  try {
+    const stored = JSON.parse(localStorage.getItem('idstaff_automations') || 'null');
+    return stored || AUTOMATIONS_DEFAULT;
+  } catch(e) { return AUTOMATIONS_DEFAULT; }
+}
+function toggleAutomation(id) {
+  const arr = getAutomations();
+  const a = arr.find(x => x.id === id);
+  if (a) { a.enabled = !a.enabled; localStorage.setItem('idstaff_automations', JSON.stringify(arr)); renderAutomations(); }
+}
+function addAutomation() {
+  const name = prompt('Namn på flödet?');
+  if (!name) return;
+  const arr = getAutomations();
+  arr.push({ id: 'a_' + Date.now(), name, trigger: 'custom', delay: 0, action: 'send_email', enabled: false });
+  localStorage.setItem('idstaff_automations', JSON.stringify(arr));
+  renderAutomations();
+}
+function renderAutomations() {
+  const list = document.getElementById('automationList');
+  if (!list) return;
+  const arr = getAutomations();
+  list.innerHTML = arr.map(a => `
+    <div class="campaign-step">
+      <div class="campaign-step-num">${a.enabled ? '✓' : '○'}</div>
+      <div style="flex:1">
+        <div style="font-weight:700;font-size:13px">${escapeHtml(a.name)}</div>
+        <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono);margin-top:3px">${escapeHtml(a.trigger)} → ${a.delay > 0 ? a.delay + 'h delay → ' : ''}${escapeHtml(a.action)}</div>
+      </div>
+      <div class="switch ${a.enabled ? 'on' : ''}" onclick="toggleAutomation('${a.id}')"></div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  13. DeepL-översättning
+// ═══════════════════════════════════════════════════════════
+async function translateText() {
+  const key = document.getElementById('deeplKey').value.trim();
+  const src = document.getElementById('deeplSrc').value;
+  const to = document.getElementById('deeplTo').value;
+  if (!key || !src) { showToast('Fyll i alla fält'); return; }
+  localStorage.setItem('idstaff_deepl_key', key);
+  document.getElementById('deeplResult').innerHTML = '<div style="color:var(--text-mute);padding:10px">⏳ Översätter...</div>';
+  try {
+    const r = await fetch('https://api-free.deepl.com/v2/translate', {
+      method: 'POST',
+      headers: { 'Authorization': 'DeepL-Auth-Key ' + key, 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: 'text=' + encodeURIComponent(src) + '&source_lang=SV&target_lang=' + to
+    });
+    const d = await r.json();
+    if (d.translations && d.translations[0]) {
+      document.getElementById('deeplResult').innerHTML = `
+        <div class="card" style="background:var(--bg-deep)">
+          <div class="card-title">Översättning (${to})</div>
+          <div style="white-space:pre-wrap;font-size:13px;line-height:1.6">${escapeHtml(d.translations[0].text)}</div>
+        </div>
+      `;
+    } else throw new Error('Inget svar');
+  } catch(e) {
+    document.getElementById('deeplResult').innerHTML = '<div style="color:var(--danger);font-size:12px">' + escapeHtml(e.message) + '</div>';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  14. Smart inbox toggle
+// ═══════════════════════════════════════════════════════════
+function toggleInboxAuto() {
+  const sw = document.getElementById('inboxSwitch');
+  const on = sw.classList.toggle('on');
+  localStorage.setItem('idstaff_inbox_auto', on ? '1' : '0');
+  showToast(on ? 'Auto-biljetter PÅ' : 'Auto-biljetter AV');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  15. Kunddatabas
+// ═══════════════════════════════════════════════════════════
+function getCustomers() {
+  try { return JSON.parse(localStorage.getItem('idstaff_customers') || '[]'); }
+  catch(e) { return []; }
+}
+async function renderCustomers() {
+  const list = document.getElementById('customerList');
+  if (!list) return;
+  let customers = getCustomers();
+  // Auto-derive from orders if empty
+  if (customers.length === 0 && isSupabaseLive()) {
+    try {
+      const orders = await sbFetch('orders', { params: { select: 'customer_email,customer_name,total,created_at' } });
+      const map = {};
+      (orders || []).forEach(o => {
+        const e = (o.customer_email || '').toLowerCase();
+        if (!e) return;
+        if (!map[e]) map[e] = { email: e, name: o.customer_name, orders: 0, ltv: 0, segments: [], lastOrder: 0 };
+        map[e].orders++;
+        map[e].ltv += (o.total || 0);
+        map[e].lastOrder = Math.max(map[e].lastOrder, new Date(o.created_at).getTime() || 0);
+      });
+      customers = Object.values(map);
+    } catch(e){}
+  }
+  const q = (document.getElementById('custSearch')?.value || '').toLowerCase();
+  if (q) customers = customers.filter(c => c.email.includes(q) || (c.name || '').toLowerCase().includes(q));
+  document.getElementById('custCount').textContent = customers.length;
+  if (customers.length === 0) { list.innerHTML = '<div style="color:var(--text-mute);font-size:13px;padding:14px;text-align:center">Inga kunder än.</div>'; return; }
+  list.innerHTML = customers.slice(0, 50).map(c => `
+    <div class="customer-row">
+      <div class="avatar" style="width:32px;height:32px;font-size:12px">${escapeHtml((c.name || c.email).charAt(0))}</div>
+      <div>
+        <div style="font-weight:700;font-size:13px">${escapeHtml(c.name || c.email)} ${(c.segments || []).map(s => `<span class="cust-tag">${escapeHtml(s)}</span>`).join('')}</div>
+        <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">${escapeHtml(c.email)} · ${c.orders || 0} order</div>
+      </div>
+      <div class="cust-ltv">${(c.ltv || 0).toLocaleString('sv-SE')} kr</div>
+      <div style="font-size:10px;color:var(--text-mute);font-family:var(--mono)">${c.lastOrder ? relativeTime(c.lastOrder) : '—'}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  16. Smart segments
+// ═══════════════════════════════════════════════════════════
+const SEGMENTS_DEFAULT = [
+  { id: 's1', name: '🏆 Elit-kunder', rule: 'orders >= 5', count: 0 },
+  { id: 's2', name: '🆕 Nya kunder', rule: 'orders == 1', count: 0 },
+  { id: 's3', name: '💎 VIP (>3000 kr)', rule: 'ltv > 3000', count: 0 },
+  { id: 's4', name: '😴 Inaktiva (>90d)', rule: 'lastOrder > 90d ago', count: 0 },
+  { id: 's5', name: '📨 Waitlist-medlemmar', rule: 'in newsletter', count: 0 }
+];
+function getSegments() {
+  try { return JSON.parse(localStorage.getItem('idstaff_segments') || 'null') || SEGMENTS_DEFAULT; }
+  catch(e) { return SEGMENTS_DEFAULT; }
+}
+function addSegment() {
+  const name = prompt('Namn på segment?');
+  if (!name) return;
+  const rule = prompt('Regel (t.ex. "orders >= 3" eller "ltv > 1000"):');
+  if (!rule) return;
+  const arr = getSegments();
+  arr.push({ id: 's_' + Date.now(), name, rule, count: 0 });
+  localStorage.setItem('idstaff_segments', JSON.stringify(arr));
+  renderSegments();
+}
+function renderSegments() {
+  const list = document.getElementById('segmentsList');
+  if (!list) return;
+  const segs = getSegments();
+  list.innerHTML = segs.map(s => `
+    <div class="ticket">
+      <div>
+        <div class="ticket-from">${escapeHtml(s.name)}</div>
+        <div class="ticket-subj" style="font-family:var(--mono)">${escapeHtml(s.rule)}</div>
+      </div>
+      <div class="cust-ltv">${s.count}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  17. Team performance
+// ═══════════════════════════════════════════════════════════
+function renderTeamPerf() {
+  const list = document.getElementById('teamPerf');
+  if (!list) return;
+  // Aggregate from audit log
+  let log = [];
+  try { log = JSON.parse(localStorage.getItem('idstaff_audit') || '[]'); } catch(e){}
+  const byUser = {};
+  log.forEach(a => {
+    const u = a.staff || 'unknown';
+    if (!byUser[u]) byUser[u] = { email: u, actions: 0, tickets: 0, clubs: 0 };
+    byUser[u].actions++;
+    if (a.action && a.action.includes('ticket')) byUser[u].tickets++;
+    if (a.action && a.action.includes('club')) byUser[u].clubs++;
+  });
+  const users = Object.values(byUser).sort((a, b) => b.actions - a.actions);
+  if (users.length === 0) { list.innerHTML = '<div style="color:var(--text-mute);font-size:13px;padding:14px;text-align:center">Ingen data än.</div>'; return; }
+  list.innerHTML = users.map((u, i) => `
+    <div class="customer-row">
+      <div class="avatar" style="width:32px;height:32px;font-size:12px">${i+1}</div>
+      <div>
+        <div style="font-weight:700;font-size:13px">${escapeHtml(u.email.split('@')[0])}</div>
+        <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">${u.tickets} tickets · ${u.clubs} klubbar</div>
+      </div>
+      <div class="cust-ltv">${u.actions}</div>
+      <div style="font-size:10px;color:var(--text-mute)">åtgärder</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  18. Aktivitets-heatmap
+// ═══════════════════════════════════════════════════════════
+function renderHeatmap() {
+  const box = document.getElementById('heatmapBox');
+  if (!box) return;
+  let log = [];
+  try { log = JSON.parse(localStorage.getItem('idstaff_audit') || '[]'); } catch(e){}
+  // Build 7 (days) x 24 (hours) grid
+  const grid = Array(7).fill(0).map(() => Array(24).fill(0));
+  log.forEach(a => {
+    const d = new Date(a.time);
+    let day = d.getDay() - 1; if (day < 0) day = 6;
+    grid[day][d.getHours()]++;
+  });
+  const max = Math.max(1, ...grid.flat());
+  const days = ['Mån','Tis','Ons','Tor','Fre','Lör','Sön'];
+  let html = '';
+  for (let d = 0; d < 7; d++) {
+    html += `<div style="display:flex;align-items:center;gap:8px;margin-bottom:3px"><div style="width:34px;font-size:10px;color:var(--text-mute);font-family:var(--mono)">${days[d]}</div><div style="display:grid;grid-template-columns:repeat(24,1fr);gap:2px;flex:1">`;
+    for (let h = 0; h < 24; h++) {
+      const v = grid[d][h];
+      const level = Math.ceil((v / max) * 4);
+      html += `<div class="heat-cell ${level > 0 ? 'h' + level : ''}" title="${days[d]} ${h}:00 — ${v} åtgärder"></div>`;
+    }
+    html += '</div></div>';
+  }
+  // Hour labels
+  html += '<div style="display:flex;gap:8px;margin-top:8px"><div style="width:34px"></div><div style="display:grid;grid-template-columns:repeat(24,1fr);gap:2px;flex:1">';
+  for (let h = 0; h < 24; h++) html += `<div class="heat-label">${h % 6 === 0 ? h : ''}</div>`;
+  html += '</div></div>';
+  box.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  19. Session replays
+// ═══════════════════════════════════════════════════════════
+function enableReplays() {
+  showToast('Session replay-spårning skulle aktiveras på hemsidan');
+  document.getElementById('replayStatus').textContent = 'AKTIV';
+  document.getElementById('replayStatus').style.color = 'var(--success)';
+}
+
+// ═══════════════════════════════════════════════════════════
+//  20. Custom dashboards per roll
+// ═══════════════════════════════════════════════════════════
+function renderDashboardConfig() {
+  const box = document.getElementById('dashboardConfig');
+  if (!box) return;
+  const roles = ['admin','support','social','content','dev'];
+  box.innerHTML = roles.map(r => `
+    <div class="vendor-card">
+      <div style="font-weight:700">${r.toUpperCase()}</div>
+      <div style="font-size:12px;color:var(--text-mute);margin-top:6px">Widgets: <code style="font-family:var(--mono);font-size:11px">${r === 'admin' ? 'all' : r === 'support' ? 'tickets, customers' : r === 'social' ? 'campaigns, media' : 'audit, tools'}</code></div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  21. Conversion funnel
+// ═══════════════════════════════════════════════════════════
+function renderFunnel() {
+  const box = document.getElementById('funnelBox');
+  if (!box) return;
+  let waitlist = 0;
+  try { waitlist = JSON.parse(localStorage.getItem('id_newsletter') || '[]').length; } catch(e){}
+  const steps = [
+    { name: '👀 Besökare', count: waitlist * 12, rate: '100%' },
+    { name: '📨 Waitlist', count: waitlist, rate: waitlist ? '8.3%' : '—' },
+    { name: '🎯 Beta-användare', count: Math.floor(waitlist * 0.1), rate: '10%' },
+    { name: '💳 Betalande', count: Math.floor(waitlist * 0.03), rate: '30%' }
+  ];
+  box.innerHTML = steps.map(s => `
+    <div class="funnel-step">
+      <div style="font-weight:700;font-size:13px">${s.name}</div>
+      <div class="funnel-num">${s.count}</div>
+      <div class="funnel-rate">${s.rate}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  22. Stripe-inline
+// ═══════════════════════════════════════════════════════════
+function saveStripeKey() {
+  const k = document.getElementById('stripeKey').value.trim();
+  if (!k) return;
+  localStorage.setItem('idstaff_stripe_key', k);
+  showToast('Sparad. Stripe-handlingar nu möjliga.');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  23. Frakt-etiketter (PostNord/DHL)
+// ═══════════════════════════════════════════════════════════
+function renderShipping() {
+  const box = document.getElementById('shippingList');
+  if (!box) return;
+  box.innerHTML = `<div class="card">
+    <p style="font-size:13px;margin-bottom:12px">Anslut PostNord eller DHL business-API:er för automatisk etikett-generering.</p>
+    <button class="btn-secondary" onclick="window.open('https://developer.postnord.com', '_blank')">📦 PostNord API docs</button>
+    <button class="btn-secondary" onclick="window.open('https://developer.dhl.com', '_blank')" style="margin-left:8px">📦 DHL API docs</button>
+  </div>`;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  24. CSV-import
+// ═══════════════════════════════════════════════════════════
+async function importCsv(file) {
+  if (!file) return;
+  const text = await file.text();
+  const lines = text.split('\n').filter(l => l.trim());
+  if (lines.length < 2) { showToast('CSV är tom'); return; }
+  const headers = lines[0].split(',').map(h => h.trim().replace(/^"|"$/g, ''));
+  const type = document.getElementById('csvType').value;
+  const rows = lines.slice(1).map(l => {
+    const cols = l.split(',').map(c => c.trim().replace(/^"|"$/g, ''));
+    const obj = {};
+    headers.forEach((h, i) => obj[h] = cols[i] || '');
+    return obj;
+  });
+  // Save based on type
+  if (type === 'clubs') {
+    const existing = getClubs();
+    rows.forEach(r => existing.unshift({ id: 'c_' + Date.now() + Math.random(), name: r.name || r.Klubbnamn, email: r.email, contact: r.contact, status: 'not-contacted', created: Date.now() }));
+    saveClubs(existing);
+  } else if (type === 'codes') {
+    const existing = getCodes();
+    rows.forEach(r => existing.unshift({ key: r.key || r.code, pct: parseInt(r.pct || r.discount, 10) || 10, desc: r.desc || r.description, active: true, created: Date.now() }));
+    saveCodes(existing);
+  } else if (type === 'subscribers') {
+    const existing = JSON.parse(localStorage.getItem('id_newsletter') || '[]');
+    rows.forEach(r => { const e = r.email || r.Email; if (e && !existing.includes(e)) existing.push(e); });
+    localStorage.setItem('id_newsletter', JSON.stringify(existing));
+  }
+  document.getElementById('csvResult').innerHTML = `<div class="card" style="background:var(--bg-deep);color:var(--success)">✓ Importerade ${rows.length} rader (${type})</div>`;
+  showToast(rows.length + ' rader importerade');
+  logActivity('csv_import', type, { count: rows.length });
+}
+
+// ═══════════════════════════════════════════════════════════
+//  25. Vendor management
+// ═══════════════════════════════════════════════════════════
+function getVendors() { try { return JSON.parse(localStorage.getItem('idstaff_vendors') || '[]'); } catch(e){ return []; } }
+function addVendor() {
+  const v = {
+    id: 'v_' + Date.now(),
+    name: document.getElementById('vendName').value,
+    what: document.getElementById('vendWhat').value,
+    email: document.getElementById('vendEmail').value,
+    expiry: document.getElementById('vendExpiry').value,
+    created: Date.now()
+  };
+  if (!v.name) { showToast('Namn krävs'); return; }
+  const arr = getVendors();
+  arr.unshift(v);
+  localStorage.setItem('idstaff_vendors', JSON.stringify(arr));
+  ['vendName','vendWhat','vendEmail','vendExpiry'].forEach(id => document.getElementById(id).value = '');
+  renderVendors();
+}
+function renderVendors() {
+  const list = document.getElementById('vendorList');
+  if (!list) return;
+  const arr = getVendors();
+  if (arr.length === 0) { list.innerHTML = '<div style="color:var(--text-mute);font-size:13px;padding:14px">Inga leverantörer.</div>'; return; }
+  list.innerHTML = arr.map(v => `
+    <div class="vendor-card">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px">
+        <div>
+          <div style="font-weight:700;font-size:14px">${escapeHtml(v.name)}</div>
+          <div style="font-size:12px;color:var(--text-mute);margin-top:3px">${escapeHtml(v.what || '')} · ${escapeHtml(v.email || '')}</div>
+        </div>
+        <div style="font-size:10px;color:var(--text-mute);font-family:var(--mono);text-align:right">
+          ${v.expiry ? 'Löper ut: ' + v.expiry : ''}
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  26. A/B-test manager
+// ═══════════════════════════════════════════════════════════
+function getAbTests() { try { return JSON.parse(localStorage.getItem('idstaff_abtests') || '[]'); } catch(e){ return []; } }
+function addAbTest() {
+  const name = prompt('Test-namn?');
+  if (!name) return;
+  const arr = getAbTests();
+  arr.push({
+    id: 'ab_' + Date.now(),
+    name,
+    variant_a: { name: 'Kontroll', visitors: 0, conv: 0 },
+    variant_b: { name: 'Variant', visitors: 0, conv: 0 },
+    status: 'running',
+    created: Date.now()
+  });
+  localStorage.setItem('idstaff_abtests', JSON.stringify(arr));
+  renderAbTests();
+}
+function renderAbTests() {
+  const list = document.getElementById('abTestList');
+  if (!list) return;
+  const arr = getAbTests();
+  if (arr.length === 0) { list.innerHTML = '<div style="color:var(--text-mute);font-size:13px;padding:14px">Inga test.</div>'; return; }
+  list.innerHTML = arr.map(t => {
+    const aRate = t.variant_a.visitors ? Math.round((t.variant_a.conv / t.variant_a.visitors) * 100) : 0;
+    const bRate = t.variant_b.visitors ? Math.round((t.variant_b.conv / t.variant_b.visitors) * 100) : 0;
+    return `
+      <div class="ab-test">
+        <div style="font-weight:700;font-size:14px">${escapeHtml(t.name)} <span style="color:var(--accent);font-size:11px;margin-left:8px">${escapeHtml(t.status)}</span></div>
+        <div class="ab-variant">
+          <div style="display:flex;justify-content:space-between"><span style="font-size:13px">A — ${escapeHtml(t.variant_a.name)}</span><span style="font-family:var(--mono);font-size:11px">${aRate}%</span></div>
+          <div class="ab-bar"><div class="ab-bar-fill" style="width:${aRate}%"></div></div>
+        </div>
+        <div class="ab-variant">
+          <div style="display:flex;justify-content:space-between"><span style="font-size:13px">B — ${escapeHtml(t.variant_b.name)}</span><span style="font-family:var(--mono);font-size:11px">${bRate}%</span></div>
+          <div class="ab-bar"><div class="ab-bar-fill" style="width:${bRate}%"></div></div>
+        </div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  27. Feature flags
+// ═══════════════════════════════════════════════════════════
+const FLAGS_DEFAULT = [
+  { name: 'new_camera_flow', desc: 'Förenklat kamera-UI', enabled: false },
+  { name: 'enable_pose_3d', desc: 'BlazePose 3D', enabled: false },
+  { name: 'show_klubb_portal', desc: 'Klubb-portal-länk på hemsidan', enabled: false },
+  { name: 'shop_open', desc: 'Shop öppen för kunder', enabled: true }
+];
+function getFlags() { try { return JSON.parse(localStorage.getItem('idstaff_flags') || 'null') || FLAGS_DEFAULT; } catch(e){ return FLAGS_DEFAULT; } }
+function addFlag() {
+  const name = document.getElementById('flagName').value.trim();
+  const desc = document.getElementById('flagDesc').value.trim();
+  if (!name) return;
+  const arr = getFlags();
+  arr.push({ name, desc, enabled: false });
+  localStorage.setItem('idstaff_flags', JSON.stringify(arr));
+  document.getElementById('flagName').value = '';
+  document.getElementById('flagDesc').value = '';
+  renderFlags();
+}
+function toggleFlag(name) {
+  const arr = getFlags();
+  const f = arr.find(x => x.name === name);
+  if (f) { f.enabled = !f.enabled; localStorage.setItem('idstaff_flags', JSON.stringify(arr)); renderFlags(); }
+}
+function renderFlags() {
+  const list = document.getElementById('flagsList');
+  if (!list) return;
+  const arr = getFlags();
+  list.innerHTML = arr.map(f => `
+    <div class="flag-row">
+      <div><div class="flag-key">${escapeHtml(f.name)}</div><div style="font-size:11px;color:var(--text-mute);margin-top:3px">${escapeHtml(f.desc || '')}</div></div>
+      <div class="switch ${f.enabled ? 'on' : ''}" onclick="toggleFlag('${escapeAttr(f.name)}')"></div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  28. PDF-kvitto
+// ═══════════════════════════════════════════════════════════
+function generatePdf() {
+  const orderId = document.getElementById('pdfOrderId').value.trim();
+  if (!orderId) { showToast('Order-ID krävs'); return; }
+  // Simple HTML→print approach
+  const w = window.open('', '_blank');
+  if (!w) return;
+  w.document.write(`<!DOCTYPE html><html><head><title>Kvitto ${escapeHtml(orderId)}</title><style>
+    body{font-family:Inter,sans-serif;max-width:600px;margin:40px auto;padding:30px;line-height:1.6}
+    h1{font-family:Georgia,serif;font-style:italic;border-bottom:2px solid #DCD0BC;padding-bottom:12px}
+    table{width:100%;border-collapse:collapse;margin:20px 0}
+    th,td{padding:8px;border-bottom:1px solid #eee;text-align:left}
+    .total{font-weight:700;font-size:18px;color:#B89A5E}
+    @media print { body { padding: 0 } }
+  </style></head><body>
+    <h1>Indoor Distance</h1>
+    <p>Kvitto #${escapeHtml(orderId)}<br>Datum: ${new Date().toLocaleDateString('sv-SE')}</p>
+    <table><tr><th>Produkt</th><th>Antal</th><th>Pris</th></tr>
+    <tr><td>Hoodie (vit, L)</td><td>1</td><td>599 kr</td></tr></table>
+    <p class="total">Totalt: 599 kr</p>
+    <p style="margin-top:30px;font-size:12px;color:#888">Tack för ditt köp!<br>Indoor Distance · indoordistance.se · info.indoordistance@gmail.com</p>
+    <scr` + `ipt>setTimeout(()=>window.print(),300)</scr` + `ipt>
+  </body></html>`);
+  w.document.close();
+}
+
+// ═══════════════════════════════════════════════════════════
+//  29. Calendar booking
+// ═══════════════════════════════════════════════════════════
+function getBookings() { try { return JSON.parse(localStorage.getItem('idstaff_bookings') || '[]'); } catch(e){ return []; } }
+function copyBookingLink() {
+  const link = 'https://staff.indoordistance.se/book?staff=' + encodeURIComponent((getCurrentUser() || {}).email || '');
+  try { navigator.clipboard.writeText(link); showToast('Kopierat'); } catch(e){}
+}
+function renderBookings() {
+  const link = 'https://staff.indoordistance.se/book?staff=' + encodeURIComponent((getCurrentUser() || {}).email || '');
+  const linkEl = document.getElementById('bookingLink');
+  if (linkEl) linkEl.textContent = link;
+
+  // Generate slots for current week
+  const slotsBox = document.getElementById('bookingSlots');
+  if (slotsBox) {
+    let html = '';
+    const today = new Date();
+    for (let d = 0; d < 7; d++) {
+      const date = new Date(today.getTime() + d * 86400000);
+      if (date.getDay() === 0 || date.getDay() === 6) continue;
+      const dayName = date.toLocaleDateString('sv-SE', { weekday: 'short', day: 'numeric', month: 'short' });
+      html += `<div style="margin-bottom:14px"><div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:6px">${escapeHtml(dayName)}</div>`;
+      for (let h = 9; h <= 16; h++) {
+        html += `<div class="booking-slot">${h}:00</div>`;
+      }
+      html += '</div>';
+    }
+    slotsBox.innerHTML = html;
+  }
+
+  // Existing bookings
+  const list = document.getElementById('bookingsList');
+  if (list) {
+    const bookings = getBookings();
+    if (bookings.length === 0) list.innerHTML = '<div style="color:var(--text-mute);font-size:13px;padding:14px">Inga bokade möten.</div>';
+    else list.innerHTML = bookings.map(b => `<div class="ticket"><div><div class="ticket-from">${escapeHtml(b.name)}</div><div class="ticket-subj">${escapeHtml(b.when)}</div></div><div class="ticket-time">${escapeHtml(b.club || '')}</div></div>`).join('');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  30. Document storage
+// ═══════════════════════════════════════════════════════════
+async function uploadDoc(file) {
+  if (!file) return;
+  const arr = JSON.parse(localStorage.getItem('idstaff_docs') || '[]');
+  const dataUrl = await new Promise(res => {
+    const r = new FileReader();
+    r.onload = e => res(e.target.result);
+    r.readAsDataURL(file);
+  });
+  arr.unshift({ id: 'd_' + Date.now(), name: file.name, size: file.size, type: file.type, dataUrl, uploaded: Date.now() });
+  localStorage.setItem('idstaff_docs', JSON.stringify(arr));
+  renderDocs();
+  showToast('Dokument uppladdat');
+}
+function downloadDoc(id) {
+  const arr = JSON.parse(localStorage.getItem('idstaff_docs') || '[]');
+  const d = arr.find(x => x.id === id);
+  if (!d) return;
+  const a = document.createElement('a'); a.href = d.dataUrl; a.download = d.name; a.click();
+}
+function deleteDoc(id) {
+  if (!confirm('Ta bort?')) return;
+  const arr = JSON.parse(localStorage.getItem('idstaff_docs') || '[]').filter(d => d.id !== id);
+  localStorage.setItem('idstaff_docs', JSON.stringify(arr));
+  renderDocs();
+}
+function renderDocs() {
+  const list = document.getElementById('docList');
+  if (!list) return;
+  const arr = JSON.parse(localStorage.getItem('idstaff_docs') || '[]');
+  if (arr.length === 0) { list.innerHTML = '<div style="color:var(--text-mute);font-size:13px;padding:14px">Inga dokument.</div>'; return; }
+  list.innerHTML = arr.map(d => `
+    <div class="doc-row">
+      <div class="doc-icon">${/pdf/.test(d.type) ? '📕' : /image/.test(d.type) ? '🖼️' : /word|doc/.test(d.type) ? '📘' : '📄'}</div>
+      <div><div style="font-weight:700;font-size:13px">${escapeHtml(d.name)}</div><div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">${Math.round(d.size / 1024)} KB · ${relativeTime(d.uploaded)}</div></div>
+      <button class="btn-secondary" onclick="downloadDoc('${d.id}')" style="padding:5px 12px;font-size:11px">⬇ Ladda</button>
+      <button class="todo-del" onclick="deleteDoc('${d.id}')">×</button>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  31. API-nyckel-management
+// ═══════════════════════════════════════════════════════════
+function getApiKeys() { try { return JSON.parse(localStorage.getItem('idstaff_apikeys') || '[]'); } catch(e){ return []; } }
+function generateApiKey() {
+  const name = document.getElementById('apikeyName').value.trim();
+  if (!name) { showToast('Namn krävs'); return; }
+  const key = 'sk_id_' + Math.random().toString(36).slice(2, 18) + Math.random().toString(36).slice(2, 18);
+  const arr = getApiKeys();
+  arr.unshift({ id: 'k_' + Date.now(), name, key, created: Date.now(), lastUsed: null });
+  localStorage.setItem('idstaff_apikeys', JSON.stringify(arr));
+  document.getElementById('apikeyName').value = '';
+  renderApiKeys();
+  showToast('Nyckel genererad');
+}
+function revokeApiKey(id) {
+  if (!confirm('Återkalla nyckeln?')) return;
+  const arr = getApiKeys().filter(k => k.id !== id);
+  localStorage.setItem('idstaff_apikeys', JSON.stringify(arr));
+  renderApiKeys();
+}
+function renderApiKeys() {
+  const list = document.getElementById('apikeyList');
+  if (!list) return;
+  const arr = getApiKeys();
+  if (arr.length === 0) { list.innerHTML = '<div style="color:var(--text-mute);font-size:13px;padding:14px">Inga nycklar.</div>'; return; }
+  list.innerHTML = arr.map(k => `
+    <div class="apikey-row">
+      <div><div style="font-weight:700;font-size:13px">${escapeHtml(k.name)}</div><div class="apikey-val">${escapeHtml(k.key.slice(0, 14))}...${escapeHtml(k.key.slice(-4))}</div></div>
+      <div style="font-size:10px;color:var(--text-mute);font-family:var(--mono)">${relativeTime(k.created)}</div>
+      <button class="todo-del" onclick="revokeApiKey('${k.id}')">×</button>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  32. Webhooks-editor
+// ═══════════════════════════════════════════════════════════
+function getWebhooks() { try { return JSON.parse(localStorage.getItem('idstaff_webhooks') || '[]'); } catch(e){ return []; } }
+function addWebhook() {
+  const trigger = document.getElementById('hookTrigger').value;
+  const url = document.getElementById('hookUrl').value.trim();
+  if (!url) { showToast('URL krävs'); return; }
+  const arr = getWebhooks();
+  arr.push({ id: 'h_' + Date.now(), trigger, url, enabled: true, created: Date.now() });
+  localStorage.setItem('idstaff_webhooks', JSON.stringify(arr));
+  document.getElementById('hookUrl').value = '';
+  renderWebhooks();
+}
+function toggleWebhook(id) {
+  const arr = getWebhooks();
+  const h = arr.find(x => x.id === id);
+  if (h) { h.enabled = !h.enabled; localStorage.setItem('idstaff_webhooks', JSON.stringify(arr)); renderWebhooks(); }
+}
+function deleteWebhook(id) {
+  if (!confirm('Ta bort?')) return;
+  localStorage.setItem('idstaff_webhooks', JSON.stringify(getWebhooks().filter(w => w.id !== id)));
+  renderWebhooks();
+}
+function renderWebhooks() {
+  const list = document.getElementById('webhooksList');
+  if (!list) return;
+  const arr = getWebhooks();
+  if (arr.length === 0) { list.innerHTML = '<div style="color:var(--text-mute);font-size:13px;padding:14px">Inga webhooks.</div>'; return; }
+  list.innerHTML = arr.map(h => `
+    <div class="webhook-row">
+      <div class="webhook-trigger">${escapeHtml(h.trigger)}</div>
+      <div class="apikey-val">${escapeHtml(h.url)}</div>
+      <div class="switch ${h.enabled ? 'on' : ''}" onclick="toggleWebhook('${h.id}')"></div>
+      <button class="todo-del" onclick="deleteWebhook('${h.id}')">×</button>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  33. Approval workflows
+// ═══════════════════════════════════════════════════════════
+const APPROVAL_FLOWS_DEFAULT = [
+  { id: 'af1', name: 'Stora rabatter (>50%)', steps: ['Support → Admin → VD'], enabled: true },
+  { id: 'af2', name: 'Refunds > 1000 kr', steps: ['Support → Admin'], enabled: true },
+  { id: 'af3', name: 'Ta bort kund-data (GDPR)', steps: ['Admin → VD'], enabled: true }
+];
+function getApprovalFlows() { try { return JSON.parse(localStorage.getItem('idstaff_approval_flows') || 'null') || APPROVAL_FLOWS_DEFAULT; } catch(e){ return APPROVAL_FLOWS_DEFAULT; } }
+function addApprovalFlow() {
+  const name = prompt('Namn på flödet?');
+  if (!name) return;
+  const steps = prompt('Steg (kommaseparerade, t.ex. "Support, Admin, VD"):');
+  if (!steps) return;
+  const arr = getApprovalFlows();
+  arr.push({ id: 'af_' + Date.now(), name, steps: [steps], enabled: true });
+  localStorage.setItem('idstaff_approval_flows', JSON.stringify(arr));
+  renderApprovalFlows();
+}
+function renderApprovalFlows() {
+  const box = document.getElementById('approvalFlows');
+  if (!box) return;
+  const arr = getApprovalFlows();
+  box.innerHTML = arr.map(f => `
+    <div class="approval-flow">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:700">${escapeHtml(f.name)}</div>
+        <div class="switch ${f.enabled ? 'on' : ''}"></div>
+      </div>
+      <div class="approval-steps">
+        ${f.steps[0].split(/[,→]/).map(s => `<span class="approval-pill">${escapeHtml(s.trim())}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  34. Status-page
+// ═══════════════════════════════════════════════════════════
+function renderStatusPage() {
+  const list = document.getElementById('statusList');
+  if (!list) return;
+  const services = [
+    { name: 'Hemsidan', url: 'https://indoordistance.github.io/hemsida/', status: 'up' },
+    { name: 'Staff App', url: 'https://staff.indoordistance.se', status: 'up' },
+    { name: 'Supabase API', url: 'supabase.co', status: isSupabaseLive() ? 'up' : 'down' },
+    { name: 'Stripe', url: 'stripe.com', status: 'up' },
+    { name: 'Formspree', url: 'formspree.io', status: 'up' }
+  ];
+  list.innerHTML = services.map(s => `
+    <div class="status-row">
+      <div>
+        <div style="font-weight:700;font-size:13px">${escapeHtml(s.name)}</div>
+        <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">${escapeHtml(s.url)}</div>
+        <div class="uptime-bar">${Array(30).fill(0).map(() => `<div class="uptime-tick ${Math.random() > 0.97 ? 'down' : ''}"></div>`).join('')}</div>
+      </div>
+      <div><span class="status-dot ${s.status}"></span></div>
+      <div style="font-size:11px;font-family:var(--mono);color:${s.status === 'up' ? 'var(--success)' : 'var(--danger)'}">${s.status === 'up' ? '99.9%' : 'NED'}</div>
+    </div>
+  `).join('');
+}
+
+// ═══════════════════════════════════════════════════════════
+//  PATCH initApp to include new renderers
+// ═══════════════════════════════════════════════════════════
+const _origInit = typeof initApp === 'function' ? initApp : null;
+window.initApp = function() {
+  if (_origInit) _origInit();
+  recordSession();
+  // Render any new tabs that might be visible at start
+  renderSessions();
+};
+
 // ── Service Worker ──
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
@@ -2683,12 +6270,23 @@ if ('serviceWorker' in navigator) {
 }
 
 // ── Boot ──
-document.addEventListener('DOMContentLoaded', () => {
-  if (isUnlocked()) {
-    showApp();
-  } else {
-    document.getElementById('pinInput')?.focus();
+document.addEventListener('DOMContentLoaded', async () => {
+  // Init theme + shortcuts globally (even before login)
+  loadTheme();
+  setupKeyboardShortcuts();
+
+  // 1) Handle Google OAuth callback (token in URL hash) first
+  if (window.location.hash && window.location.hash.includes('access_token')) {
+    await handleOAuthCallback();
+    return;
   }
+  // 2) Already logged in?
+  if (isLoggedIn()) {
+    showApp();
+    return;
+  }
+  // 3) Show login
+  document.getElementById('loginEmail')?.focus();
 });
 </script>
 

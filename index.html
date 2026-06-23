@@ -1,0 +1,2696 @@
+<!DOCTYPE html>
+<html lang="sv">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Indoor Distance Staff</title>
+<meta name="theme-color" content="#DCD0BC">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="ID Staff">
+<link rel="manifest" href="./manifest.json">
+<link rel="icon" href="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><rect width='100' height='100' rx='22' fill='%230E1626'/><circle cx='50' cy='50' r='42' fill='none' stroke='%23DCD0BC' stroke-width='2'/><text x='50' y='66' font-size='44' text-anchor='middle' fill='%23DCD0BC' font-family='Georgia' font-style='italic' font-weight='700'>D</text></svg>">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,400;0,600;0,700;1,400;1,500;1,600&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap">
+
+<style>
+/* ═══════════════════════════════════════════════════════════
+   INDOOR DISTANCE STAFF — Design tokens shared with website + app
+   ═══════════════════════════════════════════════════════════ */
+:root {
+  --bg-deep: #1A2540;
+  --bg-2: #22304F;
+  --bg-3: #2A3A5C;
+  --surface: #22304F;
+  --accent: #DCD0BC;
+  --accent-2: #C9BBA3;
+  --accent-3: #E8DFCE;
+  --text: #F4F2EC;
+  --text-mute: #9AA4B2;
+  --border: rgba(255,255,255,0.10);
+  --border-2: rgba(255,255,255,0.18);
+  --success: #86C36A;
+  --warn: #D9A86A;
+  --danger: #E27474;
+  --info: #6B9FE5;
+
+  --font: 'Inter Tight', system-ui, -apple-system, sans-serif;
+  --serif: 'Fraunces', Georgia, serif;
+  --mono: 'JetBrains Mono', monospace;
+  --radius: 14px;
+  --radius-sm: 10px;
+  --ease: cubic-bezier(.22,.61,.36,1);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+
+body {
+  font-family: var(--font);
+  background:
+    radial-gradient(at 15% 5%, rgba(220,208,188,0.06) 0%, transparent 45%),
+    radial-gradient(at 85% 90%, rgba(220,208,188,0.04) 0%, transparent 50%),
+    var(--bg-deep);
+  color: var(--text);
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+  letter-spacing: -0.005em;
+}
+
+button, input, select, textarea { font-family: inherit; }
+button { cursor: pointer; }
+
+/* ═════ PIN GATE ═════ */
+.pin-gate {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  padding: 24px;
+}
+.pin-card {
+  background: var(--bg-2);
+  border: 1px solid var(--border-2);
+  border-radius: 22px;
+  padding: 48px 38px;
+  max-width: 380px; width: 100%;
+  text-align: center;
+}
+.pin-mark {
+  width: 64px; height: 64px;
+  background: var(--bg-deep);
+  border: 1.5px solid var(--accent);
+  border-radius: 16px;
+  color: var(--accent);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 38px;
+  line-height: 1;
+  padding-bottom: 4px;
+  margin: 0 auto 24px;
+  display: flex; align-items: center; justify-content: center;
+}
+.pin-eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 8px;
+}
+.pin-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 32px;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 8px;
+}
+.pin-sub {
+  font-size: 13px;
+  color: var(--text-mute);
+  line-height: 1.55;
+  margin-bottom: 28px;
+}
+.pin-input {
+  width: 100%;
+  background: var(--bg-deep);
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  padding: 14px 18px;
+  color: var(--text);
+  font-size: 16px;
+  letter-spacing: 0.18em;
+  text-align: center;
+  font-family: var(--mono);
+  outline: none;
+  margin-bottom: 12px;
+}
+.pin-input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(220,208,188,0.15);
+}
+.pin-btn {
+  width: 100%;
+  background: var(--accent);
+  color: var(--bg-deep);
+  border: none;
+  border-radius: 10px;
+  padding: 14px;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  transition: background 0.2s var(--ease);
+}
+.pin-btn:hover { background: var(--accent-3); }
+.pin-err {
+  color: var(--danger);
+  font-size: 12px;
+  margin-top: 10px;
+  min-height: 16px;
+}
+
+/* ═════ APP SHELL ═════ */
+.app-shell { display: none; padding-bottom: 80px; }
+.app-shell.active { display: block; }
+
+.app-hdr {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(26,37,64,0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 18px 22px 14px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px;
+}
+.brand {
+  display: flex; align-items: center; gap: 12px;
+}
+.brand-mark {
+  width: 38px; height: 38px;
+  background: var(--bg-deep);
+  border: 1px solid var(--accent);
+  border-radius: 10px;
+  color: var(--accent);
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1;
+  padding-bottom: 2px;
+  display: flex; align-items: center; justify-content: center;
+}
+.brand-text {
+  display: flex; flex-direction: column;
+}
+.brand-name {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 17px;
+  line-height: 1;
+}
+.brand-sub {
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  font-weight: 700;
+  margin-top: 4px;
+}
+
+.hdr-actions { display: flex; gap: 8px; }
+.icon-btn {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+  color: var(--text);
+  width: 36px; height: 36px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s var(--ease);
+}
+.icon-btn:hover {
+  background: rgba(220,208,188,0.12);
+  color: var(--accent);
+  border-color: rgba(220,208,188,0.40);
+}
+
+/* ═════ CONTENT ═════ */
+.content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 24px 22px 0;
+}
+
+.eyebrow {
+  font-size: 10px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: var(--accent);
+  margin-bottom: 6px;
+}
+
+h1.page-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 36px;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+  margin-bottom: 4px;
+}
+h1.page-title .grad-text {
+  background: linear-gradient(135deg, var(--accent), var(--accent-3));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.page-sub {
+  font-size: 14px;
+  color: var(--text-mute);
+  margin-bottom: 28px;
+}
+
+.section {
+  margin-bottom: 32px;
+}
+.section-head {
+  display: flex; justify-content: space-between; align-items: baseline;
+  margin-bottom: 14px;
+}
+.section-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 22px;
+  letter-spacing: -0.01em;
+}
+.section-meta {
+  font-size: 11px;
+  color: var(--text-mute);
+  letter-spacing: 0.08em;
+  font-family: var(--mono);
+}
+
+.card {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px;
+  transition: border-color 0.2s var(--ease), transform 0.2s var(--ease);
+}
+.card:hover { border-color: var(--border-2); }
+
+.card-title {
+  font-size: 14px;
+  font-weight: 700;
+  margin-bottom: 6px;
+  display: flex; align-items: center; gap: 8px;
+}
+.card-sub {
+  font-size: 12px;
+  color: var(--text-mute);
+  line-height: 1.55;
+}
+
+/* ═════ DASHBOARD GRID ═════ */
+.dash-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.kpi {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+}
+.kpi-label {
+  font-size: 10px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.kpi-val {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 1;
+  color: var(--accent);
+  letter-spacing: -0.02em;
+}
+.kpi-sub {
+  font-size: 11px;
+  color: var(--text-mute);
+  margin-top: 6px;
+  font-family: var(--mono);
+}
+
+/* ═════ QUICK LINKS ═════ */
+.links-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+.qlink {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 16px;
+  display: flex; flex-direction: column; gap: 8px;
+  text-decoration: none;
+  color: var(--text);
+  transition: all 0.2s var(--ease);
+}
+.qlink:hover {
+  border-color: var(--accent);
+  transform: translateY(-2px);
+}
+.qlink-icon {
+  font-size: 22px;
+}
+.qlink-title {
+  font-weight: 700;
+  font-size: 13px;
+}
+.qlink-sub {
+  font-size: 11px;
+  color: var(--text-mute);
+  line-height: 1.4;
+}
+
+/* ═════ TABS ═════ */
+.tabs {
+  display: flex; gap: 4px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 4px;
+  margin-bottom: 24px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.tab-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-mute);
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  white-space: nowrap;
+  transition: all 0.2s var(--ease);
+  display: flex; align-items: center; gap: 6px;
+}
+.tab-btn.active {
+  background: var(--accent);
+  color: var(--bg-deep);
+}
+.tab-btn:not(.active):hover {
+  color: var(--text);
+}
+
+.view { display: none; }
+.view.active { display: block; }
+
+/* ═════ TODO LIST ═════ */
+.todo-list {
+  display: flex; flex-direction: column; gap: 8px;
+}
+.todo-item {
+  display: flex; align-items: center; gap: 12px;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  transition: all 0.2s var(--ease);
+}
+.todo-item.done {
+  opacity: 0.5;
+}
+.todo-item.done .todo-text { text-decoration: line-through; }
+.todo-check {
+  width: 20px; height: 20px;
+  border: 1.5px solid var(--text-mute);
+  border-radius: 5px;
+  flex-shrink: 0;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: all 0.2s var(--ease);
+}
+.todo-item.done .todo-check {
+  background: var(--success);
+  border-color: var(--success);
+  color: var(--bg-deep);
+}
+.todo-text {
+  flex: 1;
+  font-size: 14px;
+  background: transparent;
+  border: none;
+  color: var(--text);
+  outline: none;
+}
+.todo-meta {
+  font-size: 10px;
+  color: var(--text-mute);
+  letter-spacing: 0.04em;
+  font-family: var(--mono);
+}
+.todo-del {
+  background: transparent;
+  border: none;
+  color: var(--text-mute);
+  opacity: 0.5;
+  font-size: 16px;
+  padding: 4px;
+}
+.todo-del:hover {
+  color: var(--danger);
+  opacity: 1;
+}
+.todo-add {
+  display: flex; gap: 8px;
+  margin-bottom: 14px;
+}
+.todo-add input {
+  flex: 1;
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.todo-add input:focus { border-color: var(--accent); }
+.todo-add button {
+  background: var(--accent);
+  color: var(--bg-deep);
+  border: none;
+  border-radius: 10px;
+  padding: 0 18px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+/* ═════ FORMS ═════ */
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.form-field { display: flex; flex-direction: column; }
+.field-label {
+  font-size: 10px;
+  letter-spacing: 0.10em;
+  text-transform: uppercase;
+  color: var(--text-mute);
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.field-input {
+  background: var(--bg-deep);
+  border: 1px solid var(--border-2);
+  border-radius: 8px;
+  padding: 11px 14px;
+  color: var(--text);
+  font-size: 14px;
+  outline: none;
+}
+.field-input:focus { border-color: var(--accent); }
+.field-textarea { min-height: 90px; resize: vertical; font-family: inherit; }
+
+.btn-primary {
+  background: var(--accent);
+  color: var(--bg-deep);
+  border: none;
+  border-radius: 10px;
+  padding: 12px 22px;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.02em;
+  transition: background 0.2s var(--ease);
+}
+.btn-primary:hover { background: var(--accent-3); }
+
+.btn-secondary {
+  background: rgba(255,255,255,0.06);
+  color: var(--text);
+  border: 1px solid var(--border-2);
+  border-radius: 10px;
+  padding: 11px 18px;
+  font-weight: 600;
+  font-size: 13px;
+}
+.btn-secondary:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+/* ═════ FAQ ═════ */
+.faq-item {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 10px;
+  overflow: hidden;
+}
+.faq-item summary {
+  list-style: none;
+  cursor: pointer;
+  padding: 16px 20px;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex; justify-content: space-between; align-items: center;
+}
+.faq-item summary::-webkit-details-marker { display: none; }
+.faq-item summary::after {
+  content: "+";
+  font-size: 20px;
+  color: var(--accent);
+  font-weight: 400;
+  transition: transform 0.2s var(--ease);
+}
+.faq-item[open] summary::after {
+  content: "−";
+}
+.faq-item p, .faq-item .faq-body {
+  padding: 0 20px 18px;
+  color: var(--text-mute);
+  line-height: 1.65;
+  font-size: 13px;
+}
+.faq-item .faq-body strong { color: var(--text); }
+.faq-item .faq-body code {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+/* ═════ TEMPLATE LIBRARY ═════ */
+.tmpl-item {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 20px;
+  margin-bottom: 10px;
+}
+.tmpl-head {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 10px;
+}
+.tmpl-name {
+  font-weight: 700;
+  font-size: 13px;
+}
+.tmpl-copy {
+  background: rgba(220,208,188,0.12);
+  border: 1px solid rgba(220,208,188,0.30);
+  color: var(--accent);
+  border-radius: 8px;
+  padding: 6px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+}
+.tmpl-copy:hover { background: rgba(220,208,188,0.20); }
+.tmpl-body {
+  font-family: var(--mono);
+  font-size: 11.5px;
+  color: var(--text-mute);
+  line-height: 1.6;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+/* ═════ DISCOUNT LIST ═════ */
+.code-list { display: flex; flex-direction: column; gap: 8px; }
+.code-row {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 18px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px;
+}
+.code-row .code-info {
+  flex: 1;
+  display: flex; flex-direction: column;
+}
+.code-key {
+  font-family: var(--mono);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.04em;
+}
+.code-desc {
+  font-size: 11px;
+  color: var(--text-mute);
+  margin-top: 2px;
+}
+.code-pct {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 22px;
+  color: var(--accent);
+  font-weight: 600;
+}
+.code-del {
+  background: transparent;
+  border: none;
+  color: var(--text-mute);
+  font-size: 18px;
+  opacity: 0.5;
+}
+.code-del:hover { color: var(--danger); opacity: 1; }
+
+/* ═════ BOTTOM NAV ═════ */
+.bottom-nav {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  background: rgba(26,37,64,0.95);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-top: 1px solid var(--border);
+  display: flex;
+  z-index: 100;
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.nav-btn {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--text-mute);
+  padding: 11px 4px 9px;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: color 0.2s var(--ease);
+}
+.nav-btn svg { width: 22px; height: 22px; }
+.nav-btn.active { color: var(--accent); }
+.nav-btn:hover { color: var(--text); }
+
+/* ═════ TOAST ═════ */
+.toast {
+  position: fixed;
+  bottom: 90px; left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  background: var(--bg-2);
+  border: 1px solid rgba(220,208,188,0.40);
+  color: var(--text);
+  padding: 12px 22px;
+  border-radius: 12px;
+  font-size: 13px;
+  font-weight: 600;
+  z-index: 200;
+  opacity: 0;
+  transition: all 0.3s var(--ease);
+  pointer-events: none;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.50);
+}
+.toast.show {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* ═════ TOGGLE SWITCH ═════ */
+.switch-row {
+  display: flex; align-items: center; justify-content: space-between;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 14px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.switch-row .info { flex: 1; min-width: 220px; }
+.switch-row .info-title { font-size: 14px; font-weight: 700; margin-bottom: 3px; }
+.switch-row .info-sub { font-size: 12px; color: var(--text-mute); }
+.switch {
+  position: relative;
+  width: 52px; height: 28px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.25s var(--ease);
+  flex-shrink: 0;
+}
+.switch::after {
+  content: ""; position: absolute;
+  top: 3px; left: 3px;
+  width: 22px; height: 22px;
+  background: var(--text);
+  border-radius: 50%;
+  transition: all 0.25s var(--ease);
+}
+.switch.on { background: var(--success); }
+.switch.on::after { left: 27px; background: var(--bg-deep); }
+
+/* ═════ STOCK / PRODUCT MANAGER ═════ */
+.product-row {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px 18px;
+  margin-bottom: 10px;
+  display: flex; gap: 14px; align-items: center;
+}
+.product-thumb {
+  width: 50px; height: 50px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+}
+.product-info { flex: 1; min-width: 0; }
+.product-name { font-weight: 700; font-size: 13px; margin-bottom: 3px; }
+.product-meta { font-size: 11px; color: var(--text-mute); }
+.stock-pills {
+  display: flex; gap: 6px; flex-wrap: wrap;
+  margin-top: 8px;
+}
+.stock-pill {
+  display: inline-flex; align-items: center; gap: 4px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 3px 9px;
+  font-size: 10px;
+  font-family: var(--mono);
+  letter-spacing: 0.04em;
+}
+.stock-pill .size { color: var(--accent); font-weight: 700; }
+.stock-pill input {
+  background: transparent;
+  border: none;
+  color: var(--text);
+  width: 28px;
+  padding: 0;
+  font-family: inherit;
+  font-size: 10px;
+  text-align: center;
+  outline: none;
+}
+
+/* ═════ ORDER ROW ═════ */
+.order-row {
+  background: var(--bg-2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 18px;
+  margin-bottom: 8px;
+  display: grid;
+  grid-template-columns: auto 1fr auto auto;
+  gap: 14px;
+  align-items: center;
+}
+.order-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 700;
+}
+.order-cust { font-size: 13px; font-weight: 600; }
+.order-meta { font-size: 11px; color: var(--text-mute); margin-top: 2px; }
+.order-amount {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--accent);
+}
+.order-status {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid var(--border);
+}
+.order-status.paid { background: rgba(134,195,106,0.15); border-color: rgba(134,195,106,0.40); color: var(--success); }
+.order-status.shipped { background: rgba(107,159,229,0.15); border-color: rgba(107,159,229,0.40); color: var(--info); }
+.order-status.pending { background: rgba(217,168,106,0.15); border-color: rgba(217,168,106,0.40); color: var(--warn); }
+
+/* ═════ NEWSLETTER ═════ */
+.subscriber-count {
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 18px 22px;
+  margin-bottom: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 14px;
+}
+.sub-num {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 32px;
+  color: var(--accent);
+  font-weight: 600;
+  line-height: 1;
+}
+.sub-list {
+  max-height: 200px;
+  overflow-y: auto;
+  font-size: 12px;
+  color: var(--text-mute);
+  font-family: var(--mono);
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  margin-top: 10px;
+  line-height: 1.7;
+}
+
+/* ═════ STATUS DOT (Supabase) ═════ */
+.sb-status {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px;
+  font-family: var(--mono);
+  letter-spacing: 0.04em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--bg-deep);
+  border: 1px solid var(--border);
+}
+.sb-status .dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--text-mute);
+}
+.sb-status.live .dot { background: var(--success); box-shadow: 0 0 6px var(--success); }
+.sb-status.live { color: var(--success); border-color: rgba(134,195,106,0.30); }
+.sb-status.local .dot { background: var(--warn); }
+.sb-status.local { color: var(--warn); }
+
+/* ═════ MOBILE ═════ */
+@media (max-width: 720px) {
+  .dash-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .links-grid { grid-template-columns: repeat(2, 1fr); }
+  .form-row { grid-template-columns: 1fr; }
+  h1.page-title { font-size: 28px; }
+  .kpi-val { font-size: 24px; }
+  .content { padding: 18px 16px 0; }
+  .app-hdr { padding: 14px 16px 12px; }
+  .section-title { font-size: 18px; }
+  .card { padding: 18px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ AUTH GATE — Login + Signup ════════════ -->
+<div class="pin-gate" id="pinGate">
+
+  <!-- LOGIN CARD -->
+  <div class="pin-card" id="loginCard">
+    <div class="pin-mark">D</div>
+    <div class="pin-eyebrow">Staff</div>
+    <h1 class="pin-title">Logga in</h1>
+    <p class="pin-sub">Internt verktyg för Indoor Distance-teamet.</p>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px">
+      <input type="email" id="loginEmail" class="field-input" placeholder="din@email.com" autocomplete="email" style="text-align:left;letter-spacing:normal;font-family:inherit;font-size:14px">
+      <input type="password" id="loginPw" class="field-input" placeholder="Lösenord" autocomplete="current-password" onkeydown="if(event.key==='Enter')tryLogin()" style="text-align:left;letter-spacing:normal;font-family:inherit;font-size:14px">
+    </div>
+
+    <button class="pin-btn" onclick="tryLogin()">LOGGA IN</button>
+    <div class="pin-err" id="loginErr"></div>
+
+    <div style="margin-top:22px;padding-top:18px;border-top:1px solid var(--border);font-size:12px;color:var(--text-mute)">
+      Behöver du tillgång? <button onclick="switchToSignup()" style="background:none;border:none;color:var(--accent);font-weight:700;cursor:pointer;text-decoration:underline;font-size:12px">Begär konto →</button>
+    </div>
+  </div>
+
+  <!-- SIGNUP CARD -->
+  <div class="pin-card" id="signupCard" style="display:none">
+    <div class="pin-mark">D</div>
+    <div class="pin-eyebrow">Begär åtkomst</div>
+    <h1 class="pin-title">Skapa konto</h1>
+    <p class="pin-sub">Ditt konto måste godkännas av VD innan du kan logga in. Du får ett mejl när det är klart (vanligtvis inom 24 h).</p>
+
+    <div style="display:flex;flex-direction:column;gap:10px;margin-bottom:14px;text-align:left">
+      <div>
+        <div class="field-label">Namn</div>
+        <input type="text" id="suName" class="field-input" placeholder="Anna Andersson" autocomplete="name">
+      </div>
+      <div>
+        <div class="field-label">E-post (jobbmejl)</div>
+        <input type="email" id="suEmail" class="field-input" placeholder="anna@indoordistance.se" autocomplete="email">
+      </div>
+      <div>
+        <div class="field-label">Önskat lösenord (min 8 tecken)</div>
+        <input type="password" id="suPw" class="field-input" placeholder="••••••••" autocomplete="new-password" minlength="8">
+      </div>
+      <div>
+        <div class="field-label">Roll</div>
+        <select id="suRole" class="field-input" style="font-family:inherit">
+          <option value="support">Support</option>
+          <option value="social">Social media</option>
+          <option value="content">Content / klubbkontakt</option>
+          <option value="dev">Utveckling</option>
+          <option value="other">Annat</option>
+        </select>
+      </div>
+      <div>
+        <div class="field-label">Varför behöver du tillgång?</div>
+        <textarea id="suReason" class="field-input field-textarea" rows="3" placeholder="Kort beskrivning av varför du behöver tillgång till verktyget"></textarea>
+      </div>
+    </div>
+
+    <button class="pin-btn" onclick="submitSignup()">SKICKA BEGÄRAN</button>
+    <div class="pin-err" id="signupErr"></div>
+
+    <div style="margin-top:18px;padding-top:14px;border-top:1px solid var(--border);font-size:12px;color:var(--text-mute)">
+      Har redan ett konto? <button onclick="switchToLogin()" style="background:none;border:none;color:var(--accent);font-weight:700;cursor:pointer;text-decoration:underline;font-size:12px">Tillbaka till login</button>
+    </div>
+  </div>
+
+  <!-- PENDING CARD (after signup submitted) -->
+  <div class="pin-card" id="pendingCard" style="display:none">
+    <div class="pin-mark">✓</div>
+    <div class="pin-eyebrow">Skickat</div>
+    <h1 class="pin-title">Begäran mottagen</h1>
+    <p class="pin-sub">VD har fått din begäran via mejl. Du får ett svar inom 24 timmar.</p>
+    <p style="font-size:12px;color:var(--text-mute);margin-bottom:18px;font-family:var(--mono)">Status: <span style="color:var(--warn)">VÄNTAR PÅ GODKÄNNANDE</span></p>
+    <button class="pin-btn" onclick="switchToLogin()">Tillbaka</button>
+  </div>
+
+</div>
+
+<!-- ════════════ APP ════════════ -->
+<div class="app-shell" id="appShell">
+  <header class="app-hdr">
+    <div class="brand">
+      <div class="brand-mark">D</div>
+      <div class="brand-text">
+        <div class="brand-name">Indoor Distance</div>
+        <div class="brand-sub">Staff</div>
+      </div>
+    </div>
+    <div class="hdr-actions">
+      <button class="icon-btn" onclick="window.location.reload()" title="Uppdatera">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0114.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0020.49 15"/></svg>
+      </button>
+      <button class="icon-btn" onclick="lockApp()" title="Lås">
+        <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <div class="content">
+    <div class="eyebrow" id="greetingEye">VÄLKOMMEN</div>
+    <h1 class="page-title">Hej, <span class="grad-text" id="greetingName">Team</span></h1>
+    <p class="page-sub" id="dateLine">Idag är det <span id="todayDate">—</span></p>
+
+    <!-- TABS -->
+    <div class="tabs">
+      <button class="tab-btn active" data-view="dashboard" onclick="switchView('dashboard',this)">📊 Dashboard</button>
+      <button class="tab-btn" data-view="shop" onclick="switchView('shop',this)">🛍️ Shop</button>
+      <button class="tab-btn" data-view="orders" onclick="switchView('orders',this)">📦 Order</button>
+      <button class="tab-btn" data-view="discount" onclick="switchView('discount',this)">🎟️ Rabatter</button>
+      <button class="tab-btn" data-view="newsletter" onclick="switchView('newsletter',this)">📨 Nyhetsbrev</button>
+      <button class="tab-btn" data-view="todo" onclick="switchView('todo',this)">✓ Todo</button>
+      <button class="tab-btn" data-view="templates" onclick="switchView('templates',this)">✉️ Mallar</button>
+      <button class="tab-btn" data-view="links" onclick="switchView('links',this)">🔗 Länkar</button>
+      <button class="tab-btn" data-view="faq" onclick="switchView('faq',this)">📚 Handbok</button>
+      <button class="tab-btn" data-view="settings" onclick="switchView('settings',this)">⚙️ Inställningar</button>
+    </div>
+
+    <!-- ═════ DASHBOARD VIEW ═════ -->
+    <div class="view active" id="view-dashboard">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Översikt</div>
+          <div class="section-meta" id="lastUpdated">UPPDATERAT —</div>
+        </div>
+        <div class="dash-grid">
+          <div class="kpi">
+            <div class="kpi-label">Waitlist</div>
+            <div class="kpi-val" id="kpiWaitlist">—</div>
+            <div class="kpi-sub">prenumeranter</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Order denna vecka</div>
+            <div class="kpi-val" id="kpiOrders">—</div>
+            <div class="kpi-sub">behöver hanteras</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Aktiva koder</div>
+            <div class="kpi-val" id="kpiCodes">0</div>
+            <div class="kpi-sub">rabattkoder</div>
+          </div>
+          <div class="kpi">
+            <div class="kpi-label">Klubbar kontaktade</div>
+            <div class="kpi-val" id="kpiClubs">0</div>
+            <div class="kpi-sub">av totalt 320</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Snabbåtgärder</div>
+        </div>
+        <div class="links-grid">
+          <a class="qlink" href="https://supabase.com/dashboard" target="_blank" rel="noopener">
+            <div class="qlink-icon">🗄️</div>
+            <div class="qlink-title">Supabase</div>
+            <div class="qlink-sub">Databas + auth</div>
+          </a>
+          <a class="qlink" href="https://dashboard.stripe.com" target="_blank" rel="noopener">
+            <div class="qlink-icon">💳</div>
+            <div class="qlink-title">Stripe</div>
+            <div class="qlink-sub">Betalningar</div>
+          </a>
+          <a class="qlink" href="https://formspree.io/forms" target="_blank" rel="noopener">
+            <div class="qlink-icon">📨</div>
+            <div class="qlink-title">Formspree</div>
+            <div class="qlink-sub">Formulär + mail</div>
+          </a>
+          <a class="qlink" href="https://www.indoordistance.se" target="_blank" rel="noopener">
+            <div class="qlink-icon">🌐</div>
+            <div class="qlink-title">Hemsidan</div>
+            <div class="qlink-sub">indoordistance.se</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Dagens fokus</div>
+        </div>
+        <div class="card">
+          <div class="card-title">🎯 Topp 3 just nu</div>
+          <div class="card-sub" id="todaysFocus">Inga prioriterade uppgifter — gå till Todo-fliken för att lägga till.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ LINKS VIEW ═════ -->
+    <div class="view" id="view-links">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Tjänster &amp; verktyg</div>
+        </div>
+        <div class="links-grid">
+          <a class="qlink" href="https://supabase.com/dashboard" target="_blank" rel="noopener">
+            <div class="qlink-icon">🗄️</div>
+            <div class="qlink-title">Supabase</div>
+            <div class="qlink-sub">Användare, kast, klubbar</div>
+          </a>
+          <a class="qlink" href="https://dashboard.stripe.com" target="_blank" rel="noopener">
+            <div class="qlink-icon">💳</div>
+            <div class="qlink-title">Stripe Dashboard</div>
+            <div class="qlink-sub">Order, payouts</div>
+          </a>
+          <a class="qlink" href="https://formspree.io/forms" target="_blank" rel="noopener">
+            <div class="qlink-icon">📨</div>
+            <div class="qlink-title">Formspree</div>
+            <div class="qlink-sub">Mejl-formulär</div>
+          </a>
+          <a class="qlink" href="https://console.anthropic.com" target="_blank" rel="noopener">
+            <div class="qlink-icon">🧠</div>
+            <div class="qlink-title">Anthropic</div>
+            <div class="qlink-sub">API-nycklar</div>
+          </a>
+          <a class="qlink" href="https://platform.openai.com" target="_blank" rel="noopener">
+            <div class="qlink-icon">🤖</div>
+            <div class="qlink-title">OpenAI</div>
+            <div class="qlink-sub">Backup-AI</div>
+          </a>
+          <a class="qlink" href="https://www.indoordistance.se" target="_blank" rel="noopener">
+            <div class="qlink-icon">🌐</div>
+            <div class="qlink-title">Hemsidan</div>
+            <div class="qlink-sub">Publika sidan</div>
+          </a>
+          <a class="qlink" href="https://www.indoordistance.se/trailer.html" target="_blank" rel="noopener">
+            <div class="qlink-icon">🎬</div>
+            <div class="qlink-title">Trailer</div>
+            <div class="qlink-sub">App-trailer</div>
+          </a>
+          <a class="qlink" href="https://www.indoordistance.se/admin.html" target="_blank" rel="noopener">
+            <div class="qlink-icon">⚙️</div>
+            <div class="qlink-title">Shop-admin</div>
+            <div class="qlink-sub">Produkter + lager</div>
+          </a>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Sociala medier</div>
+        </div>
+        <div class="links-grid">
+          <a class="qlink" href="https://www.instagram.com/indoor.distance" target="_blank" rel="noopener">
+            <div class="qlink-icon">📷</div>
+            <div class="qlink-title">Instagram</div>
+            <div class="qlink-sub">@indoor.distance</div>
+          </a>
+          <a class="qlink" href="https://www.tiktok.com/@indoor.distance" target="_blank" rel="noopener">
+            <div class="qlink-icon">🎵</div>
+            <div class="qlink-title">TikTok</div>
+            <div class="qlink-sub">@indoor.distance</div>
+          </a>
+          <a class="qlink" href="https://www.youtube.com/@indoor.distance" target="_blank" rel="noopener">
+            <div class="qlink-icon">▶️</div>
+            <div class="qlink-title">YouTube</div>
+            <div class="qlink-sub">@indoor.distance</div>
+          </a>
+          <a class="qlink" href="mailto:info.indoordistance@gmail.com">
+            <div class="qlink-icon">✉️</div>
+            <div class="qlink-title">Gmail</div>
+            <div class="qlink-sub">Team-inbox</div>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ TODO VIEW ═════ -->
+    <div class="view" id="view-todo">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Att göra</div>
+          <div class="section-meta"><span id="todoOpen">0</span> ÖPPNA · <span id="todoDone">0</span> KLARA</div>
+        </div>
+        <div class="todo-add">
+          <input type="text" id="newTodoText" placeholder="Vad behöver göras? T.ex. 'Kontakta IFK Lidingö'" onkeydown="if(event.key==='Enter')addTodo()">
+          <button onclick="addTodo()">+ Lägg till</button>
+        </div>
+        <div class="todo-list" id="todoList">
+          <!-- populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ DISCOUNT VIEW ═════ -->
+    <div class="view" id="view-discount">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Rabattkoder</div>
+        </div>
+        <div class="card">
+          <div class="card-title">Skapa ny kod</div>
+          <div class="form-row" style="margin-top:14px">
+            <div class="form-field">
+              <div class="field-label">Kod</div>
+              <input class="field-input" type="text" id="codeKey" placeholder="WAITLIST50" style="text-transform:uppercase">
+            </div>
+            <div class="form-field">
+              <div class="field-label">Rabatt %</div>
+              <input class="field-input" type="number" id="codePct" min="1" max="100" placeholder="50">
+            </div>
+          </div>
+          <div class="form-field" style="margin-bottom:14px">
+            <div class="field-label">Beskrivning</div>
+            <input class="field-input" type="text" id="codeDesc" placeholder="Waitlist medlemmar 2026">
+          </div>
+          <button class="btn-primary" onclick="addCode()">Lägg till kod</button>
+        </div>
+
+        <div class="section-head" style="margin-top:24px">
+          <div class="section-title" style="font-size:16px">Befintliga koder</div>
+        </div>
+        <div class="code-list" id="codeList">
+          <!-- populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ TEMPLATES VIEW ═════ -->
+    <div class="view" id="view-templates">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Mall-bibliotek</div>
+          <div class="section-meta">KOPIERA &amp; ANPASSA</div>
+        </div>
+        <p class="page-sub">Färdiga textmallar för vanliga situationer. Klicka "Kopiera" och anpassa innan du skickar.</p>
+        <div id="tmplList">
+          <!-- populated by JS -->
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ SHOP VIEW ═════ -->
+    <div class="view" id="view-shop">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Shop-status</div>
+          <div class="section-meta" id="shopStatusMeta">—</div>
+        </div>
+        <div class="switch-row">
+          <div class="info">
+            <div class="info-title">Shoppen är <span id="shopStateLabel">öppen</span></div>
+            <div class="info-sub">När stängd visas "Stängd just nu" på hemsidans produktsidor.</div>
+          </div>
+          <div class="switch" id="shopSwitch" onclick="toggleShopState()"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Produkter &amp; lager</div>
+          <button class="btn-secondary" onclick="reloadProducts()">↻ Hämta från Supabase</button>
+        </div>
+        <div id="productList">
+          <div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px">Anslut Supabase i Inställningar för att läsa produkter live.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ ORDERS VIEW ═════ -->
+    <div class="view" id="view-orders">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Beställningar</div>
+          <div class="section-meta"><span id="orderStatusBadge">—</span> · <button class="btn-secondary" onclick="exportOrdersCsv()" style="margin-left:8px">📥 CSV</button></div>
+        </div>
+        <div id="orderList">
+          <div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px">Anslut Supabase för att se beställningar.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ NEWSLETTER VIEW ═════ -->
+    <div class="view" id="view-newsletter">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Prenumeranter</div>
+          <div class="section-meta"><button class="btn-secondary" onclick="copySubscriberList()" style="margin-right:6px">📋 Kopiera</button><button class="btn-secondary" onclick="exportSubscribersCsv()">📥 CSV</button></div>
+        </div>
+        <div class="subscriber-count">
+          <div>
+            <div style="font-size:14px;font-weight:700">Waitlist + Nyhetsbrev</div>
+            <div style="font-size:12px;color:var(--text-mute);margin-top:3px">Alla som anmält sig på hemsidan</div>
+          </div>
+          <div class="sub-num" id="subCountNum">0</div>
+        </div>
+        <div class="sub-list" id="subscriberListBox">—</div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Skapa &amp; skicka</div>
+        </div>
+        <div class="card">
+          <div class="form-field" style="margin-bottom:12px">
+            <div class="field-label">Ämne</div>
+            <input class="field-input" type="text" id="nlSubject" placeholder="Nya hoodies har släppts!">
+          </div>
+          <div class="form-field" style="margin-bottom:14px">
+            <div class="field-label">Meddelande</div>
+            <textarea class="field-input field-textarea" id="nlBody" rows="8" placeholder="Skriv ditt nyhetsbrev här... Tips: håll det kort, personligt och med tydlig länk."></textarea>
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-secondary" onclick="previewNewsletter()">👁️ Förhandsgranska</button>
+            <button class="btn-primary" onclick="sendNewsletterBcc()">📨 Skicka via mailprogram (BCC)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ SETTINGS VIEW ═════ -->
+    <div class="view" id="view-settings">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Supabase-anslutning</div>
+          <div class="section-meta" id="sbStatusBadge">
+            <span class="sb-status local"><span class="dot"></span> LOKAL</span>
+          </div>
+        </div>
+        <div class="card">
+          <p class="card-sub" style="margin-bottom:14px">Anslut till Supabase för att läsa/skriva produkter, beställningar, prenumeranter och rabattkoder i realtid. Använd <strong style="color:var(--text)">anon (public) key</strong> — aldrig service-role.</p>
+          <div class="form-field" style="margin-bottom:10px">
+            <div class="field-label">Project URL</div>
+            <input class="field-input" type="url" id="sbUrl" placeholder="https://xxxxx.supabase.co" autocomplete="off">
+          </div>
+          <div class="form-field" style="margin-bottom:14px">
+            <div class="field-label">Anon (public) key</div>
+            <input class="field-input" type="password" id="sbKey" placeholder="eyJhbGciOiJIUzI1Ni..." autocomplete="off">
+          </div>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-primary" onclick="saveSupabase()">Spara</button>
+            <button class="btn-secondary" onclick="testSupabase()">🧪 Testa anslutning</button>
+            <button class="btn-secondary" onclick="clearSupabase()" style="color:var(--danger);border-color:rgba(226,116,116,0.30)">Rensa</button>
+          </div>
+          <div id="sbTestResult" style="margin-top:12px;font-size:12px;color:var(--text-mute);font-family:var(--mono)"></div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Säkerhet</div>
+        </div>
+        <div class="card">
+          <div class="form-field" style="margin-bottom:14px">
+            <div class="field-label">Byt PIN (4-8 siffror)</div>
+            <input class="field-input" type="password" id="newPin" maxlength="8" placeholder="••••••" autocomplete="new-password">
+          </div>
+          <button class="btn-primary" onclick="changePin()">Spara ny PIN</button>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Ditt namn</div>
+        </div>
+        <div class="card">
+          <p class="card-sub" style="margin-bottom:12px">Visas i välkomsthälsningen.</p>
+          <div style="display:flex;gap:8px">
+            <input class="field-input" type="text" id="staffName" placeholder="Simon" style="flex:1">
+            <button class="btn-primary" onclick="saveName()">Spara</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Data</div>
+        </div>
+        <div class="card">
+          <p class="card-sub" style="margin-bottom:14px">Exportera alla lokala data (todos, koder, inställningar) som backup.</p>
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <button class="btn-secondary" onclick="exportLocalData()">📥 Exportera JSON</button>
+            <button class="btn-secondary" onclick="clearLocalData()" style="color:var(--danger);border-color:rgba(226,116,116,0.30)">Rensa lokal data</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═════ FAQ VIEW ═════ -->
+    <div class="view" id="view-faq">
+      <div class="section">
+        <div class="section-head">
+          <div class="section-title">Intern handbok</div>
+        </div>
+        <p class="page-sub">Svar på vanliga frågor från team-medlemmar.</p>
+
+        <details class="faq-item">
+          <summary>Hur svarar jag på en supportförfrågan?</summary>
+          <div class="faq-body">
+            <p>Inom <strong>24 timmar</strong> på vardagar. Använd mallen "Supportsvar — generell" i Mallar-fliken.</p>
+            <p>Var vänlig, tydlig och kortfattad. Ange alltid om problemet är löst eller om vi följer upp.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Hur lägger jag till en ny rabattkod?</summary>
+          <div class="faq-body">
+            <p>Gå till <strong>Rabatter</strong>-fliken. Fyll i kod, %, och beskrivning. Klicka "Lägg till kod".</p>
+            <p>Koden synkas automatiskt till hemsidan. Be alltid om godkännande av teamledaren innan du ger > 30 % rabatt.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Vilken AI-modell använder vi?</summary>
+          <div class="faq-body">
+            <p>Internt: <strong>Claude Sonnet</strong> via Anthropic-API för coachen i appen.</p>
+            <p>Backup: OpenAI GPT-4 om Anthropic är nere. Aldrig leverera annat än sport-relaterade svar (strikt filter).</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Hur prioriterar jag klubbkontakter?</summary>
+          <div class="faq-body">
+            <p>Använd Todo-fliken för att hålla koll. Prioritera klubbar som:</p>
+            <p>1. <strong>Stora friidrottsklubbar</strong> (Bauhausgalan-deltagare, m.fl.)<br>
+            2. <strong>Klubbar som hört av sig</strong> via Formspree<br>
+            3. <strong>Geografisk närhet</strong> till våra fysiska event</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Var hittar jag användares profiler/data?</summary>
+          <div class="faq-body">
+            <p>Supabase-dashboard → <code>users</code>-tabellen. Filtrera på email eller user_id.</p>
+            <p>Använd ALDRIG service-role nyckeln i klienten — bara anon key (public).</p>
+            <p>Vid GDPR-begäran om radering: använd "delete user" i Supabase Auth + radera relaterade rader manuellt.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>När lanseras appen publikt?</summary>
+          <div class="faq-body">
+            <p><strong>Q3 2026.</strong> Waitlist är öppen. Endast inbjudningar tills lansering.</p>
+            <p>Vid frågor: hänvisa till nyhetsbrev-anmälan på hemsidan för 50 % rabatt första året.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Vad ska jag göra vid en betalningstvist (Stripe)?</summary>
+          <div class="faq-body">
+            <p>1. Logga in på Stripe Dashboard → Disputes-fliken<br>
+            2. Kolla orderhistorik i Supabase<br>
+            3. Svara inom <strong>7 dagar</strong> med leveransbekräftelse + kund-kommunikation</p>
+            <p>Vid osäkerhet: kontakta team-ledaren innan svar.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Hur skickar jag nyhetsbrev?</summary>
+          <div class="faq-body">
+            <p>För nu: använd Formspree-listan för waitlist + manuell utskick via Gmail.</p>
+            <p>Framtid: integrera Mailchimp/Resend när vi når 500+ prenumeranter.</p>
+            <p>Frekvens: <strong>max 1 mejl/månad</strong>. Bryt aldrig löftet i avtalsvillkoren.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Vart skickar vi tekniska bug-rapporter?</summary>
+          <div class="faq-body">
+            <p>Skapa en Todo med tag <code>BUG:</code> + beskrivning. Inkludera:</p>
+            <p>1. Vad användaren gjorde<br>
+            2. Vad som hände vs förväntat<br>
+            3. Browser + OS<br>
+            4. Skärmdump om möjligt</p>
+            <p>Triage minst 1 gång/vecka.</p>
+          </div>
+        </details>
+
+        <details class="faq-item">
+          <summary>Vad räknas som "off-topic" för AI-coachen?</summary>
+          <div class="faq-body">
+            <p>Allt utanför <strong>friidrott + relaterad träning</strong>. T.ex.:</p>
+            <p>❌ Politik, religion, ekonomi, allmänna livsfrågor<br>
+            ❌ Andra sporter (fotboll, hockey, etc.)<br>
+            ❌ Personliga råd ej kopplade till idrott<br>
+            ✅ Friidrottsteknik, träning, kost, mental förberedelse, skadeskydd, återhämtning</p>
+          </div>
+        </details>
+      </div>
+    </div>
+  </div>
+
+  <!-- BOTTOM NAV -->
+  <nav class="bottom-nav">
+    <button class="nav-btn active" data-nav="dashboard" onclick="switchView('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
+      <span>Hem</span>
+    </button>
+    <button class="nav-btn" data-nav="todo" onclick="switchView('todo',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg>
+      <span>Todo</span>
+    </button>
+    <button class="nav-btn" data-nav="discount" onclick="switchView('discount',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.59 13.41L13.42 20.58a2 2 0 01-2.83 0L2 12V2h10l8.59 8.59a2 2 0 010 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+      <span>Rabatt</span>
+    </button>
+    <button class="nav-btn" data-nav="templates" onclick="switchView('templates',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+      <span>Mallar</span>
+    </button>
+    <button class="nav-btn" data-nav="faq" onclick="switchView('faq',this)">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+      <span>Handbok</span>
+    </button>
+  </nav>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════
+   INDOOR DISTANCE STAFF — Logic
+   ═══════════════════════════════════════════════════════════ */
+
+// ═══════════════════════════════════════════════════════════
+//  AUTH — Email + Password Login with VD-approval flow
+//  Master admin (VD): indoor.distance.vd@gmail.com (pre-approved)
+//  Other staff: must request access → VD approves via email link
+//  Backed by Supabase staff_accounts table when configured,
+//  otherwise localStorage only.
+// ═══════════════════════════════════════════════════════════
+const MASTER_ADMIN_EMAIL = 'indoor.distance.vd@gmail.com';
+const VD_NOTIFICATION_EMAIL = 'indoor.distance.vd@gmail.com';
+const SIGNUP_FORMSPREE = 'https://formspree.io/f/xykdnpno'; // Existing endpoint
+
+// Hash a password — SHA-256 via WebCrypto, with a static app salt
+async function hashPw(pw) {
+  const salt = 'idstaff:2026:DCD0BC:';
+  const data = new TextEncoder().encode(salt + pw);
+  const hash = await crypto.subtle.digest('SHA-256', data);
+  return Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('');
+}
+
+// Local fallback hash (used by old code paths — kept for backwards compat)
+function hashPin(pin) {
+  let h = 5381;
+  for (let i = 0; i < pin.length; i++) {
+    h = ((h << 5) + h) + pin.charCodeAt(i);
+    h = h & h;
+  }
+  return Math.abs(h).toString(36);
+}
+
+function getAccounts() {
+  try { return JSON.parse(localStorage.getItem('idstaff_accounts') || '[]'); }
+  catch(e) { return []; }
+}
+function saveAccounts(arr) {
+  try { localStorage.setItem('idstaff_accounts', JSON.stringify(arr)); } catch(e) {}
+}
+function getPendingRequests() {
+  try { return JSON.parse(localStorage.getItem('idstaff_pending') || '[]'); }
+  catch(e) { return []; }
+}
+function savePendingRequests(arr) {
+  try { localStorage.setItem('idstaff_pending', JSON.stringify(arr)); } catch(e) {}
+}
+
+function getSession() {
+  try { return JSON.parse(localStorage.getItem('idstaff_session') || 'null'); }
+  catch(e) { return null; }
+}
+function saveSession(s) {
+  try { localStorage.setItem('idstaff_session', JSON.stringify(s)); } catch(e) {}
+}
+
+function isLoggedIn() {
+  const s = getSession();
+  if (!s || !s.email || !s.loggedInAt) return false;
+  // 8h session
+  if (Date.now() - s.loggedInAt > 1000 * 60 * 60 * 8) return false;
+  return true;
+}
+
+function getCurrentUser() {
+  return getSession();
+}
+
+function isMasterAdmin(email) {
+  return (email || '').toLowerCase() === MASTER_ADMIN_EMAIL.toLowerCase();
+}
+
+// Pull approved staff list from Supabase if available
+async function syncAccountsFromSupabase() {
+  if (!isSupabaseLive()) return;
+  try {
+    const data = await sbFetch('staff_accounts', { params: { select: '*' } });
+    if (Array.isArray(data)) {
+      // Merge: server is source of truth for approval status
+      const local = getAccounts();
+      const merged = data.map(srv => {
+        const loc = local.find(l => l.email.toLowerCase() === srv.email.toLowerCase());
+        return {
+          email: srv.email,
+          name: srv.name || (loc && loc.name) || '',
+          role: srv.role || (loc && loc.role) || 'support',
+          pwHash: srv.pw_hash || (loc && loc.pwHash) || '',
+          approved: !!srv.approved,
+          created: srv.created_at || (loc && loc.created) || Date.now()
+        };
+      });
+      // Keep any local-only accounts (master admin etc.)
+      local.forEach(l => {
+        if (!merged.find(m => m.email.toLowerCase() === l.email.toLowerCase())) merged.push(l);
+      });
+      saveAccounts(merged);
+    }
+  } catch(e) {
+    // Table may not exist yet — that's fine
+  }
+}
+
+// ── LOGIN ──
+async function tryLogin() {
+  const emailInp = document.getElementById('loginEmail');
+  const pwInp = document.getElementById('loginPw');
+  const err = document.getElementById('loginErr');
+  const email = (emailInp.value || '').trim().toLowerCase();
+  const pw = (pwInp.value || '');
+
+  if (!email || !pw) { err.textContent = 'Fyll i e-post och lösenord'; return; }
+
+  err.textContent = '⏳ Verifierar…';
+
+  // Refresh from Supabase if possible
+  await syncAccountsFromSupabase();
+
+  const accounts = getAccounts();
+  let acc = accounts.find(a => a.email.toLowerCase() === email);
+
+  // Master admin bootstrap: if VD email + no account exists, allow first-time setup
+  if (isMasterAdmin(email) && !acc) {
+    const pwHash = await hashPw(pw);
+    acc = {
+      email,
+      name: 'VD',
+      role: 'admin',
+      pwHash,
+      approved: true,
+      created: Date.now()
+    };
+    accounts.push(acc);
+    saveAccounts(accounts);
+    // Sync to Supabase if configured
+    if (isSupabaseLive()) {
+      try {
+        await sbFetch('staff_accounts', {
+          method: 'POST',
+          body: { email, name: 'VD', role: 'admin', pw_hash: pwHash, approved: true }
+        });
+      } catch(e) {}
+    }
+  }
+
+  if (!acc) { err.textContent = 'Inget konto hittades med den e-posten'; return; }
+  if (!acc.approved) { err.textContent = '⏳ Ditt konto väntar på VD-godkännande'; return; }
+
+  const hash = await hashPw(pw);
+  if (hash !== acc.pwHash) {
+    err.textContent = 'Fel lösenord';
+    pwInp.value = '';
+    pwInp.focus();
+    return;
+  }
+
+  // Success
+  saveSession({
+    email: acc.email,
+    name: acc.name,
+    role: acc.role,
+    loggedInAt: Date.now()
+  });
+  err.textContent = '';
+  emailInp.value = '';
+  pwInp.value = '';
+  showApp();
+}
+
+// ── SIGNUP ──
+function switchToSignup() {
+  document.getElementById('loginCard').style.display = 'none';
+  document.getElementById('signupCard').style.display = 'block';
+  document.getElementById('pendingCard').style.display = 'none';
+}
+function switchToLogin() {
+  document.getElementById('signupCard').style.display = 'none';
+  document.getElementById('pendingCard').style.display = 'none';
+  document.getElementById('loginCard').style.display = 'block';
+}
+
+async function submitSignup() {
+  const name = (document.getElementById('suName').value || '').trim();
+  const email = (document.getElementById('suEmail').value || '').trim().toLowerCase();
+  const pw = (document.getElementById('suPw').value || '');
+  const role = document.getElementById('suRole').value;
+  const reason = (document.getElementById('suReason').value || '').trim();
+  const err = document.getElementById('signupErr');
+
+  if (!name || !email || !pw || !reason) { err.textContent = 'Fyll i alla fält'; return; }
+  if (pw.length < 8) { err.textContent = 'Lösenord måste vara minst 8 tecken'; return; }
+  if (!email.includes('@')) { err.textContent = 'Ogiltig e-post'; return; }
+
+  err.textContent = '⏳ Skickar begäran…';
+
+  const pwHash = await hashPw(pw);
+  const request = {
+    email, name, role, reason, pwHash,
+    created: Date.now(),
+    status: 'pending'
+  };
+
+  // Save pending request locally (and to Supabase if configured)
+  const pending = getPendingRequests();
+  if (pending.find(p => p.email.toLowerCase() === email)) {
+    err.textContent = 'En begäran med den e-posten finns redan'; return;
+  }
+  pending.push(request);
+  savePendingRequests(pending);
+
+  // Push to Supabase
+  if (isSupabaseLive()) {
+    try {
+      await sbFetch('staff_accounts', {
+        method: 'POST',
+        body: { email, name, role, pw_hash: pwHash, approved: false, reason }
+      });
+    } catch(e) { /* might fail if table missing — request still saved locally */ }
+  }
+
+  // Notify VD via Formspree → email to indoor.distance.vd@gmail.com
+  try {
+    await fetch(SIGNUP_FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: '🔐 Ny staff-konto begäran: ' + name,
+        _replyto: email,
+        email,
+        name,
+        role,
+        reason,
+        timestamp: new Date().toISOString(),
+        notification_target: VD_NOTIFICATION_EMAIL,
+        approve_link: 'Logga in i Staff-appen → Inställningar → Pending Approvals → Godkänn',
+        message: `Ny begäran om staff-konto:\n\nNamn: ${name}\nE-post: ${email}\nRoll: ${role}\nAnledning: ${reason}\n\nGodkänn eller avvisa via Staff-appens Inställningar.`
+      })
+    });
+    err.textContent = '';
+    document.getElementById('signupCard').style.display = 'none';
+    document.getElementById('pendingCard').style.display = 'block';
+  } catch(e) {
+    err.textContent = 'Kunde inte skicka — försök igen';
+  }
+}
+
+// ── APPROVAL (admin only) ──
+async function approveRequest(email) {
+  email = email.toLowerCase();
+  const pending = getPendingRequests();
+  const req = pending.find(p => p.email.toLowerCase() === email);
+  if (!req) { showToast('Begäran hittades inte'); return; }
+
+  const accounts = getAccounts();
+  if (accounts.find(a => a.email.toLowerCase() === email)) {
+    showToast('Kontot finns redan'); return;
+  }
+
+  const newAccount = {
+    email: req.email,
+    name: req.name,
+    role: req.role,
+    pwHash: req.pwHash,
+    approved: true,
+    created: Date.now()
+  };
+  accounts.push(newAccount);
+  saveAccounts(accounts);
+
+  // Remove from pending
+  savePendingRequests(pending.filter(p => p.email.toLowerCase() !== email));
+
+  // Sync to Supabase
+  if (isSupabaseLive()) {
+    try {
+      await sbFetch('staff_accounts', {
+        method: 'PATCH',
+        params: { email: 'eq.' + email },
+        body: { approved: true }
+      });
+    } catch(e) {
+      // If account didn't exist in Supabase yet (table missing), create it
+      try {
+        await sbFetch('staff_accounts', {
+          method: 'POST',
+          body: { email: newAccount.email, name: newAccount.name, role: newAccount.role, pw_hash: newAccount.pwHash, approved: true }
+        });
+      } catch(e2) {}
+    }
+  }
+
+  // Send approval email via Formspree (uses _replyto for the user's email)
+  try {
+    await fetch(SIGNUP_FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: '✅ Ditt staff-konto är godkänt',
+        _replyto: req.email,
+        to_email: req.email,
+        message: `Hej ${req.name}!\n\nDitt konto till Indoor Distance Staff-app är nu godkänt. Du kan logga in på:\n\nhttps://staff.indoordistance.se\n\nLogga in med din e-post och det lösenord du valde.\n\nVälkommen till teamet!\n\nIndoor Distance VD`
+      })
+    });
+  } catch(e) {}
+
+  showToast('Godkänt: ' + req.name);
+  renderPendingApprovals();
+  renderStaffList();
+}
+
+async function denyRequest(email) {
+  email = email.toLowerCase();
+  const pending = getPendingRequests();
+  const req = pending.find(p => p.email.toLowerCase() === email);
+  if (!req) return;
+  if (!confirm('Avvisa konto-begäran från ' + req.name + '?')) return;
+
+  savePendingRequests(pending.filter(p => p.email.toLowerCase() !== email));
+
+  if (isSupabaseLive()) {
+    try {
+      await sbFetch('staff_accounts', { method: 'DELETE', params: { email: 'eq.' + email } });
+    } catch(e) {}
+  }
+
+  // Send rejection email
+  try {
+    await fetch(SIGNUP_FORMSPREE, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify({
+        _subject: 'Angående din konto-begäran till Indoor Distance Staff',
+        _replyto: req.email,
+        to_email: req.email,
+        message: `Hej ${req.name},\n\nVi tackar för ditt intresse av att få tillgång till Indoor Distance Staff-verktyget. Tyvärr kan vi inte godkänna din begäran just nu.\n\nVid frågor: svara på detta mejl.\n\nMed vänlig hälsning,\nIndoor Distance VD`
+      })
+    });
+  } catch(e) {}
+
+  showToast('Avvisat: ' + req.name);
+  renderPendingApprovals();
+}
+
+async function removeStaffAccount(email) {
+  email = email.toLowerCase();
+  if (isMasterAdmin(email)) { showToast('Kan inte ta bort huvudadmin'); return; }
+  if (!confirm('Ta bort kontot ' + email + '?')) return;
+  const accounts = getAccounts();
+  saveAccounts(accounts.filter(a => a.email.toLowerCase() !== email));
+  if (isSupabaseLive()) {
+    try { await sbFetch('staff_accounts', { method: 'DELETE', params: { email: 'eq.' + email } }); } catch(e) {}
+  }
+  showToast('Kontot borttaget');
+  renderStaffList();
+}
+
+function renderPendingApprovals() {
+  const list = document.getElementById('pendingApprovalsList');
+  if (!list) return;
+  const pending = getPendingRequests();
+  const countEl = document.getElementById('pendingCount');
+  if (countEl) countEl.textContent = pending.length;
+
+  if (pending.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:18px;color:var(--text-mute);font-size:13px">Inga väntande begäran.</div>';
+    return;
+  }
+  list.innerHTML = pending.map(p => `
+    <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:12px;margin-bottom:8px">
+        <div>
+          <div style="font-weight:700;font-size:13px">${escapeHtml(p.name)}</div>
+          <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono)">${escapeHtml(p.email)} · ${escapeHtml(p.role)}</div>
+        </div>
+        <div style="font-size:10px;color:var(--text-mute);font-family:var(--mono);white-space:nowrap">${relativeTime(p.created)}</div>
+      </div>
+      <div style="font-size:12px;color:var(--text-mute);line-height:1.5;margin-bottom:10px;font-style:italic">"${escapeHtml(p.reason)}"</div>
+      <div style="display:flex;gap:6px">
+        <button class="btn-primary" style="flex:1;padding:8px 12px;font-size:12px" onclick="approveRequest('${escapeAttr(p.email)}')">✓ Godkänn</button>
+        <button class="btn-secondary" style="flex:1;padding:8px 12px;font-size:12px;color:var(--danger);border-color:rgba(226,116,116,0.30)" onclick="denyRequest('${escapeAttr(p.email)}')">Avvisa</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderStaffList() {
+  const list = document.getElementById('staffList');
+  if (!list) return;
+  const accounts = getAccounts();
+  const activeAccounts = accounts.filter(a => a.approved);
+  const countEl = document.getElementById('staffCount');
+  if (countEl) countEl.textContent = activeAccounts.length;
+
+  if (activeAccounts.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:18px;color:var(--text-mute);font-size:13px">Inga aktiva konton.</div>';
+    return;
+  }
+  list.innerHTML = activeAccounts.map(a => `
+    <div style="background:var(--bg-deep);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:10px">
+      <div style="min-width:0;flex:1">
+        <div style="font-weight:700;font-size:13px">${escapeHtml(a.name)} ${isMasterAdmin(a.email) ? '<span style="color:var(--accent);font-size:10px;letter-spacing:0.08em;margin-left:6px">★ VD</span>' : ''}</div>
+        <div style="font-size:11px;color:var(--text-mute);font-family:var(--mono);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">${escapeHtml(a.email)} · ${escapeHtml(a.role)}</div>
+      </div>
+      ${isMasterAdmin(a.email) ? '' : `<button class="todo-del" onclick="removeStaffAccount('${escapeAttr(a.email)}')" title="Ta bort">×</button>`}
+    </div>
+  `).join('');
+}
+
+function escapeAttr(s) {
+  return String(s || '').replace(/[&<>"'\\]/g, c => '\\' + c).replace(/'/g, "\\'");
+}
+
+// ── LOGOUT ──
+function lockApp() {
+  try { localStorage.removeItem('idstaff_session'); } catch(e) {}
+  document.getElementById('appShell').classList.remove('active');
+  document.getElementById('pinGate').style.display = 'flex';
+  switchToLogin();
+  document.getElementById('loginErr').textContent = '';
+}
+
+function showApp() {
+  document.getElementById('pinGate').style.display = 'none';
+  document.getElementById('appShell').classList.add('active');
+  initApp();
+}
+
+// ── App init ──
+function initApp() {
+  setGreeting();
+  setLastUpdated();
+  renderDashboard();
+  renderTodos();
+  renderCodes();
+  renderTemplates();
+  renderShopState();
+  updateSbStatus();
+  // Pre-fill saved name in settings input if any
+  const nameInp = document.getElementById('staffName');
+  if (nameInp) nameInp.value = localStorage.getItem('idstaff_name') || '';
+  // Try fetch live data if Supabase configured
+  if (isSupabaseLive()) {
+    reloadProducts();
+    reloadOrders();
+    reloadSubscribers();
+  } else {
+    reloadSubscribers(); // still reads local fallback
+  }
+}
+
+function setGreeting() {
+  const h = new Date().getHours();
+  let g = 'God morgon';
+  if (h >= 12 && h < 17) g = 'God dag';
+  else if (h >= 17) g = 'God kväll';
+  document.getElementById('greetingEye').textContent = g.toUpperCase();
+  // Name — could be stored per user; for now generic
+  const stored = localStorage.getItem('idstaff_name');
+  if (stored) document.getElementById('greetingName').textContent = stored;
+  // Date
+  document.getElementById('todayDate').textContent =
+    new Date().toLocaleDateString('sv-SE', { weekday: 'long', day: 'numeric', month: 'long' });
+}
+
+function setLastUpdated() {
+  const el = document.getElementById('lastUpdated');
+  if (el) el.textContent = 'UPPDATERAT ' + new Date().toLocaleTimeString('sv-SE', { hour:'2-digit', minute:'2-digit' });
+}
+
+// ── View switching ──
+function switchView(name, btn) {
+  document.querySelectorAll('.view').forEach(v => v.classList.remove('active'));
+  document.querySelectorAll('.tab-btn, .nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('view-' + name)?.classList.add('active');
+  // Update both tab-btn AND nav-btn for this view
+  document.querySelectorAll(`[data-view="${name}"], [data-nav="${name}"]`).forEach(b => b.classList.add('active'));
+}
+
+// ── Dashboard ──
+function renderDashboard() {
+  // Live data placeholders — replace with Supabase queries when wired up
+  const codes = getCodes();
+  document.getElementById('kpiCodes').textContent = codes.filter(c => c.active !== false).length;
+
+  // Waitlist count from localStorage shared with hemsidan
+  let waitlist = 0;
+  try { waitlist = (JSON.parse(localStorage.getItem('id_newsletter') || '[]')).length; } catch(e) {}
+  document.getElementById('kpiWaitlist').textContent = waitlist || '—';
+
+  // Orders this week — placeholder
+  document.getElementById('kpiOrders').textContent = '—';
+
+  // Clubs contacted — count from todo with tag CLUBB:
+  const todos = getTodos();
+  const clubs = todos.filter(t => /klubb|klubbar|ifk|if /i.test(t.text)).length;
+  document.getElementById('kpiClubs').textContent = clubs;
+
+  // Today's focus = top 3 open todos
+  const open = todos.filter(t => !t.done).slice(0, 3);
+  if (open.length > 0) {
+    document.getElementById('todaysFocus').innerHTML = open.map(t =>
+      '<div style="margin-top:6px">• ' + escapeHtml(t.text) + '</div>'
+    ).join('');
+  }
+}
+
+// ── Todos ──
+function getTodos() {
+  try { return JSON.parse(localStorage.getItem('idstaff_todos') || '[]'); }
+  catch(e) { return []; }
+}
+function saveTodos(arr) {
+  try { localStorage.setItem('idstaff_todos', JSON.stringify(arr)); } catch(e) {}
+}
+
+function addTodo() {
+  const inp = document.getElementById('newTodoText');
+  const text = (inp.value || '').trim();
+  if (!text) return;
+  const todos = getTodos();
+  todos.unshift({
+    id: 't_' + Date.now(),
+    text,
+    done: false,
+    created: Date.now()
+  });
+  saveTodos(todos);
+  inp.value = '';
+  renderTodos();
+  renderDashboard();
+  showToast('Tillagt');
+}
+
+function toggleTodo(id) {
+  const todos = getTodos();
+  const t = todos.find(x => x.id === id);
+  if (t) { t.done = !t.done; if (t.done) t.completedAt = Date.now(); }
+  saveTodos(todos);
+  renderTodos();
+  renderDashboard();
+}
+
+function deleteTodo(id) {
+  let todos = getTodos();
+  todos = todos.filter(x => x.id !== id);
+  saveTodos(todos);
+  renderTodos();
+  renderDashboard();
+}
+
+function renderTodos() {
+  const todos = getTodos();
+  const list = document.getElementById('todoList');
+  if (!list) return;
+  const open = todos.filter(t => !t.done);
+  const done = todos.filter(t => t.done);
+  document.getElementById('todoOpen').textContent = open.length;
+  document.getElementById('todoDone').textContent = done.length;
+  if (todos.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:32px 16px;color:var(--text-mute);font-size:13px">Inga uppgifter än. Lägg till första uppe.</div>';
+    return;
+  }
+  list.innerHTML = [...open, ...done].map(t =>
+    '<div class="todo-item' + (t.done ? ' done' : '') + '">' +
+      '<div class="todo-check" onclick="toggleTodo(\'' + t.id + '\')">' + (t.done ? '✓' : '') + '</div>' +
+      '<div class="todo-text">' + escapeHtml(t.text) + '</div>' +
+      '<div class="todo-meta">' + relativeTime(t.created) + '</div>' +
+      '<button class="todo-del" onclick="deleteTodo(\'' + t.id + '\')">×</button>' +
+    '</div>'
+  ).join('');
+}
+
+// ── Discount codes ──
+function getCodes() {
+  try { return JSON.parse(localStorage.getItem('idstaff_codes') || '[]'); }
+  catch(e) { return []; }
+}
+function saveCodes(arr) {
+  try { localStorage.setItem('idstaff_codes', JSON.stringify(arr)); } catch(e) {}
+  // Also sync to the legacy key the hemsidan uses
+  try { localStorage.setItem('id_discount_codes', JSON.stringify(arr)); } catch(e) {}
+}
+
+function addCode() {
+  const key = (document.getElementById('codeKey').value || '').trim().toUpperCase();
+  const pct = parseInt(document.getElementById('codePct').value, 10);
+  const desc = (document.getElementById('codeDesc').value || '').trim();
+  if (!key || !pct || pct < 1 || pct > 100) {
+    showToast('Fyll i kod och giltig %');
+    return;
+  }
+  const codes = getCodes();
+  if (codes.find(c => c.key === key)) {
+    showToast('Den koden finns redan');
+    return;
+  }
+  codes.unshift({ key, pct, desc, active: true, created: Date.now() });
+  saveCodes(codes);
+  document.getElementById('codeKey').value = '';
+  document.getElementById('codePct').value = '';
+  document.getElementById('codeDesc').value = '';
+  renderCodes();
+  renderDashboard();
+  showToast('Kod tillagd');
+}
+
+function deleteCode(key) {
+  if (!confirm('Ta bort koden ' + key + '?')) return;
+  let codes = getCodes();
+  codes = codes.filter(c => c.key !== key);
+  saveCodes(codes);
+  renderCodes();
+  renderDashboard();
+}
+
+function renderCodes() {
+  const list = document.getElementById('codeList');
+  if (!list) return;
+  const codes = getCodes();
+  if (codes.length === 0) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px">Inga koder än.</div>';
+    return;
+  }
+  list.innerHTML = codes.map(c =>
+    '<div class="code-row">' +
+      '<div class="code-info">' +
+        '<div class="code-key">' + escapeHtml(c.key) + '</div>' +
+        '<div class="code-desc">' + escapeHtml(c.desc || '—') + ' · skapad ' + relativeTime(c.created) + '</div>' +
+      '</div>' +
+      '<div class="code-pct">' + c.pct + '%</div>' +
+      '<button class="code-del" onclick="deleteCode(\'' + c.key + '\')">×</button>' +
+    '</div>'
+  ).join('');
+}
+
+// ── Templates ──
+const TEMPLATES = [
+  {
+    name: 'Supportsvar — generell',
+    body: `Hej {namn},
+
+Tack för att du hörde av dig om Indoor Distance.
+
+{kärna i ärendet — kort och tydligt}
+
+Hör gärna av dig igen om något är oklart. Vi finns här för att hjälpa.
+
+Vänliga hälsningar,
+{ditt namn}
+Indoor Distance Support`
+  },
+  {
+    name: 'Waitlist-välkomst',
+    body: `Hej {namn},
+
+Välkommen till Indoor Distance waitlist! 🎯
+
+Som medlem får du:
+• Tidig åtkomst innan publik lansering Q3 2026
+• 50 % rabatt hela första året
+• Möjlighet att påverka funktioner via beta-feedback
+• Träningstips från experter — 1 mejl/månad
+
+Vi hörs snart med första nyhetsbrevet.
+
+Vänliga hälsningar,
+Indoor Distance-teamet`
+  },
+  {
+    name: 'Klubb-första kontakt',
+    body: `Hej {klubbnamn},
+
+Jag heter {ditt namn} och representerar Indoor Distance — en svensk AI-driven friidrottsplattform.
+
+Vi släpper en app Q3 2026 som hjälper kastare, hoppare och sprintrar att mäta och förbättra sin teknik med pose-analys via mobilkameran. Bygger på RF, SFIF och peer-reviewed forskning.
+
+Skulle ni vara intresserade av ett kort möte för att se om det här kan vara värdefullt för er klubb? Tar bara 15-20 min.
+
+Vänliga hälsningar,
+{ditt namn}
+{telefon}
+indoordistance.se`
+  },
+  {
+    name: 'Beta-inbjudan',
+    body: `Hej {namn},
+
+Du är inbjuden till Indoor Distance Beta!
+
+Det innebär att du får testa appen ~6 månader innan publik lansering. I utbyte ber vi om din feedback — vad funkar, vad är svårt, vad saknas.
+
+Din inloggning:
+- Mejl: {din mejl}
+- Engångskod: {kod}
+
+Logga in på app.indoordistance.se
+
+Tack för att du är med och formar produkten!
+
+Vänliga hälsningar,
+Indoor Distance`
+  },
+  {
+    name: 'Order-uppdatering',
+    body: `Hej {namn},
+
+Din beställning #{ordernummer} är nu {status}.
+
+{detaljer — t.ex. spårningslänk eller leveransdatum}
+
+Vid frågor: svara på detta mejl.
+
+Vänliga hälsningar,
+Indoor Distance Shop`
+  },
+  {
+    name: 'Pressmeddelande — kort',
+    body: `INDOOR DISTANCE LANSERAR AI-DRIVEN FRIIDROTTSAPP
+
+{Stockholm, datum} — Indoor Distance, en svensk sport-tech startup, lanserar idag en AI-driven träningsapp för friidrottare. Appen använder pose-detektion i mobilkameran för att mäta kast, hopp och sprinter med ca 1,5 m precision.
+
+"Vårt mål är att göra avancerad teknik tillgänglig för varje atlet — inte bara eliten," säger {namn, titel}.
+
+Appen täcker 25+ friidrottsgrenar och är baserad på riktlinjer från Riksidrottsförbundet, Svenska Friidrottsförbundet och World Athletics.
+
+Pris och tillgänglighet: 50 % rabatt första året för waitlist-medlemmar. Lansering Q3 2026.
+
+Kontakt: info.indoordistance@gmail.com · indoordistance.se`
+  }
+];
+
+function renderTemplates() {
+  const list = document.getElementById('tmplList');
+  if (!list) return;
+  list.innerHTML = TEMPLATES.map((t, idx) =>
+    '<div class="tmpl-item">' +
+      '<div class="tmpl-head">' +
+        '<div class="tmpl-name">' + escapeHtml(t.name) + '</div>' +
+        '<button class="tmpl-copy" onclick="copyTemplate(' + idx + ')">📋 KOPIERA</button>' +
+      '</div>' +
+      '<div class="tmpl-body">' + escapeHtml(t.body) + '</div>' +
+    '</div>'
+  ).join('');
+}
+
+function copyTemplate(idx) {
+  const t = TEMPLATES[idx];
+  if (!t) return;
+  try {
+    navigator.clipboard.writeText(t.body);
+    showToast('Kopierat: ' + t.name);
+  } catch(e) {
+    showToast('Kunde inte kopiera');
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SUPABASE INTEGRATION
+//  Same config as the main app (shared key in localStorage)
+// ═══════════════════════════════════════════════════════════
+function getSupabaseConfig() {
+  try {
+    const raw = localStorage.getItem('id_supabase_config');
+    if (raw) {
+      const p = JSON.parse(raw);
+      if (p && p.url && p.anonKey) return p;
+    }
+  } catch(e) {}
+  return null;
+}
+
+function isSupabaseLive() {
+  const c = getSupabaseConfig();
+  return c && c.url && c.anonKey && c.url.includes('supabase.co');
+}
+
+async function sbFetch(table, opts = {}) {
+  const c = getSupabaseConfig();
+  if (!c) throw new Error('Supabase not configured');
+  const params = new URLSearchParams(opts.params || {});
+  const url = c.url + '/rest/v1/' + table + (params.toString() ? '?' + params.toString() : '');
+  const r = await fetch(url, {
+    method: opts.method || 'GET',
+    headers: {
+      'apikey': c.anonKey,
+      'Authorization': 'Bearer ' + c.anonKey,
+      'Content-Type': 'application/json',
+      'Prefer': opts.prefer || 'return=representation',
+      ...(opts.headers || {})
+    },
+    body: opts.body ? JSON.stringify(opts.body) : undefined
+  });
+  if (!r.ok) {
+    const errText = await r.text().catch(() => r.statusText);
+    throw new Error('Supabase ' + r.status + ': ' + errText.slice(0, 100));
+  }
+  if (r.status === 204) return null;
+  return r.json();
+}
+
+function saveSupabase() {
+  const url = document.getElementById('sbUrl').value.trim();
+  const key = document.getElementById('sbKey').value.trim();
+  if (!url || !key) { showToast('Fyll i båda fälten'); return; }
+  try {
+    localStorage.setItem('id_supabase_config', JSON.stringify({ url, anonKey: key }));
+    updateSbStatus();
+    showToast('Supabase sparad');
+    reloadProducts();
+    reloadOrders();
+    reloadSubscribers();
+  } catch(e) {
+    showToast('Kunde inte spara: ' + e.message);
+  }
+}
+
+function clearSupabase() {
+  if (!confirm('Rensa Supabase-konfigurationen?')) return;
+  localStorage.removeItem('id_supabase_config');
+  document.getElementById('sbUrl').value = '';
+  document.getElementById('sbKey').value = '';
+  updateSbStatus();
+  showToast('Rensat');
+}
+
+async function testSupabase() {
+  const out = document.getElementById('sbTestResult');
+  if (!isSupabaseLive()) {
+    out.textContent = '⚠ Konfigurera URL + nyckel först';
+    return;
+  }
+  out.textContent = '⏳ Testar...';
+  try {
+    const r = await sbFetch('throws', { params: { select: 'count', limit: 1 }, headers: { 'Prefer': 'count=exact' } });
+    out.textContent = '✓ Anslutning OK · datatabell svarade';
+    out.style.color = 'var(--success)';
+  } catch(e) {
+    out.textContent = '✗ Misslyckades: ' + e.message;
+    out.style.color = 'var(--danger)';
+  }
+}
+
+function updateSbStatus() {
+  const badge = document.getElementById('sbStatusBadge');
+  if (!badge) return;
+  if (isSupabaseLive()) {
+    badge.innerHTML = '<span class="sb-status live"><span class="dot"></span> LIVE</span>';
+  } else {
+    badge.innerHTML = '<span class="sb-status local"><span class="dot"></span> LOKAL</span>';
+  }
+  // Pre-fill the inputs
+  const c = getSupabaseConfig();
+  if (c) {
+    const u = document.getElementById('sbUrl');
+    const k = document.getElementById('sbKey');
+    if (u && !u.value) u.value = c.url || '';
+    if (k && !k.value) k.value = c.anonKey || '';
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SHOP MANAGEMENT
+//  Mirrors the data the public site reads from localStorage
+//  + writes to Supabase when configured
+// ═══════════════════════════════════════════════════════════
+function isShopOpen() {
+  try { return localStorage.getItem('id_shop_closed') !== '1'; }
+  catch(e) { return true; }
+}
+
+function toggleShopState() {
+  const open = isShopOpen();
+  try { localStorage.setItem('id_shop_closed', open ? '1' : '0'); } catch(e) {}
+  renderShopState();
+  showToast(open ? 'Shoppen stängd' : 'Shoppen öppen igen');
+}
+
+function renderShopState() {
+  const sw = document.getElementById('shopSwitch');
+  const lbl = document.getElementById('shopStateLabel');
+  const meta = document.getElementById('shopStatusMeta');
+  const open = isShopOpen();
+  if (sw) sw.classList.toggle('on', open);
+  if (lbl) lbl.textContent = open ? 'öppen' : 'STÄNGD';
+  if (meta) meta.textContent = (open ? 'AKTIV' : 'STÄNGD') + ' · ' + new Date().toLocaleTimeString('sv-SE', {hour:'2-digit',minute:'2-digit'});
+}
+
+async function reloadProducts() {
+  const list = document.getElementById('productList');
+  if (!list) return;
+  if (!isSupabaseLive()) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px">Anslut Supabase i Inställningar för att läsa produkter live.</div>';
+    return;
+  }
+  list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px">⏳ Hämtar produkter…</div>';
+  try {
+    const data = await sbFetch('products', { params: { select: '*', order: 'name.asc' } });
+    if (!data || data.length === 0) {
+      list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px">Inga produkter i databasen.</div>';
+      return;
+    }
+    list.innerHTML = data.map(p => {
+      const stock = p.stock || {};
+      const sizes = Object.keys(stock);
+      const stockHtml = sizes.length
+        ? sizes.map(s => `<span class="stock-pill"><span class="size">${escapeHtml(s)}</span><input type="number" value="${parseInt(stock[s], 10) || 0}" onchange="updateStock('${p.id}','${s}',this.value)"></span>`).join('')
+        : '<span style="font-size:11px;color:var(--text-mute)">Inga storlekar</span>';
+      return `<div class="product-row">
+        <div class="product-thumb">${escapeHtml(p.icon || '👕')}</div>
+        <div class="product-info">
+          <div class="product-name">${escapeHtml(p.name || '—')}</div>
+          <div class="product-meta">${escapeHtml(p.category || '')} · ${p.price || 0} kr</div>
+          <div class="stock-pills">${stockHtml}</div>
+        </div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--danger);font-size:13px">Fel: ' + escapeHtml(e.message) + '</div>';
+  }
+}
+
+async function updateStock(productId, size, value) {
+  if (!isSupabaseLive()) { showToast('Supabase krävs'); return; }
+  try {
+    // Read current product
+    const arr = await sbFetch('products', { params: { id: 'eq.' + productId, select: 'stock' } });
+    const current = (arr && arr[0] && arr[0].stock) || {};
+    current[size] = parseInt(value, 10) || 0;
+    await sbFetch('products', {
+      method: 'PATCH',
+      params: { id: 'eq.' + productId },
+      body: { stock: current }
+    });
+    showToast('Lager uppdaterat: ' + size);
+  } catch(e) {
+    showToast('Kunde inte spara: ' + e.message);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  ORDERS
+// ═══════════════════════════════════════════════════════════
+async function reloadOrders() {
+  const list = document.getElementById('orderList');
+  const badge = document.getElementById('orderStatusBadge');
+  if (!list) return;
+  if (!isSupabaseLive()) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px">Anslut Supabase för att se beställningar.</div>';
+    if (badge) badge.textContent = 'OFFLINE';
+    return;
+  }
+  list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px">⏳ Hämtar order…</div>';
+  try {
+    const data = await sbFetch('orders', { params: { select: '*', order: 'created_at.desc', limit: 50 } });
+    if (!data || data.length === 0) {
+      list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--text-mute);font-size:13px">Inga beställningar än.</div>';
+      if (badge) badge.textContent = '0 STYCKEN';
+      return;
+    }
+    if (badge) badge.textContent = data.length + ' STYCKEN';
+    // Update dashboard KPI
+    const thisWeek = data.filter(o => Date.now() - new Date(o.created_at).getTime() < 7*86400*1000).length;
+    const kpiOrders = document.getElementById('kpiOrders');
+    if (kpiOrders) kpiOrders.textContent = thisWeek;
+
+    list.innerHTML = data.map(o => {
+      const status = (o.status || 'pending').toLowerCase();
+      const dt = o.created_at ? new Date(o.created_at).toLocaleDateString('sv-SE') : '—';
+      return `<div class="order-row">
+        <div>
+          <div class="order-num">#${escapeHtml(String(o.id || o.order_number || '—').slice(0, 8))}</div>
+        </div>
+        <div>
+          <div class="order-cust">${escapeHtml(o.customer_name || o.customer_email || 'Anonym')}</div>
+          <div class="order-meta">${dt} · ${escapeHtml(o.customer_email || '')}</div>
+        </div>
+        <div class="order-amount">${o.total || 0} kr</div>
+        <div class="order-status ${escapeHtml(status)}">${escapeHtml(status.toUpperCase())}</div>
+      </div>`;
+    }).join('');
+  } catch(e) {
+    list.innerHTML = '<div style="text-align:center;padding:24px;color:var(--danger);font-size:13px">Fel: ' + escapeHtml(e.message) + '</div>';
+  }
+}
+
+async function exportOrdersCsv() {
+  if (!isSupabaseLive()) { showToast('Supabase krävs'); return; }
+  try {
+    const data = await sbFetch('orders', { params: { select: '*', order: 'created_at.desc' } });
+    if (!data || data.length === 0) { showToast('Inga order att exportera'); return; }
+    const headers = Object.keys(data[0]);
+    const rows = data.map(o => headers.map(h => JSON.stringify(o[h] ?? '')).join(','));
+    const csv = headers.join(',') + '\n' + rows.join('\n');
+    downloadFile('orders-' + new Date().toISOString().slice(0,10) + '.csv', csv, 'text/csv');
+    showToast('Exporterad: ' + data.length + ' rader');
+  } catch(e) {
+    showToast('Fel: ' + e.message);
+  }
+}
+
+// ═══════════════════════════════════════════════════════════
+//  NEWSLETTER / SUBSCRIBERS
+// ═══════════════════════════════════════════════════════════
+async function reloadSubscribers() {
+  const box = document.getElementById('subscriberListBox');
+  const numEl = document.getElementById('subCountNum');
+  const kpiWl = document.getElementById('kpiWaitlist');
+
+  // Sources: local fallback + Supabase
+  let local = [];
+  try { local = JSON.parse(localStorage.getItem('id_newsletter') || '[]'); } catch(e) {}
+
+  let supabase = [];
+  if (isSupabaseLive()) {
+    try {
+      const data = await sbFetch('newsletter_subscribers', { params: { select: 'email,created_at', order: 'created_at.desc' } });
+      if (data && Array.isArray(data)) supabase = data.map(d => d.email);
+    } catch(e) {
+      // Table may not exist yet — that's OK, fall back to local
+    }
+  }
+
+  // Merge unique
+  const all = [...new Set([...supabase, ...local])];
+  if (numEl) numEl.textContent = all.length;
+  if (kpiWl) kpiWl.textContent = all.length || '—';
+  if (box) {
+    box.textContent = all.length === 0 ? 'Inga prenumeranter än.' : all.join('\n');
+  }
+  return all;
+}
+
+async function copySubscriberList() {
+  const list = await reloadSubscribers();
+  if (!list || list.length === 0) { showToast('Inga prenumeranter'); return; }
+  try {
+    await navigator.clipboard.writeText(list.join(', '));
+    showToast('Kopierat ' + list.length + ' adresser');
+  } catch(e) {
+    showToast('Kopiering misslyckades');
+  }
+}
+
+async function exportSubscribersCsv() {
+  const list = await reloadSubscribers();
+  if (!list || list.length === 0) { showToast('Inga prenumeranter'); return; }
+  const csv = 'email\n' + list.join('\n');
+  downloadFile('subscribers-' + new Date().toISOString().slice(0,10) + '.csv', csv, 'text/csv');
+  showToast('Exporterad: ' + list.length + ' rader');
+}
+
+function previewNewsletter() {
+  const subject = document.getElementById('nlSubject').value.trim();
+  const body = document.getElementById('nlBody').value.trim();
+  if (!subject && !body) { showToast('Skriv något först'); return; }
+  const w = window.open('', '_blank');
+  if (!w) { showToast('Blockerad popup'); return; }
+  w.document.write(`<!DOCTYPE html><html><head><title>Förhandsvisning</title>
+    <style>body{font-family:system-ui;max-width:600px;margin:40px auto;padding:20px;line-height:1.6;color:#0E1626}
+    h1{font-size:22px;border-bottom:2px solid #DCD0BC;padding-bottom:8px}
+    .body{white-space:pre-wrap;font-size:14px}</style></head>
+    <body><h1>${escapeHtml(subject)}</h1><div class="body">${escapeHtml(body)}</div></body></html>`);
+  w.document.close();
+}
+
+async function sendNewsletterBcc() {
+  const list = await reloadSubscribers();
+  if (!list || list.length === 0) { showToast('Inga prenumeranter att skicka till'); return; }
+  const subject = document.getElementById('nlSubject').value.trim();
+  const body = document.getElementById('nlBody').value.trim();
+  if (!subject || !body) { showToast('Fyll i ämne och meddelande'); return; }
+  if (!confirm('Öppna mejlprogrammet med BCC till ' + list.length + ' prenumeranter?')) return;
+  const mailto = 'mailto:?bcc=' + encodeURIComponent(list.join(',')) +
+    '&subject=' + encodeURIComponent(subject) +
+    '&body=' + encodeURIComponent(body);
+  window.location.href = mailto;
+}
+
+// ═══════════════════════════════════════════════════════════
+//  SETTINGS
+// ═══════════════════════════════════════════════════════════
+function changePin() {
+  const inp = document.getElementById('newPin');
+  const pin = (inp.value || '').trim();
+  if (!pin || pin.length < 4 || pin.length > 8) {
+    showToast('PIN måste vara 4-8 siffror');
+    return;
+  }
+  try {
+    localStorage.setItem('idstaff_pin', hashPin(pin));
+    inp.value = '';
+    showToast('PIN ändrad');
+  } catch(e) {
+    showToast('Kunde inte spara');
+  }
+}
+
+function saveName() {
+  const inp = document.getElementById('staffName');
+  const name = (inp.value || '').trim();
+  if (!name) { showToast('Skriv ett namn'); return; }
+  try {
+    localStorage.setItem('idstaff_name', name);
+    document.getElementById('greetingName').textContent = name;
+    showToast('Namn sparat');
+  } catch(e) {}
+}
+
+function exportLocalData() {
+  const data = {
+    todos: getTodos(),
+    codes: getCodes(),
+    name: localStorage.getItem('idstaff_name'),
+    pinHash: localStorage.getItem('idstaff_pin'),
+    exported: new Date().toISOString()
+  };
+  downloadFile('idstaff-backup-' + Date.now() + '.json', JSON.stringify(data, null, 2), 'application/json');
+  showToast('Backup nedladdad');
+}
+
+function clearLocalData() {
+  if (!confirm('Detta tar bort ALLA lokala data (todos, koder, PIN-historik). Säker?')) return;
+  ['idstaff_todos', 'idstaff_codes', 'idstaff_name', 'idstaff_pin', 'idstaff_unlocked_at'].forEach(k => {
+    try { localStorage.removeItem(k); } catch(e) {}
+  });
+  showToast('Rensat — laddar om');
+  setTimeout(() => window.location.reload(), 800);
+}
+
+function downloadFile(filename, content, mime) {
+  const blob = new Blob([content], { type: mime || 'text/plain' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { URL.revokeObjectURL(url); a.remove(); }, 100);
+}
+
+// ── Utilities ──
+function escapeHtml(s) {
+  if (s == null) return '';
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function relativeTime(ts) {
+  const diff = (Date.now() - ts) / 1000;
+  if (diff < 60) return 'nu';
+  if (diff < 3600) return Math.floor(diff / 60) + ' min sedan';
+  if (diff < 86400) return Math.floor(diff / 3600) + ' h sedan';
+  if (diff < 604800) return Math.floor(diff / 86400) + ' d sedan';
+  return new Date(ts).toLocaleDateString('sv-SE');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  if (!t) return;
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2200);
+}
+
+// ── Service Worker ──
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => {
+    navigator.serviceWorker.register('./sw.js').catch(()=>{});
+  });
+}
+
+// ── Boot ──
+document.addEventListener('DOMContentLoaded', () => {
+  if (isUnlocked()) {
+    showApp();
+  } else {
+    document.getElementById('pinInput')?.focus();
+  }
+});
+</script>
+
+</body>
+</html>
